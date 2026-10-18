@@ -1,0 +1,4 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';
+test('landing page includes 10 room hotspots',async()=>{const html=await readFile(new URL('../index.html',import.meta.url),'utf8');assert.equal((html.match(/class="hotspot"/g)||[]).length,10)});
+test('all local assets used by HTML and JS exist',async()=>{const fs=await import('node:fs/promises');for(const name of ['map','hero','cockpit','garden','kitchen','lounge','bedroom','workshop','cargo','observatory','engine','corridor','nebula','gold','ice'])assert((await fs.stat(new URL('../assets/'+name+'.webp',import.meta.url))).size>10000)});
+test('server does not put key in browser sources',async()=>{for(const name of ['index.html','app.js','styles.css']){const s=await readFile(new URL('../'+name,import.meta.url),'utf8');assert(!s.includes('process.env.OPENAI_API_KEY'))}});

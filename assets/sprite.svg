@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="156" viewBox="0 0 512 156">
+<defs><g id="marie">
+<!-- floating silver / cyan hair -->
+<path d="M35 48Q21 56 24 97L17 124Q32 127 42 103L46 59M91 48Q103 66 96 100L111 122Q97 129 84 106L80 54" fill="#bdf8f2" stroke="#88cbd9" stroke-width="2"/>
+<path d="M44 74Q27 86 32 115L43 130Q50 109 54 91M80 76Q101 103 91 132L76 117Q72 94 72 85" fill="#7bd9d5"/>
+<!-- boots, legs -->
+<path d="M49 118L47 140Q46 147 35 147L32 141L41 130L42 114M74 118L81 140Q82 147 92 147L95 141L86 129L81 113" fill="#33445a" stroke="#182534" stroke-width="3" stroke-linejoin="round"/>
+<path d="M49 97L47 132L57 132L62 106L68 132L79 132L77 98" fill="#394b61" stroke="#26364a" stroke-width="3"/>
+<!-- jacket -->
+<path d="M43 74L26 91L35 112L48 106L51 114L79 114L84 106L94 111L101 92L84 73L72 67L56 67Z" fill="#ecf0ef" stroke="#536678" stroke-width="3" stroke-linejoin="round"/>
+<path d="M54 77L49 104L77 104L74 77Q62 67 54 77" fill="#263947"/><path d="M43 74L48 87L55 78M83 75L78 90L72 78" fill="none" stroke="#78daca" stroke-width="4"/>
+<!-- hands -->
+<ellipse cx="33" cy="108" rx="8" ry="8" fill="#ffd7c9" stroke="#cf948b" stroke-width="2"/><ellipse cx="93" cy="108" rx="8" ry="8" fill="#ffd7c9" stroke="#cf948b" stroke-width="2"/>
+<!-- head / hair -->
+<path d="M30 45Q26 11 58 11Q95 6 99 42L97 69Q87 72 81 61L47 66L32 72Z" fill="#f7f6f4" stroke="#a6bdc4" stroke-width="3"/>
+<ellipse cx="64" cy="47" rx="30" ry="32" fill="#ffdfd2" stroke="#d8a89c" stroke-width="2"/>
+<path d="M34 40Q40 17 61 15Q79 13 95 36L90 42Q81 36 75 32Q59 48 35 45" fill="#f7f8f7" stroke="#b6cbd2" stroke-width="3"/>
+<path d="M42 49Q47 44 52 49M74 48Q80 44 85 50" stroke="#425e71" stroke-width="2" fill="none"/><circle cx="49" cy="52" r="4" fill="#54b8c9"/><circle cx="81" cy="52" r="4" fill="#54b8c9"/><path d="M60 64Q65 69 70 64" stroke="#bd7585" stroke-width="2.3" fill="none" stroke-linecap="round"/>
+<circle cx="40" cy="60" r="5" fill="#f9a7ad" opacity=".45"/><circle cx="88" cy="60" r="5" fill="#f9a7ad" opacity=".45"/>
+<path d="M46 28Q55 36 66 25Q76 33 87 29" fill="none" stroke="#ecf9fc" stroke-width="9" stroke-linecap="round"/>
+<path d="M80 25l6 -5l5 5l-5 5z" fill="#ffd582" stroke="#ad8760" stroke-width="1.5"/>
+</g></defs>
+<g><use href="#marie"/></g><g transform="translate(128 0)"><use href="#marie" transform="translate(0 -4) rotate(-3 64 84)"/></g><g transform="translate(256 0)"><use href="#marie" transform="translate(0 1) rotate(3 64 84)"/></g><g transform="translate(384 0)"><use href="#marie" transform="translate(0 -3) rotate(-2 64 84)"/></g>
+</svg>
