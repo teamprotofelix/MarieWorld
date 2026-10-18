@@ -1,35 +1,23 @@
-# Marie World — ASTÉRIA-2
+# Marie World — ASTÉRIA-2 v0.2
 
-A cozy, **fictional**, idle spaceship experience for E and Marie. Explore an overhead ship map with ten clickable modules. Marie wanders the ship, does chores, and logs gentle daily adventures. Three space destinations, ship status bars, a browser-local logbook, a local scripted dialogue fallback and an optional server-side LLM are included. Works offline as a static site (AI endpoints unavailable).
+A fictional, relaxing idle exploration site about Marie and E traveling together in a small spaceship. Static public hosting planned at https://marie.moip.ai.kr .
 
-## Quick start
+## Features
 
-```sh
-npm test
-npm start
-```
+- Clickable overhead map with ten modules, animated walking sprite, automatic ship activities, three destinations and survival indicators.
+- Ten **read-only, hand-authored fictional diaries** in `MARIE_DIARIES` in `app.js`; each entry includes a related room illustration. New stories are published through GitHub pull requests and site updates, **not** written or stored by visitors.
+- Prewritten interactive dialogue. No LLM, OpenAI API access, chat transmission, account, visitor database or localStorage. In-memory idle simulation resets on refresh.
+- Site art and sprites bundled in `assets/`; relative URLs work under GitHub Pages.
 
-Open `http://localhost:3000`. Set `PORT` if needed.
+## GitHub Pages publication
 
-## Optional LLM
+1. Owner changes repository visibility to Public (Settings > General > Danger Zone), **after inspecting Git history and commit metadata**.
+2. Owner enables Settings > Pages > Build and deployment > Deploy from branch > `main` / `/(root)`.
+3. DNS at the administrator of `moip.ai.kr`: create **CNAME `marie` → `teamprotofelix.github.io`** (not the repository URL). The root `CNAME` file sets `marie.moip.ai.kr`.
+4. After propagation, confirm `https://marie.moip.ai.kr` and enable Enforce HTTPS when certificate is ready. GitHub commit alone does not deploy until Pages is configured.
 
-Set environment variables on the **hosting service**, not in the browser:
+Run locally: `python -m http.server 8000` then visit http://localhost:8000; optional `npm test`.
 
-- `OPENAI_API_KEY` — server secret; leave unset for local simulation.
-- `OPENAI_BASE_URL=https://api.openai.com/v1`
-- `OPENAI_MODEL=gpt-6-luna` — requested model identifier. API compatibility/availability has not been validated; if the upstream rejects the request the UI uses the local scripted fallback.
+## Public privacy notes
 
-`POST /api/chat` and `POST /api/diary` use a server-side proxy. No secrets are shipped to the client. No conversation history from ChatGPT is read automatically. Entries and user memories are saved only via localStorage on the visitor's browser. This is not a true shared multiplayer backend and auto travel progresses only when the page is open.
-
-## Hosting
-
-This repository contains a working static frontend + optional Node server. Deploy as a static site if API features are unnecessary, or as a Node service (`npm start`) if using environment-based LLM. Publishing to `marie.inwardis.chatgpt.site` requires creating/linking the domain in ChatGPT Sites and configuring the deployment there: GitHub uploads alone do **not** cause a Sites deployment.
-
-## Assets and future PRs
-
-- `assets/map.webp`: generated ship overview
-- `assets/[room].webp`: ten previously generated room-life illustrations
-- `assets/nebula.webp`, `assets/gold.webp`, `assets/ice.webp`: generated journey scenery
-- `assets/sprite.svg`: transparent 4-frame hand-authored walking sprite sheet
-
-Artwork files have been optimized to WebP. Future improvements should be made through PRs reviewed before merging into `main`.
+Only fictional diary scenarios should appear in published entries. Do not include real personal chat histories, full names, emails, private schedules, tokens, or API keys. Published `main` history may still contain previous fictional references and the original optional server-side LLM code: deleting files in later commits does **not** erase old commits. Check entire history prior to making the repo public. Future improvements via reviewed PRs.
