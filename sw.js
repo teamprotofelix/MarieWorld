@@ -1,5 +1,5 @@
-const VERSION='marie-v04-flight-1';
-const ASSETS=['./','./index.html','./app.js','./flight.js','./flight-model.js','./pwa.js','./styles.css','./manifest.webmanifest','./icons/icon.svg','./icons/maskable.svg','./icons/icon-192.png','./icons/icon-512.png','./icons/icon-maskable-512.png',...['map','hero','sprite','cockpit','garden','kitchen','lounge','bedroom','workshop','cargo','observatory','engine','corridor','nebula','gold','ice'].map(x=>'./assets/'+x+(x==='sprite'?'.svg':'.webp'))];
+const VERSION='marie-v05-rooms-1';
+const ASSETS=['./','./index.html','./app.js','./flight.js','./flight-model.js','./flight-scene.js','./room-events.js','./room-models.js','./room-games.js','./room-events.css','./pwa.js','./styles.css','./manifest.webmanifest','./icons/icon.svg','./icons/maskable.svg','./icons/icon-192.png','./icons/icon-512.png','./icons/icon-maskable-512.png',...['map','hero','sprite','cockpit','garden','kitchen','lounge','bedroom','workshop','cargo','observatory','engine','corridor','nebula','gold','ice'].map(x=>'./assets/'+x+(x==='sprite'?'.svg':'.webp'))];
 ASSETS.push(...['nebula','ring','ice','lava','sun','blackhole','comet','gate','asteroid','constellation',...Array.from({length:8},(_,i)=>'ship-'+String(i+1).padStart(2,'0'))].map(x=>'./assets/flight/'+x+'.webp'));
 self.addEventListener('install',e=>e.waitUntil(caches.open(VERSION).then(c=>c.addAll(ASSETS))));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(x=>x.startsWith('marie-')&&x!==VERSION).map(x=>caches.delete(x))))));

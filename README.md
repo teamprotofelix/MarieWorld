@@ -1,4 +1,4 @@
-# Marie World — ASTÉRIA-2 v0.4
+# Marie World — ASTÉRIA-2 v0.5
 
 A fictional, relaxing idle exploration site about Marie and E traveling together in a small spaceship. Static public hosting planned at https://marie.moip.ai.kr .
 
@@ -8,6 +8,7 @@ A fictional, relaxing idle exploration site about Marie and E traveling together
 - Switch between the default ship map and an animated Canvas **FLIGHT VIEW**, with eight ship frames, layered stars, nebula, planets, constellations, comets, black holes and warp gates.
 - **AUTO PILOT** handles a gentle, safe flight; **MANUAL PILOT** supports arrows/WASD while the flight area has focus and touch direction buttons. Collect bright diamond fragments and avoid asteroids. A local shield recovers on failure; flight never drains the idle ship resources.
 - The top **자동 여행** switch independently controls the existing cabin clock, resources and destination progression. Changing destinations updates the flight HUD and the existing voyage log. Scenic flybys do not trigger additional travel costs.
+- Ten playable **room events** launch from each room modal: cockpit flight mission, hydroponic garden, recipe cooking, robot assembly, reactor timing, star memory, bedroom setup, cargo sorting, corridor patrol and tea brewing. Each has instructions, start, result, retry and return. Pause is shared, including automatic pause on tab hide/window blur.
 - Ten **read-only, hand-authored fictional diaries** in `MARIE_DIARIES` in `app.js`; each entry includes a related room illustration. New stories are published through GitHub pull requests and site updates, **not** written or stored by visitors.
 - Prewritten interactive dialogue. No LLM, OpenAI API access, chat transmission, account, visitor database or localStorage. In-memory idle simulation resets on refresh.
 - Site art and sprites bundled in `assets/`; relative URLs work under GitHub Pages.
@@ -38,3 +39,18 @@ Only fictional diary scenarios should appear in published entries. Do not includ
 - Browser touch tests use Chromium emulation; Android installation, physical device touch and Safari/iOS performance require device QA.
 
 See [flight asset inventory](assets/flight/README.md) for source/crop details and byte sizes.
+
+
+## Room events
+
+Open a map room, then **이벤트**. **함께하기** and next-room navigation remain available in the original room view. Escape inside an event returns to that room; a second Escape closes the room. Games use the existing room dialog, with focus trapping and temporary background inertness during the event. The sticky toolbar keeps pause/return within reach on small screens.
+
+- `room-events.js` owns the single active event session, input, lifecycle, focus and result/retry flow.
+- `room-models.js` defines the ten distinct game rules. Sessions and commemorative scores are in memory only. No shared-resource rewards, penalties, diary writing, accounts, new storage or services are added.
+- `room-games.js` builds native controls and state-dependent visuals. `room-events.css` supplies authored CSS illustrations (growing plant, soup, assembled robot, bedroom, tea). Existing room images and Marie's sprite are reused; no new binary runtime artwork is needed. Audio remains silent.
+- `flight-scene.js` extracts the original Canvas scene for reuse by both home flight and the cockpit mission. `FlightModel` retains healing defaults on home flight; the mission opts out of automatic shield recovery and supplies a 45-second / six-fragment goal plus two reserve shields. Only the event controller advances mission physics; no second home loop runs behind the room modal.
+- `marie-v05-rooms-1` precaches the new JS/CSS modules as well as all existing art. First online preparation is required. After the worker is ready, all ten games start offline. Existing approval-based updates, manifest, icons and custom domain remain intact.
+
+Checks: `npm test`; `node tests/room-events.test.mjs` for individual rule cases; `python tests/rooms-browser-qa.py` for ten full UI flows, repeated entry, touch/keyboard, offline and v04-to-current PWA upgrade. The browser script requires Python Playwright and Chromium and advances time through Playwright's clock for the room missions. `python tests/browser-qa.py` separately retains the real 150-second home-flight regression. Results and temporary PNGs are written under ignored `work/`.
+
+See [room QA and review notes](docs/room-events/QA.md) for the room matrix, captures, outcomes and device limitations. There is no lint/type-check/build pipeline in this plain static project; syntax and test commands are documented as such.
