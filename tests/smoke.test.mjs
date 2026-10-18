@@ -1,4 +1,7 @@
-import {test} from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';
-test('landing page includes 10 room hotspots',async()=>{const html=await readFile(new URL('../index.html',import.meta.url),'utf8');assert.equal((html.match(/class="hotspot"/g)||[]).length,10)});
-test('all local assets used by HTML and JS exist',async()=>{const fs=await import('node:fs/promises');for(const name of ['map','hero','cockpit','garden','kitchen','lounge','bedroom','workshop','cargo','observatory','engine','corridor','nebula','gold','ice'])assert((await fs.stat(new URL('../assets/'+name+'.webp',import.meta.url))).size>10000)});
-test('server does not put key in browser sources',async()=>{for(const name of ['index.html','app.js','styles.css']){const s=await readFile(new URL('../'+name,import.meta.url),'utf8');assert(!s.includes('process.env.OPENAI_API_KEY'))}});
+import {test} from 'node:test';import assert from 'node:assert/strict';import {readFile,stat} from 'node:fs/promises';
+const read=path=>readFile(new URL('../'+path,import.meta.url),'utf8');
+test('overhead map contains 10 interactive hotspots',async()=>{const html=await read('index.html');assert.equal((html.match(/class="hotspot"/g)||[]).length,10)});
+test('all bundled artwork exists',async()=>{for(const n of ['map','hero','cockpit','garden','kitchen','lounge','bedroom','workshop','cargo','observatory','engine','corridor','nebula','gold','ice'])assert((await stat(new URL('../assets/'+n+'.webp',import.meta.url))).size>10000)});
+test('no browser storage or API calls or diary entry forms',async()=>{const code=await read('app.js')+await read('index.html');assert(!/localStorage|sessionStorage|\/api\//.test(code));assert(!/memoryInput|saveDiaryBtn|chatForm|aiDiaryBtn/.test(code))});
+test('ten fixed Marie diary entries and read-only UI',async()=>{const js=await read('app.js');assert.equal((js.match(/"day": "DAY /g)||[]).length,10);assert(js.includes('MARIE_DIARIES'));assert(!js.includes('diaryEntry('))});
+test('custom domain and no backend secrets in active site',async()=>{assert.equal((await read('CNAME')).trim(),'marie.moip.ai.kr');for(const p of ['index.html','app.js','styles.css']){const s=await read(p);assert(!/sk-[A-Za-z0-9_-]{15,}|gh[pousr]_[A-Za-z0-9_]{20,}|AIza[A-Za-z0-9_-]{20,}/.test(s))}});
