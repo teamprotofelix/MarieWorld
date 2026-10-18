@@ -1,0 +1,31 @@
+{
+  "id": "/",
+  "name": "Marie World — ASTÉRIA-2",
+  "short_name": "Marie World",
+  "description": "마리와 E의 작은 생존형 우주선, 열 개의 방과 항해 일기",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#071226",
+  "theme_color": "#071226",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": [
+    "entertainment",
+    "games"
+  ]
+}
