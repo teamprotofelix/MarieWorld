@@ -3,7 +3,8 @@ export const SCENERY = ['ring', 'ice', 'lava', 'sun', 'constellation', 'comet', 
 export const SCENE_NAMES = ['고리 행성의 빛', '오로라 얼음 세계', '붉은 용암의 노래', '따뜻한 항성 곁', '미지의 별자리', '혜성이 남긴 편지', '고요한 블랙홀', '오래된 워프 게이트'];
 const bound = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 export class FlightModel {
-  constructor(random = Math.random) {
+  constructor(random = Math.random, {recover = true} = {}) {
+    this.recover = recover; this.collisions = 0;
     this.random = random;
     this.width = 960; this.height = 540;
     this.mode = 'auto'; this.time = 0; this.distance = 0; this.fragments = 0;
@@ -65,7 +66,7 @@ export class FlightModel {
     if (this.sceneClock >= 9) {
       this.sceneClock -= 9; this.sceneIndex = (this.sceneIndex + 1) % SCENERY.length;
       if (this.scenery.length < 4) this.scenery.push({kind: SCENERY[this.sceneIndex], x: 1.25, y: this.sceneIndex % 2 ? .28 : .73, size: .18 + this.random() * .1, age: 0});
-      this.announce(SCENE_NAMES[this.sceneIndex] + '… E님, 창밖을 봐 주세요.');
+      this.announce(SCENE_NAMES[this.sceneIndex] + '… E, 창밖을 봐 주세요.');
     }
     for (const o of this.scenery) { o.x -= dt * .047 * pace; o.age += dt * pace; }
     this.scenery = this.scenery.filter(o => o.x > -.4);
@@ -79,11 +80,12 @@ export class FlightModel {
         o.collected = true; this.fragments++;
         this.announce('별조각 +1 ✧ 우리의 작은 보물이에요.');
       } else if (this.mode === 'manual' && this.invincible === 0) {
+        this.collisions++;
         this.shield = Math.max(0, this.shield - 25); this.invincible = 2; this.flash = .35;
-        if (!this.shield) {
+        if (!this.shield && this.recover) {
           this.shield = 100; this.recoveries++; this.invincible = 3;
           this.announce('보호막 자동 회복 완료. 천천히 다시 출발해요.');
-        } else this.announce('보호막이 충격을 흡수했어요. 괜찮아요, E님.');
+        } else this.announce('보호막이 충격을 흡수했어요. 괜찮아요, E.');
       }
     }
     this.objects = this.objects.filter(o => !o.collected && o.x > -.15);

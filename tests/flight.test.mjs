@@ -47,9 +47,9 @@ test('every flight asset and module is precached, with a new SW version and unch
   const sw=await read('sw.js');
   const sandbox={self:{addEventListener(){}},URL};vm.createContext(sandbox);
   vm.runInContext(sw+';globalThis.paths=ASSETS;globalThis.version=VERSION;',sandbox);
-  assert.equal(sandbox.version,'marie-v04-flight-1');
+  assert.equal(sandbox.version,'marie-v05-rooms-1');
   const flight=sandbox.paths.filter(p=>p.includes('flight'));
-  assert.equal(flight.length,20);
+  assert.equal(flight.length,21);
   for(const path of sandbox.paths)if(path!=='./')assert((await stat(new URL('../'+path,import.meta.url))).size>0,path);
   assert((await read('pwa.js')).includes("userAcceptedUpdate=true"));
   assert(!/skipWaiting\(\)/.test(sw.split("self.addEventListener('message'")[0]));
