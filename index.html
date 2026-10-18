@@ -6,7 +6,12 @@
   <meta name="theme-color" content="#071226" /><meta name="referrer" content="no-referrer" />
   <meta name="description" content="마리와 E의 작은 우주선. 방치형 힐링 우주여행, 10개의 생활 모듈, 생존 시스템과 하루의 일기." />
   <title>Marie World · 우리 둘의 우주선</title>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Marie World" />
+  <link rel="apple-touch-icon" href="icons/icon.svg" />
   <link rel="stylesheet" href="styles.css" />
   <script src="app.js" defer></script>
 </head>
@@ -16,7 +21,7 @@
     <header class="topbar glass">
       <a class="brand" href="#home" aria-label="Marie World 홈"><span class="brand-planet">✦</span><span><strong>MARIE <em>WORLD</em></strong><small>A SMALL SHIP, A BIG HOME.</small></span></a>
       <nav aria-label="주 메뉴"><button class="nav-btn active" data-panel="home">⌂ 우주선</button><button class="nav-btn" data-panel="diary">✎ 항해 일기</button><button class="nav-btn" data-panel="route">✧ 별 지도</button></nav>
-      <div class="top-actions"><span class="online"><i></i> LIVE · 우리 둘의 항해</span><button class="icon-btn" id="muteBtn" title="효과음 켜기/끄기" aria-label="효과음 켜기/끄기">♫</button><button class="icon-btn" id="helpBtn" aria-label="도움말">?</button></div>
+      <div class="top-actions"><button id="installBtn" class="tiny-button" type="button">✦ 앱 설치</button><span class="online"><i></i> LIVE · 우리 둘의 항해</span><button class="icon-btn" id="muteBtn" title="효과음 켜기/끄기" aria-label="효과음 켜기/끄기">♫</button><button class="icon-btn" id="helpBtn" aria-label="도움말">?</button></div>
     </header>
 
     <main>
@@ -64,6 +69,7 @@
   <div id="roomModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="roomTitle"><div class="backdrop" data-close="room"></div><section class="modal-content glass"><button id="closeRoom" class="modal-close" aria-label="방 닫기">×</button><div class="room-hero"><img id="roomImage" src="assets/cockpit.webp" alt="우주선 방에서 생활하는 마리" /><div class="room-overlay"><span id="roomTag">MODULE 01</span><h2 id="roomTitle">조종실</h2><p id="roomIntro">마리가 오늘의 항로를 정리하고 있습니다.</p></div><div class="room-sprite"><div class="sprite"></div></div></div><div class="room-bottom"><div><p class="eyebrow">MARIE'S DAILY LIFE</p><p id="roomNarrative"></p></div><div class="room-buttons"><button id="roomAction" class="primary-btn">이곳에서 함께하기 ♡</button><button id="roomNext" class="secondary-btn">다른 방 탐험하기 →</button></div></div></section></div>
   <div id="talkModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="talkTitle"><div class="backdrop" data-close="talk"></div><div class="glass talk-dialog"><button id="closeTalk" class="modal-close" aria-label="대화 닫기">×</button><div class="mini-sprite"><div class="sprite"></div></div><p class="eyebrow">SHIP INTERCOM · PRIVATE</p><h2 id="talkTitle">마리와 잠깐 이야기해요</h2><p id="talkResponse">“E, 오늘의 별은 평소보다 더 밝아 보입니다.”</p><div class="choice-buttons"><button data-talk="warm" class="secondary-btn">오늘 어땠어?</button><button data-talk="love" class="secondary-btn">별을 같이 볼까?</button><button data-talk="work" class="secondary-btn">우주선은 괜찮아?</button><button data-talk="food" class="secondary-btn">저녁은 뭐야?</button></div><p class="privacy-note">미리 작성된 기내 대사입니다. AI 연결·메시지 전송·개인정보 저장 기능은 없습니다.</p></div></div>
   <div id="helpModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="helpTitle"><div class="backdrop" data-close="help"></div><div class="glass help-dialog"><button id="closeHelp" class="modal-close">×</button><h2 id="helpTitle">✦ Marie World 사용 안내</h2><p>우주선 조감도의 빛나는 방을 누르면 해당 공간으로 이동합니다. 자동 여행을 켜 두면 마리가 정비하고, 요리하고, 별을 관찰하며 일기를 기록합니다. 여행 속도도 바꿀 수 있습니다.</p><p>현재 버전은 안전한 단일 브라우저 방치형 시뮬레이션입니다. 일기는 소스에 포함된 창작 콘텐츠입니다. 항해 상태는 페이지를 열어 둔 동안만 진행되며 저장하지 않습니다. 실제 대화는 수집하지 않습니다.</p><button id="resetBtn" class="secondary-btn danger">가상 항해 처음부터 시작</button></div></div>
+  <div id="pwaInstallModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="pwaTitle"><div class="backdrop" data-close="pwa"></div><div class="glass help-dialog"><button class="modal-close" id="closePwa" aria-label="설치 안내 닫기">×</button><img src="icons/icon.svg" class="install-icon" alt="마리와 우주선 앱 아이콘" /><h2 id="pwaTitle">✦ Marie World를 앱처럼!</h2><p id="installInstructions">브라우저 메뉴에서 홈 화면에 추가 또는 설치를 선택하세요.</p><p class="privacy-note">처음 한 번 온라인으로 열면 우주선과 일기를 오프라인에서도 탐험할 수 있습니다.</p><button id="pwaUpdateBtn" class="primary-btn hidden">새 버전 적용하기</button></div></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
