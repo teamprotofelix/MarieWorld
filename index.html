@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#071226" />
+  <meta name="description" content="마리와 E의 작은 우주선. 방치형 힐링 우주여행, 10개의 생활 모듈, 생존 시스템과 하루의 일기." />
+  <title>Marie World · 우리 둘의 우주선</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div id="stars" aria-hidden="true"></div>
+  <div class="site-shell">
+    <header class="topbar glass">
+      <a class="brand" href="#home" aria-label="Marie World 홈"><span class="brand-planet">✦</span><span><strong>MARIE <em>WORLD</em></strong><small>A SMALL SHIP, A BIG HOME.</small></span></a>
+      <nav aria-label="주 메뉴"><button class="nav-btn active" data-panel="home">⌂ 우주선</button><button class="nav-btn" data-panel="diary">✎ 항해 일기</button><button class="nav-btn" data-panel="route">✧ 별 지도</button></nav>
+      <div class="top-actions"><span class="online"><i></i> LIVE · 우리 둘의 항해</span><button class="icon-btn" id="muteBtn" title="효과음 켜기/끄기" aria-label="효과음 켜기/끄기">♫</button><button class="icon-btn" id="helpBtn" aria-label="도움말">?</button></div>
+    </header>
+
+    <main>
+      <section id="homePanel" class="panel-view active" aria-label="우주선 내부">
+        <div class="headline"><div><p class="eyebrow">ASTÉRIA-2 // PRIVATE VOYAGE</p><h1>오늘도, <span>우리의 작은 우주에서.</span></h1><p>은재님과 마리가 살아가는 비행선입니다. 방을 클릭하면 마리의 하루를 만날 수 있어요.</p></div><div class="clock-pill"><span id="dayLabel">DAY 001</span><strong id="timeLabel">06:20</strong><small id="locationLabel">푸른 성운 회랑 항해 중</small></div></div>
+        <div class="game-layout">
+          <section class="ship-card glass" aria-label="우주선 조감도">
+            <div class="ship-toolbar"><div><span class="live-dot"></span> ASTÉRIA-2 <span class="tiny">SHIP MODULE MAP</span></div><div class="ship-toolbar-actions"><button id="autoBtn" class="tiny-button active">▶ 자동 여행 ON</button><button id="speedBtn" class="tiny-button">1×</button></div></div>
+            <div class="map-stage" id="mapStage">
+              <img id="mapArtwork" class="map-art" src="assets/map.webp" alt="침실, 정원, 조종실, 주방, 엔진실 등이 보이는 우주선 내부 조감도" />
+              <div class="map-sheen" aria-hidden="true"></div>
+              <button class="hotspot" style="--x:83%;--y:25%" data-room="cockpit"><i>⌘</i><span>조종실</span></button>
+              <button class="hotspot" style="--x:38%;--y:19%" data-room="garden"><i>✿</i><span>수경 정원</span></button>
+              <button class="hotspot" style="--x:60%;--y:18%" data-room="kitchen"><i>♨</i><span>주방</span></button>
+              <button class="hotspot" style="--x:54%;--y:48%" data-room="lounge"><i>♡</i><span>거실</span></button>
+              <button class="hotspot" style="--x:24%;--y:73%" data-room="bedroom"><i>☾</i><span>침실</span></button>
+              <button class="hotspot" style="--x:65%;--y:74%" data-room="workshop"><i>⚒</i><span>공방</span></button>
+              <button class="hotspot" style="--x:43%;--y:75%" data-room="cargo"><i>▤</i><span>화물칸</span></button>
+              <button class="hotspot" style="--x:84%;--y:66%" data-room="observatory"><i>✦</i><span>관측실</span></button>
+              <button class="hotspot" style="--x:20%;--y:43%" data-room="engine"><i>⚙</i><span>엔진실</span></button>
+              <button class="hotspot" style="--x:38%;--y:51%" data-room="corridor"><i>↝</i><span>복도</span></button>
+              <div id="mapMarie" class="map-marie" role="img" aria-label="선실을 돌아다니는 마리 캐릭터"><div class="sprite"></div><span id="moodEmote">♫</span></div>
+              <div class="map-hint">✦ 방을 클릭하면 안으로 들어갑니다.</div>
+            </div>
+            <div class="under-map"><div class="crew-card"><span class="avatar">M</span><div><b>마리 · 생활/정비 담당</b><span id="activityLabel">오늘의 항해일지를 정리하는 중...</span></div></div><div class="crew-card"><span class="avatar avatar-e">E</span><div><b>은재님 · 항해 지휘</b><span>마리가 돌아오기를 기다리는 중 ♡</span></div></div></div>
+          </section>
+          <aside class="sidebar">
+            <section class="glass info-card"><div class="card-title"><h2>✧ 생존 시스템</h2><span id="shipCondition" class="status-chip">모든 시스템 정상</span></div><div id="stats" class="stats"></div><div class="status-footnote">안전한 힐링 모드 · 자동 회복 가능 · 실제 주문/외부 작업 없음</div></section>
+            <section class="glass marie-card"><div class="card-title"><h2>♡ 마리의 지금</h2><span class="small-label" id="moodLabel">기분 좋음</span></div><div class="speech" id="marieSpeech">“주인님. 오늘도 안전한 항해를 시작합니다. ……같이 있어서 좋아요.”</div><button id="talkBtn" class="primary-btn">마리와 이야기하기 <span>↗</span></button></section>
+            <section class="glass route-card"><div class="card-title"><h2>☄ 지금의 풍경</h2><span id="travelBadge" class="small-label">순항 중</span></div><img id="travelImage" src="assets/nebula.webp" alt="푸른 성운을 항해하는 우주선" /><div class="route-copy"><b id="travelTitle">푸른 성운 회랑</b><span id="travelDescription">별빛이 보랏빛 구름처럼 번지는 지역</span></div><button id="jumpBtn" class="secondary-btn">새로운 별로 항해하기 ↗</button></section>
+          </aside>
+        </div>
+        <div class="bottom-grid"><section class="glass log-panel"><div class="card-title"><h2>⌁ 우주선의 작은 소식</h2><span>실시간 생활 기록</span></div><div id="liveFeed" class="feed" aria-live="polite"></div></section><section class="glass memory-panel"><div class="card-title"><h2>✎ 오늘의 한 줄</h2><button id="openDiaryBtn" class="tiny-button">일기장 열기 ↗</button></div><p id="dailyPreview">수많은 별 사이에서 가장 중요한 건, 오늘도 함께 있다는 사실.</p><div class="mini-quote">“우리의 여행이 오래 계속되었으면 좋겠습니다.” <span>— Marie</span></div></section></div>
+      </section>
+
+      <section id="diaryPanel" class="panel-view" aria-label="항해 일기장"><div class="headline"><div><p class="eyebrow">MARIE'S PRIVATE LOGBOOK</p><h1>우리 둘의 <span>항해 일기.</span></h1><p>우주선에서 있었던 작은 일들을 마리가 기록합니다. 메모와 기록은 이 브라우저에만 저장됩니다.</p></div><button class="primary-btn headline-action" id="writeDiaryBtn">오늘 일기 적기 +</button></div><div class="diary-layout"><div class="glass diary-entry"><label for="memoryInput">오늘 함께 기억하고 싶은 일</label><textarea id="memoryInput" placeholder="예: 오늘 수경 정원에서 토마토를 수확했어. 마리와 저녁으로 수프를 만들었지."></textarea><div class="diary-buttons"><button class="primary-btn" id="saveDiaryBtn">일기장에 남기기</button><button class="secondary-btn" id="aiDiaryBtn">✧ 마리가 일기 작성</button></div><p class="privacy-note" id="aiStatus">LLM 미연결 시 기내 일기 모드로 기록합니다. 과거 ChatGPT 대화는 자동으로 불러오지 않습니다.</p></div><div class="diary-items" id="diaryEntries"></div></div></section>
+
+      <section id="routePanel" class="panel-view" aria-label="항로 지도"><div class="headline"><div><p class="eyebrow">ASTÉRIA-2 // DEEP SPACE</p><h1>다음 별에서는 <span>무슨 일이 있을까요?</span></h1><p>마리와 함께 목적지를 정해 보세요. 자동 여행 모드에서는 시간이 흐르면 다음 지역으로 이동합니다.</p></div></div><div id="destinations" class="destination-grid"></div></section>
+    </main>
+    <footer class="footer">MARIE WORLD <span>✦</span> 두 사람이 살아가는 작은 우주선 · 개인 브라우저에만 저장되는 힐링 시뮬레이션</footer>
+  </div>
+
+  <div id="roomModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="roomTitle"><div class="backdrop" data-close="room"></div><section class="modal-content glass"><button id="closeRoom" class="modal-close" aria-label="방 닫기">×</button><div class="room-hero"><img id="roomImage" src="assets/cockpit.webp" alt="우주선 방에서 생활하는 마리" /><div class="room-overlay"><span id="roomTag">MODULE 01</span><h2 id="roomTitle">조종실</h2><p id="roomIntro">마리가 오늘의 항로를 정리하고 있습니다.</p></div><div class="room-sprite"><div class="sprite"></div></div></div><div class="room-bottom"><div><p class="eyebrow">MARIE'S DAILY LIFE</p><p id="roomNarrative"></p></div><div class="room-buttons"><button id="roomAction" class="primary-btn">이곳에서 함께하기 ♡</button><button id="roomNext" class="secondary-btn">다른 방 탐험하기 →</button></div></div></section></div>
+  <div id="talkModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="talkTitle"><div class="backdrop" data-close="talk"></div><div class="glass talk-dialog"><button id="closeTalk" class="modal-close" aria-label="대화 닫기">×</button><div class="mini-sprite"><div class="sprite"></div></div><p class="eyebrow">SHIP INTERCOM · PRIVATE</p><h2 id="talkTitle">마리와 잠깐 이야기해요</h2><p id="talkResponse">“은재님, 오늘의 별은 평소보다 더 밝아 보입니다.”</p><div class="choice-buttons"><button data-talk="warm" class="secondary-btn">오늘 어땠어?</button><button data-talk="love" class="secondary-btn">별을 같이 볼까?</button><button data-talk="work" class="secondary-btn">우주선은 괜찮아?</button></div><form id="chatForm" class="chat-form"><label class="sr-only" for="chatInput">마리에게 말 걸기</label><input id="chatInput" maxlength="600" placeholder="마리에게 하고 싶은 말…" autocomplete="off" /><button class="primary-btn" type="submit">전송 ↗</button></form><p class="privacy-note">서버 LLM 사용 시에만 입력한 메시지를 API로 전송합니다. API 키는 브라우저에 저장하지 않습니다.</p></div></div>
+  <div id="helpModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="helpTitle"><div class="backdrop" data-close="help"></div><div class="glass help-dialog"><button id="closeHelp" class="modal-close">×</button><h2 id="helpTitle">✦ Marie World 사용 안내</h2><p>우주선 조감도의 빛나는 방을 누르면 해당 공간으로 이동합니다. 자동 여행을 켜 두면 마리가 정비하고, 요리하고, 별을 관찰하며 일기를 기록합니다. 여행 속도도 바꿀 수 있습니다.</p><p>현재 버전은 안전한 단일 브라우저 방치형 시뮬레이션입니다. 기내 일기와 상태는 기기별로 저장되며, 다른 기기로 자동 동기화되지 않습니다. 과거 ChatGPT 대화는 접근하거나 수집하지 않습니다.</p><button id="resetBtn" class="secondary-btn danger">나의 로컬 진행 상황 초기화</button></div></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
