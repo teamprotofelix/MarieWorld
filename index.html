@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="styles.css" />
   <script src="app.js" defer></script>
   <script src="pwa.js" defer></script>
+  <script type="module" src="flight.js"></script>
 </head>
 <body>
   <div id="stars" aria-hidden="true"></div>
@@ -29,8 +30,12 @@
       <section id="homePanel" class="panel-view active" aria-label="우주선 내부">
         <div class="headline"><div><p class="eyebrow">ASTÉRIA-2 // PRIVATE VOYAGE</p><h1>오늘도, <span>우리의 작은 우주에서.</span></h1><p>E과 마리가 살아가는 비행선입니다. 방을 클릭하면 마리의 하루를 만날 수 있어요.</p></div><div class="clock-pill"><span id="dayLabel">DAY 001</span><strong id="timeLabel">06:20</strong><small id="locationLabel">푸른 성운 회랑 항해 중</small></div></div>
         <div class="game-layout">
-          <section class="ship-card glass" aria-label="우주선 조감도">
-            <div class="ship-toolbar"><div><span class="live-dot"></span> ASTÉRIA-2 <span class="tiny">SHIP MODULE MAP</span></div><div class="ship-toolbar-actions"><button id="autoBtn" class="tiny-button active">▶ 자동 여행 ON</button><button id="speedBtn" class="tiny-button">1×</button></div></div>
+          <section class="ship-card glass" aria-label="우주선 지도와 비행 화면">
+            <div class="ship-toolbar"><div><span class="live-dot"></span> ASTÉRIA-2 <span class="tiny" id="viewLabel">SHIP MODULE MAP</span></div><div class="ship-toolbar-actions"><button id="autoBtn" class="tiny-button active">▶ 자동 여행 ON</button><button id="speedBtn" class="tiny-button">1×</button></div></div>
+            <div class="view-switch" role="group" aria-label="우주선 화면 선택">
+              <button id="mapViewBtn" type="button" aria-pressed="true" aria-controls="mapStage">⌂ <span>SHIP MODULE MAP</span><small>우리의 작은 집</small></button>
+              <button id="flightViewBtn" type="button" aria-pressed="false" aria-controls="flightStage">✧ <span>FLIGHT VIEW</span><small>별 사이로 떠나기</small></button>
+            </div>
             <div class="map-stage" id="mapStage">
               <img id="mapArtwork" class="map-art" src="assets/map.webp" alt="침실, 정원, 조종실, 주방, 엔진실 등이 보이는 우주선 내부 조감도" />
               <div class="map-sheen" aria-hidden="true"></div>
@@ -47,6 +52,22 @@
               <div id="mapMarie" class="map-marie" role="img" aria-label="선실을 돌아다니는 마리 캐릭터"><div class="sprite"></div><span id="moodEmote">♫</span></div>
               <div class="map-hint">✦ 방을 클릭하면 안으로 들어갑니다.</div>
             </div>
+            <section id="flightStage" class="flight-stage" aria-label="ASTÉRIA-2 우주 비행" hidden>
+              <div class="flight-heading"><div><p class="eyebrow">THE QUIET, BETWEEN THE STARS</p><h2 id="flightRegion">푸른 성운 회랑</h2><span id="flightScene">고리 행성의 빛</span></div><span class="flight-live"><i class="live-dot"></i> DEEP SPACE</span></div>
+              <div class="flight-viewport">
+                <canvas id="flightCanvas" tabindex="0" aria-label="우주 비행 화면. 수동 조종은 방향키 또는 WASD를 사용하세요." aria-describedby="flightHelp">우주선 비행 화면입니다. 화면 아래의 버튼으로 조종 모드를 선택할 수 있습니다.</canvas>
+                <div class="flight-overlay" aria-hidden="true"><span>ASTÉRIA-2 <small>EXPLORATION VESSEL / 02</small></span><span>✦ TWO SOULS. ONE VOYAGE.</span></div>
+              </div>
+              <div class="flight-dashboard">
+                <div class="pilot-switch" role="group" aria-label="비행 조종 모드"><button id="autoPilotBtn" aria-pressed="true">AUTO PILOT <small>마리에게 맡기기</small></button><button id="manualPilotBtn" aria-pressed="false">MANUAL PILOT <small>함께 조종하기</small></button></div>
+                <div class="flight-metrics" role="group" aria-label="비행 상태"><div><small>비행 거리</small><b id="flightDistance">0 km</b></div><div><small>별조각</small><b>✧ <span id="flightScore">0</span></b></div><div><small>보호막</small><b id="flightShield">100%</b></div><div><small>속도</small><b id="flightSpeed">1.0× · 순항</b></div></div>
+                <div class="flight-caption"><span id="flightMode">AUTO PILOT</span><p id="flightHelp">마리가 조종하고 있어요. 편안하게 별을 바라보세요.</p></div>
+                <div id="flightControls" class="flight-controls" role="group" aria-label="화면 방향 조종" hidden><button data-steer="up" aria-label="위로 이동">↑</button><div><button data-steer="left" aria-label="왼쪽 이동">←</button><button data-steer="down" aria-label="아래로 이동">↓</button><button data-steer="right" aria-label="오른쪽 이동">→</button></div></div>
+                <p id="motionNote" class="motion-note" hidden>움직임 줄이기 설정에 따라 배경과 자동 비행을 느리게 표시합니다.</p>
+                <div class="flight-speech"><span>♡ MARIE</span><p id="flightComment" role="status">E님, 오늘은 별빛을 따라 천천히 가 볼까요?</p></div>
+                <p class="pilot-note">조종 모드는 이 화면에만 적용돼요. 상단의 ‘자동 여행’은 선실 시간과 목적지 진행 설정입니다.</p>
+              </div>
+            </section>
             <div class="under-map"><div class="crew-card"><span class="avatar">M</span><div><b>마리 · 생활/정비 담당</b><span id="activityLabel">오늘의 항해일지를 정리하는 중...</span></div></div><div class="crew-card"><span class="avatar avatar-e">E</span><div><b>E · 항해 지휘</b><span>마리가 돌아오기를 기다리는 중 ♡</span></div></div></div>
           </section>
           <aside class="sidebar">

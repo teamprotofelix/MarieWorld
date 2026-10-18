@@ -1,0 +1,53 @@
+[
+  {
+    "check": "10 rooms/actions, 10 diaries, 3 destinations, journey controls and install UI",
+    "status": "passed"
+  },
+  {
+    "check": "MAP/FLIGHT, AUTO/MANUAL, region integration, all eight frames, arrows and WASD",
+    "status": "passed"
+  },
+  {
+    "check": "input focus isolation, modal/view pause, return without stuck keys",
+    "status": "passed"
+  },
+  {
+    "check": "visibilitychange pause/resume (synthetic hidden state)",
+    "status": "passed"
+  },
+  {
+    "check": "reduced-motion UI; no overflow at 320, 360, 390, 412, 768, 1440 px",
+    "status": "passed"
+  },
+  {
+    "check": "360px emulated touch controls, pointer release, DPR 3 capped at 2",
+    "status": "passed"
+  },
+  {
+    "check": "all flight images fail: fallback keeps simulation and controls usable",
+    "status": "passed"
+  },
+  {
+    "check": "production manual HUD: collection, asteroid collision, cooldown, unchanged ship resources",
+    "status": "passed"
+  },
+  {
+    "check": "150-second real auto-flight soak",
+    "status": "passed",
+    "wall_seconds": 150.0,
+    "ship_draws": 4498,
+    "heap_before": 4546040,
+    "heap_after": 3439936,
+    "dom_nodes_before": 3987,
+    "dom_nodes_after": 1563,
+    "page_errors": []
+  },
+  {
+    "check": "real old v2 worker -> v04 update, approval required, old cache removed",
+    "status": "passed"
+  },
+  {
+    "check": "offline reload: MAP, FLIGHT animation, manual controls, 18 flight images, 10 diaries",
+    "status": "passed"
+  }
+]
