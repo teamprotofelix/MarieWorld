@@ -4,3 +4,12 @@
 .diary-banner{position:relative;overflow:hidden;height:clamp(190px,25vw,320px);margin-bottom:22px}.diary-banner img{width:100%;height:100%;object-fit:cover;object-position:center 44%}.diary-banner:after{content:'';pointer-events:none;position:absolute;inset:0;background:linear-gradient(90deg,#061324d9,transparent 77%)}.diary-banner-copy{position:absolute;left:clamp(16px,4vw,50px);bottom:clamp(16px,3vw,37px);z-index:2;display:grid;gap:9px;max-width:65%}.diary-banner-copy span{font-size:11px;letter-spacing:2px;color:#b4f6e9}.diary-banner-copy b{font-size:clamp(17px,2vw,26px);line-height:1.4;text-shadow:0 2px 9px #000}
 .diary-items{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.diary-card{padding:0;overflow:hidden;display:flex;flex-direction:column;min-width:0}.diary-cover{display:block;width:100%;height:clamp(210px,26vw,350px);object-fit:cover;object-position:50% 33%}.diary-content{padding:22px 24px 26px;display:flex;flex-direction:column;flex:1}.diary-meta{font-size:10px;letter-spacing:1px;color:#b5e6da}.diary-card h3{font-size:21px;line-height:1.4;margin:10px 0 12px}.diary-excerpt{font-size:14px;line-height:1.8;color:#c6dce5;margin:0 0 16px!important}.diary-details{border-top:1px solid var(--border);padding-top:14px;margin-top:auto}.diary-details summary{cursor:pointer;color:#b8f3e2;font-weight:bold;list-style:revert;font-size:13px}.diary-details summary:hover{color:#fff}.diary-body{white-space:pre-wrap;font-size:13px!important;line-height:1.95!important;color:#dde8ef!important;margin:16px 0!important}.diary-signature{font-size:12px;color:#efc9b5;display:block;text-align:right}
 @media(max-width:800px){.diary-items{grid-template-columns:1fr}.diary-cover{height:280px}}@media(max-width:560px){.diary-headline{flex-wrap:wrap}.diary-banner-copy{max-width:86%}.diary-banner{height:245px}.diary-cover{height:250px}.diary-content{padding:18px}}
+
+/* Marie World PWA installation */
+#installBtn{background:linear-gradient(120deg,#163f5a,#375189);border:1px solid #84e4ef;color:#e8fdff;font-weight:700;white-space:nowrap}
+#installBtn:hover,#installBtn:focus-visible{box-shadow:0 0 0 3px rgba(130,225,245,.18)}
+.install-icon{display:block;width:96px;height:96px;border-radius:23px;margin:0 auto 14px;box-shadow:0 0 25px rgba(135,231,255,.21)}
+#pwaInstallModal .help-dialog{text-align:center;max-width:410px}
+#pwaInstallModal .help-dialog p{line-height:1.75}
+#pwaUpdateBtn{margin:12px auto 0}
+@media(max-width:600px){#installBtn{font-size:12px;padding:8px 11px}.install-icon{width:82px;height:82px}}
