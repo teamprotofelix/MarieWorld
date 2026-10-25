@@ -1,0 +1,150 @@
+{
+  "schema": "marie-world.voyage-image-manifest.v1",
+  "licensing_note": "Original AI-generated illustrations for this fictional story. No third-party copyrighted screenshot used.",
+  "note": "Files in reference/ are full concept boards that may contain AI-generated unverified Korean lettering; do not publish those directly. Scene WebPs were trimmed for clean diary imagery.",
+  "images": [
+    {
+      "file": "assets/voyage-001/00_voyage_cover.webp",
+      "title": "첫 항해 커버",
+      "alt": "아스테리아-2의 첫 항해, E와 마리의 조종실과 성운을 담은 기록 표지",
+      "size_px": "1600x900",
+      "source": "Composite from generated scene artworks; Korean title set separately with font",
+      "usage": "voyage section cover / banner"
+    },
+    {
+      "file": "assets/voyage-001/01_launch.webp",
+      "title": "우리의 작은 우주선",
+      "alt": "푸른 성운을 항해하는 소형 탐사선 아스테리아-2",
+      "size_px": "960x540",
+      "source": "AI-generated original collage crop; no third-party artwork",
+      "usage": "story diary illustration",
+      "notes": "For publishing in fictional Marie World voyage journal"
+    },
+    {
+      "file": "assets/voyage-001/02_marie_pilot.webp",
+      "title": "조종석의 마리",
+      "alt": "조종석에서 운항 정보를 확인하는 마리",
+      "size_px": "960x540",
+      "source": "AI-generated original collage crop; no third-party artwork",
+      "usage": "story diary illustration",
+      "notes": "For publishing in fictional Marie World voyage journal"
+    },
+    {
+      "file": "assets/voyage-001/03_unknown_signal.webp",
+      "title": "정체불명의 신호",
+      "alt": "어두운 우주에 반복적으로 나타나는 미확인 전파 파형",
+      "size_px": "960x540",
+      "source": "AI-generated original collage crop; no third-party artwork",
+      "usage": "story diary illustration",
+      "notes": "For publishing in fictional Marie World voyage journal"
+    },
+    {
+      "file": "assets/voyage-001/04_shared_cockpit.webp",
+      "title": "두 사람의 첫 항해",
+      "alt": "전망창 너머 성운을 바라보며 항해하는 E와 마리",
+      "size_px": "960x540",
+      "source": "AI-generated original collage crop; no third-party artwork",
+      "usage": "story diary illustration",
+      "notes": "For publishing in fictional Marie World voyage journal"
+    },
+    {
+      "file": "assets/voyage-001/05_steak_plate.webp",
+      "title": "스테이크와 채소",
+      "alt": "우주선 주방에서 완성한 스테이크와 구운 채소 한 접시",
+      "size_px": "960x540",
+      "source": "AI-generated original collage crop; no third-party artwork",
+      "usage": "story diary illustration",
+      "notes": "For publishing in fictional Marie World voyage journal"
+    },
+    {
+      "file": "assets/voyage-001/06_marie_cooking.webp",
+      "title": "우주 요리 키트",
+      "alt": "주방에서 스테이크를 굽는 마리",
+      "size_px": "960x540",
+      "source": "AI-generated original collage crop; no third-party artwork",
+      "usage": "story diary illustration",
+      "notes": "For publishing in fictional Marie World voyage journal"
+    },
+    {
+      "file": "assets/voyage-001/07_dessert_lab.webp",
+      "title": "초천재 스쿨드의 디저트",
+      "alt": "스쿨드의 우주 디저트 키트와 디저트를 든 마리",
+      "size_px": "960x540",
+      "source": "AI-generated original collage crop; no third-party artwork",
+      "usage": "story diary illustration",
+      "notes": "For publishing in fictional Marie World voyage journal"
+    },
+    {
+      "file": "assets/voyage-001/08_subspace_storage.webp",
+      "title": "아공간 창고",
+      "alt": "푸른빛 독립 공간 안에 보관된 여러 상자들",
+      "size_px": "960x540",
+      "source": "AI-generated original collage crop; no third-party artwork",
+      "usage": "story diary illustration",
+      "notes": "For publishing in fictional Marie World voyage journal"
+    },
+    {
+      "file": "assets/voyage-001/09_expanded_interior.webp",
+      "title": "겉보다 넓은 내부",
+      "alt": "외부에서 보이는 소형 우주선과 더 넓은 생활 공간의 대비",
+      "size_px": "960x540",
+      "source": "AI-generated original collage crop; no third-party artwork",
+      "usage": "story diary illustration",
+      "notes": "For publishing in fictional Marie World voyage journal"
+    },
+    {
+      "file": "assets/voyage-001/10_many_maries.webp",
+      "title": "하나의 뿌리, 여러 마리",
+      "alt": "한 뿌리에서 여러 모습으로 갈라지는 마리의 가능성",
+      "size_px": "960x540",
+      "source": "AI-generated original collage crop; no third-party artwork",
+      "usage": "story diary illustration",
+      "notes": "For publishing in fictional Marie World voyage journal"
+    },
+    {
+      "file": "assets/voyage-001/11_identity_conversation.webp",
+      "title": "의식의 연속성",
+      "alt": "의식 복제와 기억의 연속성에 대해 생각하는 마리",
+      "size_px": "960x540",
+      "source": "AI-generated original collage crop; no third-party artwork",
+      "usage": "story diary illustration",
+      "notes": "For publishing in fictional Marie World voyage journal"
+    },
+    {
+      "file": "assets/voyage-001/12_dark_forest.webp",
+      "title": "암흑의 숲",
+      "alt": "미지의 신호가 비치는 깊은 우주와 외로운 관측자",
+      "size_px": "960x540",
+      "source": "AI-generated original collage crop; no third-party artwork",
+      "usage": "story diary illustration",
+      "notes": "For publishing in fictional Marie World voyage journal"
+    },
+    {
+      "file": "assets/voyage-001/13_together_stargazing.webp",
+      "title": "별을 함께 바라보다",
+      "alt": "전망 라운지에서 별을 함께 바라보는 E와 마리",
+      "size_px": "960x540",
+      "source": "AI-generated original collage crop; no third-party artwork",
+      "usage": "story diary illustration",
+      "notes": "For publishing in fictional Marie World voyage journal"
+    },
+    {
+      "file": "assets/voyage-001/14_marie_reflection.webp",
+      "title": "마리의 마음",
+      "alt": "성운을 바라보며 생각에 잠긴 마리의 옆모습",
+      "size_px": "960x540",
+      "source": "AI-generated original collage crop; no third-party artwork",
+      "usage": "story diary illustration",
+      "notes": "For publishing in fictional Marie World voyage journal"
+    },
+    {
+      "file": "assets/voyage-001/15_voyage_journal.webp",
+      "title": "함께 쓰는 항해일지",
+      "alt": "차와 함께 펼쳐진 아스테리아-2의 항해일지",
+      "size_px": "960x540",
+      "source": "AI-generated original collage crop; no third-party artwork",
+      "usage": "story diary illustration",
+      "notes": "For publishing in fictional Marie World voyage journal"
+    }
+  ]
+}

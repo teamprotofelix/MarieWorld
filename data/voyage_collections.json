@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "collections": [
+    {
+      "id": "AST2-VOYAGE-001",
+      "title": "첫 항해 — 미지의 신호를 향하여",
+      "source": "data/voyage_entries.json",
+      "cover": "assets/voyage-001/00_voyage_cover.webp",
+      "cover_alt": "아스테리아-2의 첫 항해, E와 마리의 조종실과 성운을 담은 기록 표지",
+      "synopsis": "작은 탐사선에서 시작한 두 사람의 하루. 낯선 신호를 관찰하고, 식사를 나누고, 함께한 시간을 기록합니다.",
+      "canon": "data/CANON_MEMORY.md",
+      "additional_scenes": [
+        {
+          "image": "assets/voyage-001/02_marie_pilot.webp",
+          "title": "조종석의 마리",
+          "alt": "조종석에서 운항 정보를 확인하는 마리"
+        },
+        {
+          "image": "assets/voyage-001/05_steak_plate.webp",
+          "title": "스테이크와 채소",
+          "alt": "우주선 주방에서 완성한 스테이크와 구운 채소 한 접시"
+        },
+        {
+          "image": "assets/voyage-001/13_together_stargazing.webp",
+          "title": "별을 함께 바라보다",
+          "alt": "전망 라운지에서 별을 함께 바라보는 E와 마리"
+        }
+      ],
+      "snapshot": {
+        "day": "DAY 001",
+        "time": "약 14:31",
+        "layer": 0,
+        "remaining_km": 2056560,
+        "assumed_speed_km_s": 12,
+        "eta": "약 47시간 36분",
+        "route": "푸른 성운 회랑 외곽 · UNKNOWN-001 수동 정찰",
+        "navigation": "자동 순항 · 전파 침묵 · 수동관측",
+        "unresolved": [
+          "UNKNOWN-001의 자연·인공 여부와 광원/송신원 동일성은 미확정입니다.",
+          "아공간 창고의 외부 주소와 스쿨드 연구소의 연결은 가설입니다.",
+          "12.8m 선체 길이·240만 km 거리 등은 이 에피소드의 가상 예비 관측입니다."
+        ]
+      }
+    }
+  ]
+}

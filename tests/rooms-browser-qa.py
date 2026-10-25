@@ -140,7 +140,7 @@ with sync_playwright() as p:
  page.set_viewport_size({'width':390,'height':844});tick(page,100);assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
  page.evaluate("document.getElementById('roomNext').click()");expect(page.locator('#roomEvent')).to_be_hidden();expect(page.locator('#roomTitle')).not_to_have_text('조종실');click(page,'#closeRoom')
  record('pause/resume, synthetic tab visibility, 390px action resize and different-room cleanup')
- page.set_viewport_size({'width':1440,'height':1100});click(page,'#flightViewBtn');page.locator('#flightCanvas').scroll_into_view_if_needed();tick(page,1000)
+ page.set_viewport_size({'width':1440,'height':1100});tick(page,200);click(page,'#flightViewBtn');tick(page,200);assert page.locator('#flightStage').is_visible(),page.locator('#flightViewBtn').get_attribute('aria-pressed');page.locator('#flightCanvas').scroll_into_view_if_needed();tick(page,1000)
  assert page.evaluate('window.__pendingFrames.size')==1
  # Open a room programmatically because the normal MAP UI is hidden in FLIGHT.
  page.evaluate("document.querySelector('[data-room=cockpit]').click()");click(page,'#roomEventBtn');click(page,'#eventStart');tick(page,100)
@@ -176,7 +176,7 @@ with sync_playwright() as p:
  assert up.locator('#roomEventBtn').count()==0;assert 'marie-v04-flight-1' in up.evaluate('caches.keys()')
  click(up,'#installBtn')
  with up.expect_navigation():click(up,'#pwaUpdateBtn')
- up.wait_for_function("caches.keys().then(k=>k.includes('marie-v05-rooms-1')&&!k.includes('marie-v04-flight-1'))")
+ up.wait_for_function("caches.keys().then(k=>k.includes('marie-v06-voyage-1')&&!k.includes('marie-v04-flight-1'))")
  open_room(up,'workshop');action(up,'head',2);upgrade.set_offline(True);expect(up.locator('.robot-head')).to_contain_text('⌁');click(up,'#eventBack');click(up,'#closeRoom');up.reload();open_room(up,'lounge');action(up,'tea','rooibos');expect(up.locator('#teaTarget')).to_contain_text('30초')
  record('actual v04 -> rooms SW waits for consent; new module runs offline after update')
  upgrade.close();browser.close()
