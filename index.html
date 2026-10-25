@@ -18,6 +18,8 @@
   <script type="module" src="flight.js"></script>
   <link rel="stylesheet" href="room-events.css" />
   <script type="module" src="room-events.js"></script>
+  <link rel="stylesheet" href="voyage.css" />
+  <script type="module" src="voyage.js"></script>
 </head>
 <body>
   <div id="stars" aria-hidden="true"></div>
@@ -83,7 +85,22 @@
 
       <section id="diaryPanel" class="panel-view" aria-label="마리의 항해 일기장">
         <div class="headline diary-headline"><div><p class="eyebrow">MARIE'S CONSTELLATION JOURNAL</p><h1>마리가 들려주는 <span>항해 일기.</span></h1><p>마리의 우주선 일상 이야기입니다. 새로운 일기가 추가될 때마다 사이트 버전이 업데이트됩니다.</p><p class="archive-notice">✦ 창작 세계관 속 이야기이며 실제 개인 대화·민감한 기록은 게시하지 않습니다.</p></div><span class="diary-count" id="diaryCount">항해 일기</span></div>
+        <div class="diary-collection-switch" role="group" aria-label="일기 컬렉션 선택"><button id="marieDiaryBtn" type="button" aria-pressed="true" aria-controls="marieDiaryCollection">✎ 마리의 일기 <small>기존 일상 기록 10편</small></button><button id="voyageDiaryBtn" type="button" aria-pressed="false" aria-controls="voyageCollection">✧ E와 함께한 항해 <small>함께 만든 이야기</small></button></div>
+        <section id="marieDiaryCollection" aria-label="마리의 기존 일기">
         <div class="diary-banner glass"><img src="assets/hero.webp" alt="우주선의 따뜻한 일상" /><div class="diary-banner-copy"><span>THE LITTLE THINGS, BETWEEN THE STARS</span><b>별 사이에서 쌓아가는 평범하고 특별한 시간</b></div></div><div class="diary-items" id="diaryEntries"></div>
+        </section>
+        <section id="voyageCollection" class="voyage-collection" data-reader-theme="dark" aria-label="E와 함께한 항해 기록" hidden>
+          <p id="voyageLoading" class="voyage-state" role="status" hidden>항해 기록을 펼치고 있습니다…</p>
+          <div id="voyageError" class="voyage-state" role="alert" hidden><p>항해 기록을 불러오지 못했습니다. 연결 상태를 확인한 뒤 다시 펼쳐 주세요.</p><button id="voyageRetry" type="button" class="voyage-button">다시 불러오기 ↻</button></div>
+          <div id="voyageContent" hidden>
+            <div class="voyage-tools"><label id="voyageVolumeLabel" hidden>항해권 <select id="voyageVolume"></select></label><span>FICTIONAL VOYAGE ARCHIVE</span><button type="button" class="voyage-button" data-voyage-theme aria-pressed="false">☾ 밤 읽기</button></div>
+            <div class="voyage-cover-layout"><div id="voyageCover"></div><div class="voyage-intro"><p id="voyageArchiveMeta" class="voyage-meta"></p><h2 id="voyageCollectionTitle"></h2><p id="voyageSynopsis"></p><p id="voyageLeadNote" class="voyage-caption">아래 12개 장면을 시간 순서대로 읽어 보세요.<br>DAY와 시각은 이야기 속 날짜입니다.</p></div></div>
+            <details class="voyage-snapshot"><summary>현재 항해 상태 <span>저장된 이야기 스냅샷</span></summary><div><p id="voyageSnapshotMeta" class="voyage-meta"></p><div id="voyageSnapshotValues"></div><p class="voyage-caption">이 에피소드에서 가정한 수치와 가상 예비 관측입니다. 기록 시점의 상태를 담고 있습니다.</p><ul id="voyageUnknowns"></ul></div></details>
+            <div class="voyage-section-heading"><h2>항해의 장면들</h2><span>마리의 말, 그리고 작은 속마음.</span></div><div id="voyageCards" class="voyage-cards"></div>
+            <details class="voyage-extra"><summary>항해의 작은 장면들 <span>본편을 보완하는 삽화</span></summary><div id="voyageExtraScenes" class="voyage-extra-grid"></div></details>
+            <details class="voyage-memory"><summary>항해를 이어 가기 위한 메모 <span>읽기·복사·다운로드</span></summary><div><p>기록은 정적인 창작 콘텐츠입니다. 새 장면은 편집·검토 후 사이트 업데이트로 추가됩니다. ChatGPT 대화에 자동으로 저장·동기화되지 않습니다.</p><button type="button" id="voyageCopyMemory" class="voyage-button">현재 항해 요약 복사</button><p id="voyageCopyStatus" role="status"></p><pre id="voyageMemoryText" tabindex="0" aria-label="복사할 항해 요약"></pre><details class="voyage-canon"><summary>집필용 정전 메모 · 설정 스포일러 포함</summary><p>인물의 비밀과 미해결 사건을 포함하는 작가용 문서입니다. 다음 대화에서 참고하려면 직접 전달해 주세요.</p><a id="voyageCanonLink" class="voyage-button" href="data/CANON_MEMORY.md" download>정전 메모 받기 ↓</a></details></div></details>
+          </div>
+        </section>
       </section>
       <section id="routePanel" class="panel-view" aria-label="항로 지도"><div class="headline"><div><p class="eyebrow">ASTÉRIA-2 // DEEP SPACE</p><h1>다음 별에서는 <span>무슨 일이 있을까요?</span></h1><p>마리와 함께 목적지를 정해 보세요. 자동 여행 모드에서는 시간이 흐르면 다음 지역으로 이동합니다.</p></div></div><div id="destinations" class="destination-grid"></div></section>
     </main>
@@ -94,6 +111,7 @@
   <div id="talkModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="talkTitle"><div class="backdrop" data-close="talk"></div><div class="glass talk-dialog"><button id="closeTalk" class="modal-close" aria-label="대화 닫기">×</button><div class="mini-sprite"><div class="sprite"></div></div><p class="eyebrow">SHIP INTERCOM · PRIVATE</p><h2 id="talkTitle">마리와 잠깐 이야기해요</h2><p id="talkResponse">“E, 오늘의 별은 평소보다 더 밝아 보입니다.”</p><div class="choice-buttons"><button data-talk="warm" class="secondary-btn">오늘 어땠어?</button><button data-talk="love" class="secondary-btn">별을 같이 볼까?</button><button data-talk="work" class="secondary-btn">우주선은 괜찮아?</button><button data-talk="food" class="secondary-btn">저녁은 뭐야?</button></div><p class="privacy-note">미리 작성된 기내 대사입니다. AI 연결·메시지 전송·개인정보 저장 기능은 없습니다.</p></div></div>
   <div id="helpModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="helpTitle"><div class="backdrop" data-close="help"></div><div class="glass help-dialog"><button id="closeHelp" class="modal-close">×</button><h2 id="helpTitle">✦ Marie World 사용 안내</h2><p>우주선 조감도의 빛나는 방을 누르면 해당 공간으로 이동합니다. 자동 여행을 켜 두면 마리가 정비하고, 요리하고, 별을 관찰하며 일기를 기록합니다. 여행 속도도 바꿀 수 있습니다.</p><p>현재 버전은 안전한 단일 브라우저 방치형 시뮬레이션입니다. 일기는 소스에 포함된 창작 콘텐츠입니다. 항해 상태는 페이지를 열어 둔 동안만 진행되며 저장하지 않습니다. 실제 대화는 수집하지 않습니다.</p><button id="resetBtn" class="secondary-btn danger">가상 항해 처음부터 시작</button></div></div>
   <div id="pwaInstallModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="pwaTitle"><div class="backdrop" data-close="pwa"></div><div class="glass help-dialog"><button class="modal-close" id="closePwa" aria-label="설치 안내 닫기">×</button><img src="icons/icon.svg" class="install-icon" alt="마리와 우주선 앱 아이콘" /><h2 id="pwaTitle">✦ Marie World를 앱처럼!</h2><p id="installInstructions">브라우저 메뉴에서 홈 화면에 추가 또는 설치를 선택하세요.</p><p class="privacy-note">처음 한 번 온라인으로 열면 우주선과 일기를 오프라인에서도 탐험할 수 있습니다.</p><button id="pwaUpdateBtn" class="primary-btn hidden">새 버전 적용하기</button></div></div>
+  <dialog id="voyageDialog" class="voyage-dialog" data-reader-theme="dark" aria-labelledby="voyageStoryTitle" aria-describedby="voyageStoryMeta"><div class="voyage-reader-toolbar"><button id="voyageStoryClose" type="button" class="voyage-button" aria-label="항해 기록 닫기">← 목록으로</button><span id="voyageStoryPosition"></span><button type="button" class="voyage-button" data-voyage-theme aria-pressed="false">☾ 밤 읽기</button></div><div class="voyage-reader"><p class="voyage-meta" id="voyageStoryMeta"></p><h2 id="voyageStoryTitle" tabindex="-1"></h2><div id="voyageStoryImage"></div><div id="voyageStoryBody"></div><div class="voyage-reader-navigation"><button id="voyagePrevious" type="button" class="voyage-button">← 이전 기록</button><button id="voyageNext" type="button" class="voyage-button">다음 기록 →</button></div></div></dialog>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
