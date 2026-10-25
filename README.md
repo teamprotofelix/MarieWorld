@@ -65,6 +65,6 @@ In **항해 일기**, keep **마리의 일기** selected to read the original te
 
 The archive is static editorial content. It does **not** automatically store chats or synchronize ChatGPT memory; a reader must explicitly pass the summary/canon into another conversation. New scenes are edited as JSON/art and reviewed through PRs. See [authoring guide](docs/voyage-001/AUTHORING.md).
 
-`marie-v06-voyage-1` precaches the reader code/CSS, story metadata, canon and all sixteen images (848,326 bytes). One completed online service-worker preparation is required; subsequent offline reloads can read both collections. Existing `pwa.js` continues to require user approval for activation.
+`marie-v06-voyage-2` precaches the reader code/CSS, story metadata, canon and all sixteen images (1,213,742 bytes after the 2026-10-26 panel recrop). One completed online service-worker preparation is required; subsequent offline reloads can read both collections. Existing `pwa.js` continues to require user approval for activation.
 
 Validation: `npm test`, `node tests/voyage.test.mjs`, and `python tests/voyage-browser-qa.py` (Python Playwright + Chromium). Temporary files go to ignored `work/voyage-qa/`; `MARIE_VOYAGE_QA_OUTPUT` can override it. The existing flight and room browser QA scripts remain available. [Review notes and captures](docs/voyage-001/QA.md) distinguish browser emulation and local PWA upgrade checks from untested devices/production hosting.

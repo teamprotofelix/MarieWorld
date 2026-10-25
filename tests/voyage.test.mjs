@@ -98,7 +98,7 @@ test("all 16 supplied images are used by cover, records and supplementary galler
     assert(im.alt.length > 5);
     bytes += (await stat(new URL("../" + im.file, import.meta.url))).size;
   }
-  assert.equal(bytes, 848326);
+  assert.equal(bytes, 1213742);
 });
 test("existing MARIE_DIARIES literal is unchanged from the merged room-events main", async () => {
   const s = await read("app.js");
@@ -121,7 +121,7 @@ test("offline cache includes story modules, metadata, canon and all illustration
     sw + ";globalThis.assets=ASSETS;globalThis.version=VERSION;",
     box,
   );
-  assert.equal(box.version, "marie-v06-voyage-1");
+  assert.equal(box.version, "marie-v06-voyage-2");
   for (const path of [
     "voyage.js",
     "voyage-data.js",

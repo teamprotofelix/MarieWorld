@@ -176,7 +176,7 @@ with sync_playwright() as p:
  assert up.locator('#roomEventBtn').count()==0;assert 'marie-v04-flight-1' in up.evaluate('caches.keys()')
  click(up,'#installBtn')
  with up.expect_navigation():click(up,'#pwaUpdateBtn')
- up.wait_for_function("caches.keys().then(k=>k.includes('marie-v06-voyage-1')&&!k.includes('marie-v04-flight-1'))")
+ up.wait_for_function("caches.keys().then(k=>k.includes('marie-v06-voyage-2')&&!k.includes('marie-v04-flight-1'))")
  open_room(up,'workshop');action(up,'head',2);upgrade.set_offline(True);expect(up.locator('.robot-head')).to_contain_text('⌁');click(up,'#eventBack');click(up,'#closeRoom');up.reload();open_room(up,'lounge');action(up,'tea','rooibos');expect(up.locator('#teaTarget')).to_contain_text('30초')
  record('actual v04 -> rooms SW waits for consent; new module runs offline after update')
  upgrade.close();browser.close()

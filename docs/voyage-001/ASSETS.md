@@ -1,39 +1,27 @@
-# 첫 항해 자산 목록
+# 항해 삽화 재추출 — 2026-10-26
 
-출처: 사용자가 제공한 `MARIE_WORLD_ASTERIA2_VOYAGE01_CODEX_PACK.zip`.
-제공 메타데이터는 이야기용 AI 생성 원본 삽화/크롭·WebP 최적화본으로 표기합니다.
-이번 작업에서 새 그림을 생성하거나 이미지 내용을 편집하지 않았습니다.
-16개 그림과 제공 JSON/manifest/정전 메모 3개는 ZIP 원본과 byte 단위로 일치합니다.
+초기 배포의 강한 16:9 크롭에서 얼굴·선체가 잘리고 일부 구분선/글자 조각이 남는 문제를 수정했습니다. 사용자가 제공한 두 원본 보드의 개별 패널을 직접 측정해 다시 추출했습니다. 재생성 없이 원래 장면 전체를 보존하고, 짧은 쪽의 여백은 어두운 배경으로 채웠습니다. 원본에 포함된 설명 문구는 보존했습니다.
 
-참고용 콘셉트 보드 2개와 업로드 ZIP/지시서/임시 PNG는 공개 소스에 포함하지 않습니다.
-커버 1개 + 기록의 대표 장면 12개 + 추가 삽화 3개가 모든 제공 WebP를 사용합니다.
+표지는 기존 제목을 유지하고 오른쪽 우주선·함교 장면을 전체 구도로 교체했습니다. 상세 좌표와 원본 SHA-256은 [RECROP.json](RECROP.json)에 기록합니다. 원본 PNG는 공개 저장소에 추가하지 않았습니다.
 
-| WebP | 크기 | bytes | SHA-256 |
-| --- | --- | ---: | --- |
-| `00_voyage_cover.webp` | 1600×900 | 107,538 | `1aa03d9ef707497df208939959f52b41d8080662583c042866fc8ea8f498a3ab` |
-| `01_launch.webp` | 960×540 | 45,846 | `bdd4a43a482df624db0f1526f7b5b6d52b968fafd98d88cb9dd4ebc997bf6250` |
-| `02_marie_pilot.webp` | 960×540 | 67,618 | `00e08313b8657e79b41df90d6995b3478699c6a76db3ecd01eb621bd337016d4` |
-| `03_unknown_signal.webp` | 960×540 | 31,308 | `d35ef9a3544167ffb09e984461a937f7c79348548de5e9753ad9e87875e2ccee` |
-| `04_shared_cockpit.webp` | 960×540 | 43,156 | `270b2dd5983ea64f783239fa0c6ff7e234d02937875c5188ea90d54cc66bed7b` |
-| `05_steak_plate.webp` | 960×540 | 75,088 | `db6da6e1b165121059f0a2c8de8046066eb01fa3e0a505858aa68324ea327087` |
-| `06_marie_cooking.webp` | 960×540 | 73,640 | `c7526ce4464e8297697b18cea2fc105a3f8644f010444ba5db9b1ad7950f97b9` |
-| `07_dessert_lab.webp` | 960×540 | 40,642 | `1e97c5739133cfe864f03523b5ef3b8aa9bbe3c0cca0cb89b0dcbfbea3f4d940` |
-| `08_subspace_storage.webp` | 960×540 | 49,000 | `cc031523e2ed678d6e232f49ead61b3cc72aba9aa11d80e6f5f0f6633535426d` |
-| `09_expanded_interior.webp` | 960×540 | 56,584 | `372dc15214c36dcb227162630a996e57b5c4bdf7e8a0fbdd564aed67f8b15fcd` |
-| `10_many_maries.webp` | 960×540 | 62,744 | `958e5342a443d6a6e4c67883b4dd3795028ca4cefe3484cc2a6db39b63078f84` |
-| `11_identity_conversation.webp` | 960×540 | 39,226 | `12db239fff836739543c534312fcda9690434ca38a4754db125158d4bcea7251` |
-| `12_dark_forest.webp` | 960×540 | 33,006 | `66fbf7a1d4e1577f348cae99f4a2464c1bbcd6a0b235e32686c6e2e1dcb56285` |
-| `13_together_stargazing.webp` | 960×540 | 40,240 | `d9ba918c848fbd639ea2a018e30ad88edc1b4dd3c3d5f14dd79c4b47e4fc5204` |
-| `14_marie_reflection.webp` | 960×540 | 31,902 | `ffa6f317f211f676b4108f451fd21dc20b7f34e071952d2f3b958e2694579b83` |
-| `15_voyage_journal.webp` | 960×540 | 50,788 | `1f145bab379dfbb22873263d0db09a386347cbca151959250c0b82306dae6d63` |
-| **16개 합계** | | **848,326** | |
+| WebP | bytes | SHA-256 |
+| --- | ---: | --- |
+| `00_voyage_cover.webp` | 143,982 | `a570eb846071ea201846e85dc99a261435d3fb09d07d819abf6f4e5d1d9a5a59` |
+| `01_launch.webp` | 92,496 | `7e0980b2cf1d209e247f5c70d7e32774890fcf56597b2b0f7df6ba0a6a674b0f` |
+| `02_marie_pilot.webp` | 86,716 | `6869b12a7013e25a007d6ed0df343acc6a7f42dc82fa7fa33c3f50a28813e130` |
+| `03_unknown_signal.webp` | 43,810 | `824c6908df6739c15d8c2652b8ebcc51d0c7923a2d9df2cb432c1d2722edf01b` |
+| `04_shared_cockpit.webp` | 67,882 | `42efce35d88722d4f1cc0f82fcfba70891df42fd9a4547fe6a6b8f5d667d40e7` |
+| `05_steak_plate.webp` | 74,650 | `d3d7589419c626db1b4cc4d5663e5b9389ebcc1d84bcb23395bc8e3f1bb06129` |
+| `06_marie_cooking.webp` | 80,208 | `98eb4809e2fc6a0a47dc8e7359a90e52cb03af07b3df165ab15cb3d4c57a2b57` |
+| `07_dessert_lab.webp` | 67,938 | `ce41865f57c6e62898e1b082348f462662781ee7073871ba9460814ac4111274` |
+| `08_subspace_storage.webp` | 85,556 | `77fc779d8a969acfafbde40db8254cf4243d317ba841940d96e2d54468397f07` |
+| `09_expanded_interior.webp` | 73,046 | `81fd1cf4929b0403ddb5b9c0d41255f61b02a13bac8bd1ec6c9e3fef0588305e` |
+| `10_many_maries.webp` | 90,014 | `51af1f9700a311d8b10333cb9913353682b039d683110e5627bc57a30b07df7a` |
+| `11_identity_conversation.webp` | 73,254 | `bcbadf01c79af19a76eb5555947d7345549ff672430f0b04e362a9c7a398f8bc` |
+| `12_dark_forest.webp` | 61,438 | `1914752a563d3a7de65fa8b73f664f3a0f286630a047fb06a7d0d00b7ccfcf94` |
+| `13_together_stargazing.webp` | 52,864 | `9cece13c0fa3b5b65f11ad1a0af0da7f013f9fee8435acff3d44f910f10dbf9c` |
+| `14_marie_reflection.webp` | 55,588 | `8a2e862d5814d32b224726cf03d9aed45e790742e09e9ade4b70c67916fa8696` |
+| `15_voyage_journal.webp` | 64,300 | `00c522c40d535e3786231a1d10f97a9ce9846b33c5c9dadeb8e48da5e29c91c9` |
+| **합계 16개** | **1,213,742** | |
 
-검토용 브라우저 캡처(게임/읽기 이미지가 아니며 프리캐시 제외):
-
-| 파일 | bytes |
-| --- | ---: |
-| `desktop-archive.webp` | 91,662 |
-| `desktop-reader-dark.webp` | 106,456 |
-| `desktop-reader-light.webp` | 105,574 |
-| `mobile-reader.webp` | 94,822 |
-| `tablet-reader.webp` | 152,936 |
+기록 JSON·일기 본문·읽기 화면·게임 로직은 유지합니다. 같은 파일명을 사용하는 설치 앱의 구 캐시를 교체하기 위해 서비스워커 버전만 `marie-v06-voyage-2`로 갱신합니다.

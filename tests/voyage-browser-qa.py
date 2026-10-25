@@ -116,7 +116,7 @@ with sync_playwright() as p:
  expect(up.locator('#eventPhase')).to_have_text('플레이');expect(up.locator('.robot-head')).to_contain_text('⌁');assert up.locator('#voyageDiaryBtn').count()==0
  up.locator('#eventBack').click();up.locator('#closeRoom').click();up.locator('#installBtn').click()
  with up.expect_navigation():up.locator('#pwaUpdateBtn').click()
- up.wait_for_function("caches.keys().then(k=>k.includes('marie-v06-voyage-1')&&!k.includes('marie-v05-rooms-1'))")
+ up.wait_for_function("caches.keys().then(k=>k.includes('marie-v06-voyage-2')&&!k.includes('marie-v05-rooms-1'))")
  expect(up.locator('#voyageDiaryBtn')).to_have_count(1);enter(up)
  record('real v05 -> v06 SW waits for consent without resetting active room game; old cache removed after approval')
  upgrade.set_offline(True);up.reload();enter(up)

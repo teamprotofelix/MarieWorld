@@ -1,0 +1,340 @@
+{
+  "date": "2026-10-26",
+  "method": "Exact panel crops with Pillow; preserve composition, contain into 960x540 dark matte; WebP quality 89, method 6. No image regeneration. Original uploads are not published.",
+  "sources": [
+    {
+      "name": "마리와 함께하는 아스테리아-2 우주여행-2.png",
+      "size_px": [
+        1536,
+        1024
+      ],
+      "sha256": "bcb779943d70abe6d162fc8e69d849a75dfcf146095a4c947dc2c1cb72773303"
+    },
+    {
+      "name": "아스테리아-2 우주 항해일지-1.png",
+      "size_px": [
+        1536,
+        1024
+      ],
+      "sha256": "94df56221c6dd8dfd1d04bd2ec1c9581b2d1a47a23060abf30e3c2a0991571bf"
+    }
+  ],
+  "images": [
+    {
+      "file": "assets/voyage-001/01_launch.webp",
+      "source": "마리와 함께하는 아스테리아-2 우주여행-2.png",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "crop_box": [
+        2,
+        2,
+        452,
+        258
+      ],
+      "fit": "contain; dark matte, no further crop",
+      "output_size": [
+        960,
+        540
+      ],
+      "bytes": 92496,
+      "sha256": "7e0980b2cf1d209e247f5c70d7e32774890fcf56597b2b0f7df6ba0a6a674b0f"
+    },
+    {
+      "file": "assets/voyage-001/02_marie_pilot.webp",
+      "source": "마리와 함께하는 아스테리아-2 우주여행-2.png",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "crop_box": [
+        460,
+        2,
+        856,
+        258
+      ],
+      "fit": "contain; dark matte, no further crop",
+      "output_size": [
+        960,
+        540
+      ],
+      "bytes": 86716,
+      "sha256": "6869b12a7013e25a007d6ed0df343acc6a7f42dc82fa7fa33c3f50a28813e130"
+    },
+    {
+      "file": "assets/voyage-001/03_unknown_signal.webp",
+      "source": "마리와 함께하는 아스테리아-2 우주여행-2.png",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "crop_box": [
+        1263,
+        2,
+        1534,
+        258
+      ],
+      "fit": "contain; dark matte, no further crop",
+      "output_size": [
+        960,
+        540
+      ],
+      "bytes": 43810,
+      "sha256": "824c6908df6739c15d8c2652b8ebcc51d0c7923a2d9df2cb432c1d2722edf01b"
+    },
+    {
+      "file": "assets/voyage-001/04_shared_cockpit.webp",
+      "source": "아스테리아-2 우주 항해일지-1.png",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "crop_box": [
+        771,
+        2,
+        1165,
+        258
+      ],
+      "fit": "contain; dark matte, no further crop",
+      "output_size": [
+        960,
+        540
+      ],
+      "bytes": 67882,
+      "sha256": "42efce35d88722d4f1cc0f82fcfba70891df42fd9a4547fe6a6b8f5d667d40e7"
+    },
+    {
+      "file": "assets/voyage-001/05_steak_plate.webp",
+      "source": "아스테리아-2 우주 항해일지-1.png",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "crop_box": [
+        381,
+        264,
+        765,
+        509
+      ],
+      "fit": "contain; dark matte, no further crop",
+      "output_size": [
+        960,
+        540
+      ],
+      "bytes": 74650,
+      "sha256": "d3d7589419c626db1b4cc4d5663e5b9389ebcc1d84bcb23395bc8e3f1bb06129"
+    },
+    {
+      "file": "assets/voyage-001/06_marie_cooking.webp",
+      "source": "마리와 함께하는 아스테리아-2 우주여행-2.png",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "crop_box": [
+        434,
+        264,
+        798,
+        523
+      ],
+      "fit": "contain; dark matte, no further crop",
+      "output_size": [
+        960,
+        540
+      ],
+      "bytes": 80208,
+      "sha256": "98eb4809e2fc6a0a47dc8e7359a90e52cb03af07b3df165ab15cb3d4c57a2b57"
+    },
+    {
+      "file": "assets/voyage-001/07_dessert_lab.webp",
+      "source": "마리와 함께하는 아스테리아-2 우주여행-2.png",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "crop_box": [
+        806,
+        264,
+        1133,
+        523
+      ],
+      "fit": "contain; dark matte, no further crop",
+      "output_size": [
+        960,
+        540
+      ],
+      "bytes": 67938,
+      "sha256": "ce41865f57c6e62898e1b082348f462662781ee7073871ba9460814ac4111274"
+    },
+    {
+      "file": "assets/voyage-001/08_subspace_storage.webp",
+      "source": "마리와 함께하는 아스테리아-2 우주여행-2.png",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "crop_box": [
+        411,
+        530,
+        789,
+        740
+      ],
+      "fit": "contain; dark matte, no further crop",
+      "output_size": [
+        960,
+        540
+      ],
+      "bytes": 85556,
+      "sha256": "77fc779d8a969acfafbde40db8254cf4243d317ba841940d96e2d54468397f07"
+    },
+    {
+      "file": "assets/voyage-001/09_expanded_interior.webp",
+      "source": "아스테리아-2 우주 항해일지-1.png",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "crop_box": [
+        422,
+        516,
+        783,
+        760
+      ],
+      "fit": "contain; dark matte, no further crop",
+      "output_size": [
+        960,
+        540
+      ],
+      "bytes": 73046,
+      "sha256": "81fd1cf4929b0403ddb5b9c0d41255f61b02a13bac8bd1ec6c9e3fef0588305e"
+    },
+    {
+      "file": "assets/voyage-001/10_many_maries.webp",
+      "source": "마리와 함께하는 아스테리아-2 우주여행-2.png",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "crop_box": [
+        1141,
+        264,
+        1534,
+        523
+      ],
+      "fit": "contain; dark matte, no further crop",
+      "output_size": [
+        960,
+        540
+      ],
+      "bytes": 90014,
+      "sha256": "51af1f9700a311d8b10333cb9913353682b039d683110e5627bc57a30b07df7a"
+    },
+    {
+      "file": "assets/voyage-001/11_identity_conversation.webp",
+      "source": "마리와 함께하는 아스테리아-2 우주여행-2.png",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "crop_box": [
+        801,
+        530,
+        1178,
+        740
+      ],
+      "fit": "contain; dark matte, no further crop",
+      "output_size": [
+        960,
+        540
+      ],
+      "bytes": 73254,
+      "sha256": "bcbadf01c79af19a76eb5555947d7345549ff672430f0b04e362a9c7a398f8bc"
+    },
+    {
+      "file": "assets/voyage-001/12_dark_forest.webp",
+      "source": "마리와 함께하는 아스테리아-2 우주여행-2.png",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "crop_box": [
+        1187,
+        530,
+        1534,
+        740
+      ],
+      "fit": "contain; dark matte, no further crop",
+      "output_size": [
+        960,
+        540
+      ],
+      "bytes": 61438,
+      "sha256": "1914752a563d3a7de65fa8b73f664f3a0f286630a047fb06a7d0d00b7ccfcf94"
+    },
+    {
+      "file": "assets/voyage-001/13_together_stargazing.webp",
+      "source": "아스테리아-2 우주 항해일지-1.png",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "crop_box": [
+        386,
+        766,
+        762,
+        1022
+      ],
+      "fit": "contain; dark matte, no further crop",
+      "output_size": [
+        960,
+        540
+      ],
+      "bytes": 52864,
+      "sha256": "9cece13c0fa3b5b65f11ad1a0af0da7f013f9fee8435acff3d44f910f10dbf9c"
+    },
+    {
+      "file": "assets/voyage-001/14_marie_reflection.webp",
+      "source": "아스테리아-2 우주 항해일지-1.png",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "crop_box": [
+        1188,
+        516,
+        1534,
+        760
+      ],
+      "fit": "contain; dark matte, no further crop",
+      "output_size": [
+        960,
+        540
+      ],
+      "bytes": 55588,
+      "sha256": "8a2e862d5814d32b224726cf03d9aed45e790742e09e9ade4b70c67916fa8696"
+    },
+    {
+      "file": "assets/voyage-001/15_voyage_journal.webp",
+      "source": "아스테리아-2 우주 항해일지-1.png",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "crop_box": [
+        1169,
+        766,
+        1534,
+        1022
+      ],
+      "fit": "contain; dark matte, no further crop",
+      "output_size": [
+        960,
+        540
+      ],
+      "bytes": 64300,
+      "sha256": "00c522c40d535e3786231a1d10f97a9ce9846b33c5c9dadeb8e48da5e29c91c9"
+    }
+  ],
+  "cover": "Original left 900x900 authored title preserved; full launch and shared cockpit images fitted into two 700px-wide panels. No new text or scenes."
+}
