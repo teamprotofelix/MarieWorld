@@ -1,0 +1,105 @@
+{
+  "format": "WebP only (no PNG packaged)",
+  "source_photos": 5,
+  "website_assets": 11,
+  "assets": [
+    {
+      "path": "assets/marie-leisure/01_garden.webp",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 291310,
+      "sha256": "12f2674c057e672d2fa077f5458c5aea21ecea4c9a749683c0db6f2560d8908c",
+      "activity": "수경 정원 가꾸기",
+      "kind": "photo_full"
+    },
+    {
+      "path": "assets/voyage-002/01_garden.webp",
+      "width": 960,
+      "height": 540,
+      "bytes": 94932,
+      "sha256": "40973eddca1db4d6505669a6896458ab603e9c3649c0aebd9032627e2dbf291f",
+      "activity": "수경 정원 가꾸기",
+      "kind": "diary_frame"
+    },
+    {
+      "path": "assets/marie-leisure/02_cat_reading.webp",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 236294,
+      "sha256": "3a1dc1a23c346921cf9c71ef7b55c9d2ba4487221c9ab366246110c6377a2a49",
+      "activity": "독서와 반려동물 돌보기",
+      "kind": "photo_full"
+    },
+    {
+      "path": "assets/voyage-002/02_cat_reading.webp",
+      "width": 960,
+      "height": 540,
+      "bytes": 80744,
+      "sha256": "40091b2ad54abb2ec926896aec0a1c762a92e16581286931667e173cf8e3d92f",
+      "activity": "독서와 반려동물 돌보기",
+      "kind": "diary_frame"
+    },
+    {
+      "path": "assets/marie-leisure/03_journal.webp",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 264066,
+      "sha256": "072a17a05f348a7d6374d8c5e577c76d393dbb977d1f2e16e2f6847d11ababae",
+      "activity": "항해일지 작성",
+      "kind": "photo_full"
+    },
+    {
+      "path": "assets/voyage-002/03_journal.webp",
+      "width": 960,
+      "height": 540,
+      "bytes": 93206,
+      "sha256": "ce0c66b7179cd03fe4e833cdde766350a39232cb247ddd9d6ffca78dd32de234",
+      "activity": "항해일지 작성",
+      "kind": "diary_frame"
+    },
+    {
+      "path": "assets/marie-leisure/04_drone_repair.webp",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 251124,
+      "sha256": "57304490501c146505ca5ed48d8cb6ebb09c7813154ee090dae0664703eb1f23",
+      "activity": "탐사 드론 정비",
+      "kind": "photo_full"
+    },
+    {
+      "path": "assets/voyage-002/04_drone_repair.webp",
+      "width": 960,
+      "height": 540,
+      "bytes": 88770,
+      "sha256": "12ee8a8b7d3dc8e39aab49e5177803b941327fd389a18b095ee8db187dc904dd",
+      "activity": "탐사 드론 정비",
+      "kind": "diary_frame"
+    },
+    {
+      "path": "assets/marie-leisure/05_tea_time.webp",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 256610,
+      "sha256": "79da61086ac94b2f18954ea92d77b3e4458eb98e2b541cf2b5fc02bd8f66d33e",
+      "activity": "차와 디저트 만들기",
+      "kind": "photo_full"
+    },
+    {
+      "path": "assets/voyage-002/05_tea_time.webp",
+      "width": 960,
+      "height": 540,
+      "bytes": 90278,
+      "sha256": "60851fd35ca61764c73f9bceb0a528f859827dff695b324ae468ee79423ea8a1",
+      "activity": "차와 디저트 만들기",
+      "kind": "diary_frame"
+    },
+    {
+      "path": "assets/voyage-002/00_album_cover.webp",
+      "width": 1600,
+      "height": 900,
+      "bytes": 208460,
+      "sha256": "60be5f2c4a73a0cf0431d63d458a92d199fc8ad91dd353734d714e3a11022c04",
+      "kind": "cover"
+    }
+  ]
+}

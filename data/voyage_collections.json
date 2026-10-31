@@ -41,6 +41,58 @@
           "12.8m 선체 길이·240만 km 거리 등은 이 에피소드의 가상 예비 관측입니다."
         ]
       }
+    },
+    {
+      "id": "AST2-VOYAGE-002",
+      "title": "아스테리아-2의 작은 일상 — 마리의 여가 사진첩",
+      "source": "data/voyage-002/entries.json",
+      "cover": "assets/voyage-002/00_album_cover.webp",
+      "cover_alt": "우주선 수경 정원에서 방울토마토를 돌보는 마리와 창밖 푸른 성운",
+      "synopsis": "E와 마리가 작은 우주선에서 보내는 하루. 토마토 재배, 티타임, 독서, 드론 정비, 항해일지 쓰기를 사진과 함께 기록합니다.",
+      "canon": "data/voyage-002/CANON_MEMORY.md",
+      "additional_scenes": [
+        {
+          "image": "assets/marie-leisure/01_garden.webp",
+          "title": "방울토마토를 돌보는 오후",
+          "alt": "아스테리아-2 수경 정원에서 마리가 방울토마토 줄기를 돌보는 모습"
+        },
+        {
+          "image": "assets/marie-leisure/02_cat_reading.webp",
+          "title": "고양이와 읽는 별의 이야기",
+          "alt": "성운이 보이는 우주선 휴식 공간에서 마리가 검은 고양이를 쓰다듬으며 책을 읽는 모습"
+        },
+        {
+          "image": "assets/marie-leisure/03_journal.webp",
+          "title": "별빛을 항해일지에 담는 시간",
+          "alt": "마리가 찻잔과 사진을 옆에 두고 우주 항해일지를 손으로 쓰는 모습"
+        },
+        {
+          "image": "assets/marie-leisure/04_drone_repair.webp",
+          "title": "마리의 작은 로봇 친구",
+          "alt": "정비 공방에서 마리가 작은 흰색 탐사 드론을 손수 수리하는 모습"
+        },
+        {
+          "image": "assets/marie-leisure/05_tea_time.webp",
+          "title": "별을 마시는 티타임",
+          "alt": "아스테리아-2 주방에서 마리가 유리 주전자로 따뜻한 차를 따르는 모습"
+        }
+      ],
+      "snapshot": {
+        "day": "DAY 001",
+        "time": "14:58 (마지막 거리 관측)",
+        "layer": 0,
+        "remaining_km": 2037120,
+        "assumed_speed_km_s": 12,
+        "eta": "약 47시간 9분 (해당 시점 추정)",
+        "route": "푸른 성운 회랑 · UNKNOWN-001 방향",
+        "navigation": "자동 항해 · 전파 침묵 · 수동관측",
+        "unresolved": [
+          "거리·도착 예상은 DAY 001 14:58의 고정 스냅샷이며 DAY 002 실시간 항법 수치가 아닙니다.",
+          "UNKNOWN-001의 자연/인공 여부와 광원/송신원 동일성은 미확정입니다.",
+          "재배 실험 001의 발아율·수확량·LED 비교 결과는 아직 관측되지 않았습니다.",
+          "스쿨드의 아공간 외부 연결은 가설이며 조사 중입니다."
+        ]
+      }
     }
   ]
 }

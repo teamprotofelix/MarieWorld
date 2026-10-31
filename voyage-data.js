@@ -1,5 +1,7 @@
 // Static story data only. No simulation state, browser persistence or remote API.
 const imagePath = /^assets\/voyage-\d{3}\/[A-Za-z0-9_-]+\.webp$/;
+const supplementaryImagePath =
+  /^assets\/(?:voyage-\d{3}|marie-leisure)\/[A-Za-z0-9_-]+\.webp$/;
 const jsonPath = /^data\/(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+\.json$/;
 const canonPath = /^data\/(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+\.md$/;
 const text = (value) => typeof value === "string" && value.trim().length > 0;
@@ -32,7 +34,10 @@ export function validateRegistry(data) {
     assert(
       Array.isArray(c.additional_scenes) &&
         c.additional_scenes.every(
-          (s) => imagePath.test(s.image) && text(s.alt) && text(s.title),
+          (s) =>
+            supplementaryImagePath.test(s.image) &&
+            text(s.alt) &&
+            text(s.title),
         ),
       "추가 장면이 올바르지 않습니다.",
     );
@@ -94,12 +99,10 @@ export function validateCollection(data, expectedId) {
 export const sceneTime = (e) =>
   `기록 속 ${e.day} · ${e.scene_time_is_approximate ? "대략 " : ""}${e.time}`;
 export const bodyParts = (body) =>
-  body
-    .split("\n\n")
-    .map((value) => ({
-      text: value,
-      inner: value.startsWith("(") && value.endsWith(")"),
-    }));
+  body.split("\n\n").map((value) => ({
+    text: value,
+    inner: value.startsWith("(") && value.endsWith(")"),
+  }));
 export function snapshotText(collection) {
   const s = collection.snapshot;
   return [

@@ -1,0 +1,182 @@
+/* The album uses untouched 4:3 sources. Voyage cards keep their supplied 16:9 frames. */
+.voyage-tools {
+  flex-wrap: wrap;
+}
+.voyage-tools > label {
+  flex: 1;
+  max-width: 100%;
+}
+.voyage-tools select {
+  width: min(100%, 430px);
+}
+#voyageAlbumBtn {
+  color: var(--v-accent);
+  margin-left: 0;
+}
+.leisure-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 0 18px;
+}
+.leisure-heading h2 {
+  font-weight: 600;
+  color: var(--v-warm);
+  font-size: clamp(25px, 3vw, 38px);
+  margin: 4px 0;
+  line-height: 1.4;
+  letter-spacing: -1px;
+}
+.leisure-heading h2:focus-visible {
+  outline: 3px solid var(--v-focus);
+  outline-offset: 5px;
+}
+.leisure-heading > button {
+  flex-shrink: 0;
+}
+.leisure-intro {
+  font-size: 15px;
+  line-height: 1.95;
+  max-width: 900px;
+  color: var(--v-ink);
+  margin: 0 0 14px;
+}
+.leisure-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin: 25px 0 10px;
+}
+.leisure-card {
+  min-width: 0;
+  background: var(--v-panel);
+  border: 1px solid var(--v-edge);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px #00000012;
+  display: flex;
+  flex-direction: column;
+}
+.leisure-card .voyage-figure {
+  border-radius: 0;
+}
+.leisure-photo-open {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: #0a172a;
+  cursor: zoom-in;
+  line-height: 0;
+}
+.leisure-photo-open img {
+  display: block;
+  aspect-ratio: 4/3;
+  object-fit: contain;
+  width: 100%;
+  height: auto;
+}
+.leisure-photo-open .voyage-image-fallback {
+  line-height: 1.8;
+}
+.leisure-photo-open:focus-visible {
+  outline-offset: -4px !important;
+}
+.leisure-card-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.leisure-card h3 {
+  font-size: 21px;
+  line-height: 1.55;
+  letter-spacing: -0.5px;
+  margin: 7px 0 10px;
+  color: var(--v-warm);
+}
+.leisure-activity {
+  font-size: 11px;
+  color: var(--v-accent);
+  margin: 0 0 10px;
+}
+.leisure-summary {
+  font-size: 14px;
+  color: var(--v-ink);
+  line-height: 1.9;
+  margin: 0 0 10px;
+}
+.leisure-caption {
+  font-size: 12px;
+  color: var(--v-muted);
+  line-height: 1.85;
+  margin: 0 0 18px;
+}
+.leisure-card-content > .voyage-button {
+  margin-top: auto;
+  align-self: start;
+}
+.leisure-related {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 22px 0;
+}
+.voyage-dialog[data-viewer="photo"] {
+  width: min(1080px, calc(100% - 28px));
+  max-width: 1080px;
+}
+.voyage-dialog[data-viewer="photo"] .voyage-figure img {
+  aspect-ratio: 4/3;
+  object-fit: contain;
+}
+.voyage-dialog[data-viewer="photo"] .voyage-reader {
+  padding: clamp(14px, 3vw, 28px);
+}
+@media (max-width: 1000px) {
+  .leisure-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .leisure-heading {
+    align-items: start;
+  }
+  .leisure-heading h2 {
+    font-size: 30px;
+  }
+  .voyage-tools > label {
+    flex-basis: 100%;
+    width: 100%;
+  }
+}
+@media (max-width: 600px) {
+  .leisure-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .leisure-heading {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .leisure-heading h2 {
+    font-size: 28px;
+  }
+  .leisure-intro {
+    font-size: 14px;
+  }
+  .leisure-card-content {
+    padding: 18px;
+  }
+  .leisure-related > * {
+    width: 100%;
+  }
+  #voyageAlbumBtn {
+    font-size: 11px;
+    padding: 8px;
+  }
+  .voyage-tools > span {
+    display: none;
+  }
+}
+/* Fit the entire source inside the lightbox; keep its intrinsic ratio when height is capped. */
+.voyage-dialog[data-viewer=photo] .voyage-figure img{width:auto;max-width:100%;height:auto;max-height:calc(92dvh - 210px);margin:0 auto;object-fit:contain}
