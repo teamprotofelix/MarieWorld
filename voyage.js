@@ -136,13 +136,14 @@ async function showAlbum() {
   $("leisureAlbum").setAttribute("aria-busy", "true");
   try {
     await ensureAlbum();
+    if (request !== albumRequest) return false;
+    // Prepare hidden content too, so returning after a slow request shows the album.
+    renderAlbum();
     if (
-      request !== albumRequest ||
       !selected ||
       !$("diaryPanel").classList.contains("active")
     )
       return false;
-    renderAlbum();
     $("leisureTitle").focus({ preventScroll: true });
     $("leisureAlbum").scrollIntoView({ block: "start", behavior: "instant" });
     return true;

@@ -50,6 +50,10 @@
     "status": "passed"
   },
   {
+    "check": "slow album response while away: home and original-diary returns show all five photos without stealing focus",
+    "status": "passed"
+  },
+  {
     "check": "actual v06-voyage-2 -> v07 SW keeps open reader until user approval; old cache removed",
     "status": "passed"
   },

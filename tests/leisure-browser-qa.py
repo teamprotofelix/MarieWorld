@@ -98,6 +98,19 @@ with sync_playwright() as p:
  failure=browser.new_context(service_workers='block');fp=failure.new_page();fp.on('pageerror',lambda e:errors.append(str(e)));fp.route('**/data/marie_leisure_gallery.json',lambda r:r.fulfill(status=503,body='unavailable'));fp.route('**/assets/marie-leisure/01_garden.webp',lambda r:r.abort());fp.goto(URL+'#diary');fp.locator('#voyageDiaryBtn').click();expect(fp.locator('.voyage-card')).to_have_count(12);fp.locator('#voyageAlbumBtn').click();expect(fp.locator('#leisureError')).to_be_visible();fp.locator('#leisureBack').click();expect(fp.locator('#voyageArchive')).to_be_visible()
  fp.unroute('**/data/marie_leisure_gallery.json');fp.locator('#voyageAlbumBtn').click();expect(fp.locator('.leisure-card')).to_have_count(5);fp.locator('[data-photo-open="MARIE-LEISURE-01"]').click();expect(fp.locator('#voyageStoryImage .voyage-image-fallback')).to_be_visible();expect(fp.locator('#voyageStoryBody')).to_contain_text(album['photos'][0]['caption']);fp.locator('#voyageRelatedEntry').click();matches_entry(fp,volume['entries'][0]);failure.close()
  record('album JSON failure preserves archive; retry and missing original-image fallback retain diary links')
+ # Resolve an in-flight album request while its page/collection is hidden.
+ for leave in ['home','marie']:
+  delayed=browser.new_context(service_workers='block');dp=delayed.new_page();wire(dp);pending=[]
+  dp.route('**/data/marie_leisure_gallery.json',lambda route:pending.append(route));dp.goto(URL+'#diary');enter(dp);dp.locator('#voyageAlbumBtn').click();expect(dp.locator('#leisureLoading')).to_be_visible()
+  dp.locator('[data-panel=home]' if leave=='home' else '#marieDiaryBtn').click()
+  assert pending
+  pending[0].fulfill(status=200,content_type='application/json',body=json.dumps(album,ensure_ascii=False))
+  expect(dp.locator('#leisureAlbum')).to_have_attribute('aria-busy','false');assert dp.locator('.leisure-card').count()==5
+  assert not dp.evaluate("document.activeElement.id==='leisureTitle'"),'background load must not move focus'
+  dp.locator('[data-panel=diary]' if leave=='home' else '#voyageDiaryBtn').click()
+  expect(dp.locator('#leisureAlbum')).to_be_visible();expect(dp.locator('.leisure-card')).to_have_count(5);expect(dp.locator('#leisureLoading')).to_be_hidden();expect(dp.locator('#leisureError')).to_be_hidden()
+  dp.locator('[data-photo-open="MARIE-LEISURE-01"]').click();matches_photo(dp,album['photos'][0]);delayed.close()
+ record('slow album response while away: home and original-diary returns show all five photos without stealing focus')
  # Actual current-main v06.2 cache -> new v07, without resetting an open reader.
  server.old=True;upgrade=browser.new_context(viewport={'width':1440,'height':900});up=upgrade.new_page();wire(up);up.goto(URL);up.evaluate('navigator.serviceWorker.ready.then(()=>true)');up.reload();up.wait_for_function('navigator.serviceWorker.controller!==null');enter(up);assert up.locator('#voyageAlbumBtn').count()==0;up.locator('[data-open-entry="V001-01"]').click()
  server.old=False;up.evaluate('navigator.serviceWorker.getRegistration().then(r=>r.update())');up.wait_for_function("!document.getElementById('pwaUpdateBtn').classList.contains('hidden')");expect(up.locator('#voyageDialog')).to_be_visible();expect(up.locator('#voyageStoryTitle')).to_have_text(first['entries'][0]['title']);assert up.locator('#voyageAlbumBtn').count()==0
