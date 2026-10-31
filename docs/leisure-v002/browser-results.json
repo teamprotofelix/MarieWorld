@@ -1,0 +1,70 @@
+[
+  {
+    "check": "002 five exact journal bodies and 16:9 frames, approximate clocks, DAY001 fixed snapshot and canon",
+    "status": "passed"
+  },
+  {
+    "check": "001 remains 12 records; album has five independent 1448x1086 images with complete 4:3 layout",
+    "status": "passed"
+  },
+  {
+    "check": "all five enlarged photos: title/activity/caption/alt, Tab trap, Escape and opener focus",
+    "status": "passed"
+  },
+  {
+    "check": "all five bidirectional photo/journal links and previous/next boundaries",
+    "status": "passed",
+    "mapping": [
+      [
+        "MARIE-LEISURE-01",
+        "V002-01"
+      ],
+      [
+        "MARIE-LEISURE-02",
+        "V002-03"
+      ],
+      [
+        "MARIE-LEISURE-03",
+        "V002-05"
+      ],
+      [
+        "MARIE-LEISURE-04",
+        "V002-04"
+      ],
+      [
+        "MARIE-LEISURE-05",
+        "V002-02"
+      ]
+    ]
+  },
+  {
+    "check": "light/dark shared reader, original WebP download, 12 repeat cycles, scroll release and archive return",
+    "status": "passed"
+  },
+  {
+    "check": "768x1024 and 390x844 touch: independent photos, linked diaries, themes, landscape, reduced motion (emulated)",
+    "status": "passed"
+  },
+  {
+    "check": "album JSON failure preserves archive; retry and missing original-image fallback retain diary links",
+    "status": "passed"
+  },
+  {
+    "check": "actual v06-voyage-2 -> v07 SW keeps open reader until user approval; old cache removed",
+    "status": "passed"
+  },
+  {
+    "check": "offline after upgrade: all 002 journals, all five originals, mutual links, 001 twelve records and original ten diaries",
+    "status": "passed"
+  },
+  {
+    "check": "upgraded offline app retains ten room starts, animated Auto/Manual flight, routes and resources",
+    "status": "passed"
+  },
+  {
+    "check": "clean-run browser exceptions and HTTP errors absent",
+    "status": "passed",
+    "errors": [],
+    "http_errors": []
+  }
+]

@@ -5,6 +5,15 @@ import {
   bodyParts,
   snapshotText,
 } from "./voyage-data.js";
+import {
+  LEISURE_COLLECTION,
+  LEISURE_SOURCE,
+  validateLeisureGallery,
+  photoTime,
+  relatedEntry,
+  relatedPhoto,
+  imageDimensions,
+} from "./leisure-data.js";
 const $ = (id) => document.getElementById(id);
 const root = $("voyageCollection"),
   dialog = $("voyageDialog"),
@@ -24,6 +33,11 @@ let registry = null,
 let loading = null,
   loadGeneration = 0;
 const cache = new Map();
+let album = null,
+  albumPromise = null,
+  albumSelected = false,
+  albumRequest = 0,
+  viewerKind = "story";
 function el(tag, className, value) {
   const node = document.createElement(tag);
   if (className) node.className = className;
@@ -35,15 +49,18 @@ function figure(src, alt, { cover = false } = {}) {
   const image = el("img");
   image.src = src;
   image.alt = alt;
-  image.width = cover ? 1600 : 960;
-  image.height = cover ? 900 : 540;
+  const dimensions = imageDimensions(src, cover);
+  image.width = dimensions.width;
+  image.height = dimensions.height;
+  image.style.aspectRatio = `${dimensions.width} / ${dimensions.height}`;
   image.loading = cover ? "eager" : "lazy";
   image.decoding = "async";
   const fallback = el(
-    "p",
+    "span",
     "voyage-image-fallback",
     "이미지를 표시할 수 없습니다. " + alt,
   );
+  fallback.style.aspectRatio = `${dimensions.width} / ${dimensions.height}`;
   fallback.hidden = true;
   image.addEventListener("error", () => {
     image.hidden = true;
@@ -67,9 +84,140 @@ function setTheme(value, user = false) {
 }
 function count() {
   if (!selected) return;
-  $("diaryCount").textContent = entries
-    ? `함께한 항해 ${entries.entries.length}편`
-    : "항해 기록";
+  $("diaryCount").textContent = albumSelected
+    ? "마리의 여가 사진 5장"
+    : entries
+      ? `함께한 항해 ${entries.entries.length}편`
+      : "항해 기록";
+}
+function syncSubView() {
+  $("voyageArchive").hidden = albumSelected;
+  $("leisureAlbum").hidden = !albumSelected;
+  $("voyageVolumeLabel").hidden =
+    albumSelected || !registry || registry.collections.length < 2;
+  $("voyageAlbumBtn").hidden = !registry?.collections.some(
+    (c) => c.id === LEISURE_COLLECTION,
+  );
+  $("voyageAlbumBtn").setAttribute("aria-pressed", String(albumSelected));
+}
+function setAlbum(value) {
+  albumSelected = value;
+  albumRequest++;
+  closeStory();
+  syncSubView();
+  count();
+  if (!value) {
+    $("leisureAlbum").setAttribute("aria-busy", "false");
+    $("voyageAlbumBtn").focus({ preventScroll: true });
+  }
+}
+async function ensureAlbum() {
+  if (album) return album;
+  if (albumPromise) return albumPromise;
+  albumPromise = (async () => {
+    const c = registry.collections.find((c) => c.id === LEISURE_COLLECTION);
+    if (!c) throw new Error("사진첩의 항해권을 찾을 수 없습니다.");
+    const volume =
+      cache.get(c.id) || validateCollection(await json(c.source), c.id);
+    const data = validateLeisureGallery(await json(LEISURE_SOURCE), volume);
+    cache.set(c.id, volume);
+    album = data;
+    return data;
+  })().finally(() => {
+    albumPromise = null;
+  });
+  return albumPromise;
+}
+async function showAlbum() {
+  setAlbum(true);
+  const request = albumRequest;
+  $("leisureLoading").hidden = false;
+  $("leisureError").hidden = true;
+  $("leisureAlbum").setAttribute("aria-busy", "true");
+  try {
+    await ensureAlbum();
+    if (
+      request !== albumRequest ||
+      !selected ||
+      !$("diaryPanel").classList.contains("active")
+    )
+      return false;
+    renderAlbum();
+    $("leisureTitle").focus({ preventScroll: true });
+    $("leisureAlbum").scrollIntoView({ block: "start", behavior: "instant" });
+    return true;
+  } catch {
+    if (request === albumRequest) $("leisureError").hidden = false;
+    return false;
+  } finally {
+    if (request === albumRequest) {
+      $("leisureLoading").hidden = true;
+      $("leisureAlbum").setAttribute("aria-busy", "false");
+    }
+  }
+}
+function renderAlbum() {
+  $("leisureNotes").textContent = album.notes;
+  $("leisureCards").replaceChildren(
+    ...album.photos.map((photo) => {
+      const card = el("article", "leisure-card");
+      card.dataset.photoId = photo.id;
+      const frame = figure(photo.image, photo.alt),
+        open = el("button", "leisure-photo-open");
+      open.type = "button";
+      open.dataset.photoOpen = photo.id;
+      open.setAttribute("aria-label", photo.title + " 사진 확대");
+      open.append(...frame.childNodes);
+      frame.append(open);
+      const content = el("div", "leisure-card-content");
+      content.append(
+        el("p", "voyage-meta", photoTime(photo)),
+        el("h3", "", photo.title),
+        el("p", "leisure-activity", photo.activity + " · " + photo.place),
+        el("p", "leisure-summary", photo.summary),
+        el("p", "leisure-caption", photo.caption),
+      );
+      const read = el("button", "voyage-button", "관련 항해일지 읽기 ↗");
+      read.type = "button";
+      read.dataset.photoEntry = photo.id;
+      content.append(read);
+      card.append(frame, content);
+      return card;
+    }),
+  );
+}
+async function goToEntry(photo) {
+  if (!photo) return;
+  closeStory();
+  setAlbum(false);
+  if (activeId !== LEISURE_COLLECTION) await load(LEISURE_COLLECTION);
+  if (
+    !selected ||
+    !$("diaryPanel").classList.contains("active") ||
+    activeId !== LEISURE_COLLECTION
+  )
+    return;
+  const entry = relatedEntry(photo, entries),
+    launcher =
+      entry &&
+      $("voyageCards").querySelector(`[data-open-entry="${entry.id}"]`);
+  if (launcher) {
+    launcher.scrollIntoView({ block: "center", behavior: "instant" });
+    showStory(entry.id, launcher);
+  }
+}
+async function goToPhoto(entry) {
+  closeStory();
+  const ready = await showAlbum();
+  if (!ready) return;
+  const photo = relatedPhoto(entry, album),
+    launcher =
+      photo &&
+      $("leisureCards").querySelector(`[data-photo-open="${photo.id}"]`);
+  if (launcher) {
+    launcher.scrollIntoView({ block: "center", behavior: "instant" });
+    showPhoto(photo.id, launcher);
+  }
 }
 function choose(voyage) {
   selected = voyage;
@@ -196,32 +344,31 @@ function render() {
   );
   $("voyageCopyStatus").textContent = "";
   setTheme(theme);
+  syncSubView();
 }
-function showStory(id, launcher) {
-  const entry = entries?.entries.find((e) => e.id === id);
-  if (!entry) return;
+function prepareViewer(kind, id, launcher, index, total) {
   if (!dialog.open) {
     returnFocus = launcher;
     previousOverflow = document.body.style.overflow;
     scrollPosition = scrollY;
     document.body.style.overflow = "hidden";
   }
+  viewerKind = kind;
   opening = id;
-  const index = entries.entries.indexOf(entry);
-  $("voyageStoryTitle").textContent = entry.title;
-  $("voyageStoryMeta").textContent = sceneTime(entry) + " · " + entry.category;
-  $("voyageStoryPosition").textContent =
-    `${index + 1} / ${entries.entries.length}`;
-  $("voyageStoryImage").replaceChildren(
-    figure(entry.image, entry.alt, { cover: false }),
+  dialog.dataset.viewer = kind;
+  $("voyageStoryClose").setAttribute(
+    "aria-label",
+    kind === "photo" ? "사진 닫기" : "항해 기록 닫기",
   );
-  body.replaceChildren(
-    ...bodyParts(entry.body).map((part) =>
-      el("p", part.inner ? "voyage-inner" : "voyage-paragraph", part.text),
-    ),
-  );
+  $("voyageStoryPosition").textContent = `${index + 1} / ${total}`;
   $("voyagePrevious").disabled = index === 0;
-  $("voyageNext").disabled = index === entries.entries.length - 1;
+  $("voyageNext").disabled = index === total - 1;
+  $("voyagePrevious").textContent =
+    kind === "photo" ? "← 이전 사진" : "← 이전 기록";
+  $("voyageNext").textContent =
+    kind === "photo" ? "다음 사진 →" : "다음 기록 →";
+}
+function completeViewer() {
   if (!dialog.open) {
     dialog.showModal();
     $("voyageStoryTitle").focus({ preventScroll: true });
@@ -229,6 +376,62 @@ function showStory(id, launcher) {
   dialog.scrollTop = 0;
   if (document.activeElement.disabled)
     $("voyageStoryTitle").focus({ preventScroll: true });
+}
+function showStory(id, launcher) {
+  const entry = entries?.entries.find((e) => e.id === id);
+  if (!entry) return;
+  prepareViewer(
+    "story",
+    id,
+    launcher,
+    entries.entries.indexOf(entry),
+    entries.entries.length,
+  );
+  $("voyageStoryTitle").textContent = entry.title;
+  $("voyageStoryMeta").textContent = sceneTime(entry) + " · " + entry.category;
+  $("voyageStoryImage").replaceChildren(figure(entry.image, entry.alt));
+  body.replaceChildren(
+    ...bodyParts(entry.body).map((part) =>
+      el("p", part.inner ? "voyage-inner" : "voyage-paragraph", part.text),
+    ),
+  );
+  $("voyageRelatedLinks").hidden = activeId !== LEISURE_COLLECTION;
+  $("voyageRelatedPhoto").hidden = activeId !== LEISURE_COLLECTION;
+  $("voyageRelatedEntry").hidden = true;
+  $("leisureOriginal").hidden = true;
+  completeViewer();
+}
+function showPhoto(id, launcher) {
+  const photo = album?.photos.find((p) => p.id === id);
+  if (!photo) return;
+  prepareViewer(
+    "photo",
+    id,
+    launcher,
+    album.photos.indexOf(photo),
+    album.photos.length,
+  );
+  $("voyageStoryTitle").textContent = photo.title;
+  $("voyageStoryMeta").textContent = photoTime(photo) + " · " + photo.activity;
+  $("voyageStoryImage").replaceChildren(figure(photo.image, photo.alt));
+  body.replaceChildren(
+    el("p", "voyage-caption", photo.place + " · 1448 × 1086 · 전체 4:3 구도"),
+    el("p", "voyage-paragraph", photo.summary),
+    el("p", "voyage-paragraph", photo.caption),
+  );
+  $("voyageRelatedLinks").hidden = false;
+  $("voyageRelatedPhoto").hidden = true;
+  $("voyageRelatedEntry").hidden = false;
+  $("leisureOriginal").hidden = false;
+  $("leisureOriginal").href = photo.image;
+  completeViewer();
+}
+function moveViewer(delta) {
+  if (!opening) return;
+  const list = viewerKind === "photo" ? album.photos : entries.entries,
+    index = list.findIndex((item) => item.id === opening),
+    next = list[index + delta];
+  if (next) (viewerKind === "photo" ? showPhoto : showStory)(next.id);
 }
 function restore() {
   if (opening === null) return;
@@ -262,14 +465,26 @@ $("voyageCards").addEventListener("click", (e) => {
   if (button) showStory(button.dataset.openEntry, button);
 });
 $("voyageStoryClose").addEventListener("click", closeStory);
-$("voyagePrevious").addEventListener("click", () => {
-  const i = entries.entries.findIndex((e) => e.id === opening);
-  if (i > 0) showStory(entries.entries[i - 1].id);
+$("voyagePrevious").addEventListener("click", () => moveViewer(-1));
+$("voyageNext").addEventListener("click", () => moveViewer(1));
+$("voyageAlbumBtn").addEventListener("click", () =>
+  albumSelected ? setAlbum(false) : showAlbum(),
+);
+$("leisureBack").addEventListener("click", () => setAlbum(false));
+$("leisureRetry").addEventListener("click", showAlbum);
+$("leisureCards").addEventListener("click", (e) => {
+  const open = e.target.closest("[data-photo-open]"),
+    read = e.target.closest("[data-photo-entry]");
+  if (open) showPhoto(open.dataset.photoOpen, open);
+  if (read)
+    goToEntry(album.photos.find((p) => p.id === read.dataset.photoEntry));
 });
-$("voyageNext").addEventListener("click", () => {
-  const i = entries.entries.findIndex((e) => e.id === opening);
-  if (i < entries.entries.length - 1) showStory(entries.entries[i + 1].id);
-});
+$("voyageRelatedEntry").addEventListener("click", () =>
+  goToEntry(album.photos.find((p) => p.id === opening)),
+);
+$("voyageRelatedPhoto").addEventListener("click", () =>
+  goToPhoto(entries.entries.find((e) => e.id === opening)),
+);
 dialog.addEventListener("cancel", (e) => {
   e.preventDefault();
   closeStory();
