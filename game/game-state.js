@@ -26,7 +26,7 @@ export function createGameState(legacy = DEFAULT_LEGACY, { newEconomy = false } 
   if (typeof newEconomy !== 'boolean') throw new TypeError('Invalid feature flag');
   const v = structuredClone(legacy);
   return freeze({ schemaVersion: SCHEMA_VERSION, scope: 'play-session', day: v.day, minute: v.minute, mode: 'healing', stats: v.stats,
-    crew: { marie: { room: v.room, action: 'idle', lastActionRoom: null } }, missions: {}, research: { points: 0, unlocked: [] },
+    crew: { marie: { room: v.room, action: 'idle', lastActionRoom: null } }, missions: {}, exploration: { sequence: 0, active: null, history: [] }, research: { points: 0, unlocked: [] },
     modules: { baseRooms: [...ROOM_IDS], installed: {} }, resources: { amounts: { ...v.stats }, lastRescueAt: null }, progress: { materials: 8 }, session: { auto: v.auto, speed: v.speed, destination: v.destination, feed: v.feed },
     features: { newEconomy }, playLog: [], processedEventIds: [] });
 }

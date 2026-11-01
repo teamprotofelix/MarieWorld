@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="game-ui.css" />
   <script type="module" src="crew-life.js"></script>
   <script type="module" src="survival-ui.js"></script>
+  <script type="module" src="exploration-ui.js"></script>
   <link rel="stylesheet" href="room-events.css" />
   <script type="module" src="room-events.js"></script>
   <link rel="stylesheet" href="voyage.css" />
@@ -34,7 +35,7 @@
   <div class="site-shell">
     <header class="topbar glass">
       <a class="brand" href="#home" aria-label="Marie World 홈"><span class="brand-planet">✦</span><span><strong>MARIE <em>WORLD</em></strong><small>A SMALL SHIP, A BIG HOME.</small></span></a>
-      <nav aria-label="주 메뉴"><button class="nav-btn active" data-panel="home">⌂ 우주선</button><button class="nav-btn" data-panel="diary">✎ 항해 일기</button><button class="nav-btn" data-panel="route">✧ 별 지도</button></nav>
+      <nav aria-label="주 메뉴"><button class="nav-btn active" data-panel="home">⌂ 우주선</button><button class="nav-btn" data-panel="diary">✎ 항해 일기</button><button class="nav-btn" data-panel="route">✧ 별 지도</button><button class="nav-btn" data-panel="exploration">⌘ 탐사·연구</button></nav>
       <div class="top-actions"><button id="installBtn" class="tiny-button" type="button">✦ 앱 설치</button><span class="online"><i></i> LIVE · 우리 둘의 항해</span><button class="icon-btn" id="muteBtn" title="효과음 켜기/끄기" aria-label="효과음 켜기/끄기">♫</button><button class="icon-btn" id="helpBtn" aria-label="도움말">?</button></div>
     </header>
 
@@ -147,6 +148,7 @@
           </div>
         </section>
       </section>
+      <section id="explorationPanel" class="panel-view" aria-labelledby="labTitle"><div class="headline"><div><p class="eyebrow">PLAY SESSION / EXPLORATION &amp; RESEARCH</p><h1 id="labTitle">별빛을 관측하고, <span>내일을 준비해요.</span></h1><p>이 화면의 임무·재료·연구는 자유 플레이 기록입니다. 공식 항해권이나 미해결 사건의 정체를 바꾸지 않습니다.</p></div></div><section class="glass life-panel"><div class="life-heading"><div><h2>현재 항로 · <span id="missionRoute"></span></h2><p>항로는 별 지도에서 선택합니다. 생존 탐험 모드에서 임무를 시작할 수 있어요. 준비 비용은 철수·실패 시 반환하지 않으며 추가 차감은 없습니다.</p><p id="labResources"></p></div><div class="game-actions"><button id="labHome" class="secondary-btn">자원·생활로</button><button id="labPause" class="secondary-btn">생활 시간 멈추기</button></div></div><p id="labMessage" class="game-note" role="status"></p><div class="lab-grid"><figure class="lab-hero"><img id="missionImage" width="1672" height="941" loading="lazy" decoding="async" alt="마리의 관측과 정비를 그린 고정 생활 장면. 임무 진행은 별도 표시합니다." /><figcaption class="game-note">생활 장면 콘셉트 · 정지 그림</figcaption><p id="missionStatus" role="status"></p><progress id="missionProgress" max="1" value="0" aria-label="탐사 임무 진행"></progress><button id="missionWithdraw" class="secondary-btn" disabled>임무 철수 · 준비 비용 미환급</button></figure><div id="missionCards" class="game-cards"></div></div><details id="researchDetails" class="research-details"><summary>연구 기술 · 관측에서 생활 설비까지</summary><img id="researchImage" data-src="assets/concepts/v2/08_research_recycling_module.webp" width="1672" height="941" alt="연구와 재활용 설비의 미래 콘셉트. 실제 해금은 연구 카드에 표시됩니다." loading="lazy" /><div id="techCards" class="tech-cards"></div></details><h3>플레이 관측 로그</h3><p class="game-note">최근 8개 표시 · 미지 신호는 관측과 판별 보류까지만 기록합니다.</p><ol id="missionLog" class="game-note"></ol></section></section>
       <section id="routePanel" class="panel-view" aria-label="항로 지도"><div class="headline"><div><p class="eyebrow">ASTÉRIA-2 // DEEP SPACE</p><h1>다음 별에서는 <span>무슨 일이 있을까요?</span></h1><p>마리와 함께 목적지를 정해 보세요. 자동 여행 모드에서는 시간이 흐르면 다음 지역으로 이동합니다.</p></div></div><div id="destinations" class="destination-grid"></div></section>
     </main>
     <footer class="footer">MARIE WORLD <span>✦</span> 두 사람이 살아가는 작은 우주선 · 정적 우주 힐링 시뮬레이션 · 개인 데이터 수집 없음</footer>

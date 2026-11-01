@@ -2,7 +2,7 @@ import { changeResources, levels } from './game/resource-model.js';
 import { game } from './game/session.js';
 import { simulationPaused } from './game/runtime.js';
 import { ROOMS } from './game/rooms.js';
-const DEST=[['nebula','푸른 성운 회랑','보라색 빛이 천천히 흐르는 곳. 창가에서 마리가 차를 마십니다.'],['gold','황금 고리 행성','금빛 소행성 사이를 지나 새로운 광경을 만납니다.'],['ice','오로라 얼음 세계','얼음 행성의 하늘에 옅은 빛이 일렁입니다.']];
+import { DEST } from './game/routes.js';
 let state = game.read();
 function updateState(change) { state = game.update(change); }
 const $=id=>document.getElementById(id); const qs=s=>document.querySelector(s);const all=s=>document.querySelectorAll(s);

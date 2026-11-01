@@ -163,7 +163,7 @@ test("new photos, frames, metadata, canon and viewer code are in one versioned o
     sw + ";globalThis.paths=ASSETS;globalThis.version=VERSION",
     box,
   );
-  assert.equal(box.version, "marie-v2-survival-1");
+  assert.equal(box.version, "marie-v2-exploration-1");
   const m = await json("data/assets_manifest.json");
   for (const path of [
     ...m.assets.map((a) => a.path),

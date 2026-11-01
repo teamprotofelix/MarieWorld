@@ -41,3 +41,13 @@ def upgrade_and_offline(b,server,report):
  ctx.set_offline(True);pg.reload();pg.locator('[data-panel=diary]').click();pg.locator('#voyageDiaryBtn').click();expect(pg.locator('.voyage-card')).to_have_count(12);pg.locator('#voyageVolume').select_option('AST2-VOYAGE-002');expect(pg.locator('.voyage-card')).to_have_count(5);pg.locator('#voyageAlbumBtn').click();expect(pg.locator('.leisure-card')).to_have_count(5);pg.locator('[data-photo-open="MARIE-LEISURE-01"]').click();pg.locator('#voyageStoryImage img').evaluate('im=>im.decode()');assert pg.locator('#voyageStoryImage img').evaluate('im=>[im.naturalWidth,im.naturalHeight]')==[1448,1086];pg.locator('#voyageRelatedEntry').click();expect(pg.locator('#voyageStoryTitle')).not_to_be_empty();pg.locator('#voyageStoryClose').click();pg.locator('[data-panel=home]').click()
  report.passed('latest merged cutaway worker -> current waits for approval; 001/002 and full 4:3 photo/journal link work offline')
  return ctx,pg
+def enable_survival(pg):
+ pg.locator('#survivalMode').click();pg.locator('#survivalConfirm').click();expect(pg.locator('#modeLabel')).to_contain_text('생존 탐험')
+def enter_lab(pg):pg.locator('[data-panel=exploration]').click();expect(pg.locator('#explorationPanel')).to_be_visible()
+def run_mission(pg,kind):
+ duration={'observe':8,'drone':12,'sample':14}[kind];pg.locator(f'[data-mission={kind}]').click();advance(pg,duration+2);assert snapshot(pg)['exploration']['active'] is None
+
+def unlock_all(pg):
+ pg.evaluate('Math.random=()=>.99');enter_lab(pg);pg.locator('#researchDetails>summary').click()
+ run_mission(pg,'observe');run_mission(pg,'observe');pg.locator('[data-research=scanner]').click();run_mission(pg,'drone');pg.locator('[data-research=habitat]').click();run_mission(pg,'sample');run_mission(pg,'sample');pg.locator('[data-research=recycling]').click()
+ assert snapshot(pg)['research']['unlocked']==['scanner','habitat','recycling']

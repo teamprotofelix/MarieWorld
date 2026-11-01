@@ -40,3 +40,7 @@
 .game-dialog{width:min(560px,calc(100vw - 24px));max-height:90dvh;overflow:auto;background:#102337;color:#dce9ec;border:1px solid #8baeb7;border-radius:18px;padding:24px;line-height:1.9}
 .game-dialog h2{color:#efdab4;font-size:23px}.game-dialog::backdrop{background:#020b19dd}
 @media(max-width:720px){.resource-rows{grid-template-columns:1fr}.game-dialog{padding:18px}}
+
+.lab-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px;margin-top:20px}.lab-hero{margin:0;min-width:0}.lab-hero img{display:block;width:100%;height:auto;border-radius:13px}.lab-hero progress{display:block;width:100%;accent-color:#b9dfcd;margin:15px 0}.game-cards{display:grid;gap:12px}.game-card{border:1px solid #668c9c66;border-radius:12px;padding:16px;background:#13293c}.game-card h3{font-size:17px;color:#eed3ad;margin:0 0 8px}.game-card p{font-size:12px;line-height:1.7;color:#bad0da}.game-card button{min-height:44px}.game-card button:disabled{opacity:.45;cursor:default}.research-details{margin-top:24px;border-top:1px solid #7593a655;padding-top:18px}.research-details summary{cursor:pointer;padding:10px 0;color:#e6d2b3;font-weight:bold}.research-details>img{display:block;width:min(100%,650px);height:auto;margin:15px 0;border-radius:12px}.research-details>img[hidden]{display:none}.tech-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:15px}@media(max-width:720px){.lab-grid,.tech-cards{grid-template-columns:1fr}}
+
+@media(max-width:720px){.topbar nav .nav-btn{min-width:0;min-height:44px;font-size:11px;line-height:1.35}}
