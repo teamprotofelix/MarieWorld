@@ -1,0 +1,70 @@
+{
+  "schema_version": 2,
+  "reference_only": true,
+  "assets": [
+    {
+      "file": "assets/concepts/v2/01_hydroponic_garden_marie.webp",
+      "width": 1672,
+      "height": 941,
+      "format": "WebP",
+      "size_bytes": 442986,
+      "sha256": "cd24c7761f0e9f929fdfeab8cb9209cf579a486f3a4b3d552d0e69c47e3ac0a7"
+    },
+    {
+      "file": "assets/concepts/v2/02_exterior_giant_starship_castle.webp",
+      "width": 1672,
+      "height": 941,
+      "format": "WebP",
+      "size_bytes": 479116,
+      "sha256": "ba32b4cd975130bbcfe0f8740479adb1adfd119c3f8a2ff7920536ffe122261d"
+    },
+    {
+      "file": "assets/concepts/v2/03_multideck_cross_section_cutaway.webp",
+      "width": 1672,
+      "height": 941,
+      "format": "WebP",
+      "size_bytes": 580640,
+      "sha256": "1113e6897216c44d7e0316d783a515afb3d00fdbd20cda97d5eda41f5b491e93"
+    },
+    {
+      "file": "assets/concepts/v2/04_galley_kitchen_teatime.webp",
+      "width": 1672,
+      "height": 941,
+      "format": "WebP",
+      "size_bytes": 529772,
+      "sha256": "79b5925615b35b4bb3df339014b310d0bdab4c851a6770bd5a3791babd226689"
+    },
+    {
+      "file": "assets/concepts/v2/05_workshop_drone_repair.webp",
+      "width": 1672,
+      "height": 941,
+      "format": "WebP",
+      "size_bytes": 506570,
+      "sha256": "c77ebde25a24810a6d73c62e839d090752dd2e74984ff340a78f0f14a71621c6"
+    },
+    {
+      "file": "assets/concepts/v2/06_observatory_voyage_diary.webp",
+      "width": 1672,
+      "height": 941,
+      "format": "WebP",
+      "size_bytes": 479568,
+      "sha256": "0ca87db9a32351d0468d21011de7647ac0eca311b572dd480cdf1214ca57549b"
+    },
+    {
+      "file": "assets/concepts/v2/07_hangar_expansion_module.webp",
+      "width": 1672,
+      "height": 941,
+      "format": "WebP",
+      "size_bytes": 522272,
+      "sha256": "7c436956c5441c1ddf94418889ebd5a5b88ac9113cfc0ac160370bb1f4ae802c"
+    },
+    {
+      "file": "assets/concepts/v2/08_research_recycling_module.webp",
+      "width": 1672,
+      "height": 941,
+      "format": "WebP",
+      "size_bytes": 558488,
+      "sha256": "884811a04f5c3af4d7b4848005c69ad0b86039fad3fd503c91e225f1388e76ad"
+    }
+  ]
+}

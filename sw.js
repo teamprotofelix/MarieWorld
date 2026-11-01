@@ -1,9 +1,26 @@
-const VERSION='marie-v2-state-1';
-const ASSETS=['./','./index.html','./app.js','./game/game-state.js','./game/game-events.js','./game/legacy-adapter.js','./flight.js','./flight-model.js','./flight-scene.js','./room-events.js','./room-models.js','./room-games.js','./room-events.css','./leisure-data.js','./leisure.css','./data/marie_leisure_gallery.json','./data/assets_manifest.json','./data/voyage-002/entries.json','./data/voyage-002/CANON_MEMORY.md','./voyage.js','./voyage-data.js','./voyage.css','./data/voyage_collections.json','./data/voyage_entries.json','./data/image_manifest.json','./data/CANON_MEMORY.md','./pwa.js','./styles.css','./manifest.webmanifest','./icons/icon.svg','./icons/maskable.svg','./icons/icon-192.png','./icons/icon-512.png','./icons/icon-maskable-512.png',...['map','hero','sprite','cockpit','garden','kitchen','lounge','bedroom','workshop','cargo','observatory','engine','corridor','nebula','gold','ice'].map(x=>'./assets/'+x+(x==='sprite'?'.svg':'.webp'))];
+const VERSION='marie-v2-exterior-1';
+const ASSETS=['./','./index.html','./app.js','./ship-views.js','./ship-exterior.js','./ship-v2.css','./game/game-state.js','./game/game-events.js','./game/legacy-adapter.js','./flight.js','./flight-model.js','./flight-scene.js','./room-events.js','./room-models.js','./room-games.js','./room-events.css','./leisure-data.js','./leisure.css','./data/marie_leisure_gallery.json','./data/assets_manifest.json','./data/voyage-002/entries.json','./data/voyage-002/CANON_MEMORY.md','./voyage.js','./voyage-data.js','./voyage.css','./data/voyage_collections.json','./data/voyage_entries.json','./data/image_manifest.json','./data/CANON_MEMORY.md','./pwa.js','./styles.css','./manifest.webmanifest','./icons/icon.svg','./icons/maskable.svg','./icons/icon-192.png','./icons/icon-512.png','./icons/icon-maskable-512.png',...['map','hero','sprite','cockpit','garden','kitchen','lounge','bedroom','workshop','cargo','observatory','engine','corridor','nebula','gold','ice'].map(x=>'./assets/'+x+(x==='sprite'?'.svg':'.webp'))];
 ASSETS.push(...['nebula','ring','ice','lava','sun','blackhole','comet','gate','asteroid','constellation',...Array.from({length:8},(_,i)=>'ship-'+String(i+1).padStart(2,'0'))].map(x=>'./assets/flight/'+x+'.webp'));
 ASSETS.push(...['00_voyage_cover','01_launch','02_marie_pilot','03_unknown_signal','04_shared_cockpit','05_steak_plate','06_marie_cooking','07_dessert_lab','08_subspace_storage','09_expanded_interior','10_many_maries','11_identity_conversation','12_dark_forest','13_together_stargazing','14_marie_reflection','15_voyage_journal'].map(x=>'./assets/voyage-001/'+x+'.webp'));
 ASSETS.push(...['01_garden','02_cat_reading','03_journal','04_drone_repair','05_tea_time'].flatMap(x=>['./assets/marie-leisure/'+x+'.webp','./assets/voyage-002/'+x+'.webp']),'./assets/voyage-002/00_album_cover.webp');
+const OPTIONAL_ASSETS=['./assets/concepts/v2/01_hydroponic_garden_marie.webp', './assets/concepts/v2/02_exterior_giant_starship_castle.webp', './assets/concepts/v2/03_multideck_cross_section_cutaway.webp', './assets/concepts/v2/04_galley_kitchen_teatime.webp', './assets/concepts/v2/05_workshop_drone_repair.webp', './assets/concepts/v2/06_observatory_voyage_diary.webp', './assets/concepts/v2/07_hangar_expansion_module.webp', './assets/concepts/v2/08_research_recycling_module.webp'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(VERSION).then(c=>c.addAll(ASSETS))));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(x=>x.startsWith('marie-')&&x!==VERSION).map(x=>caches.delete(x))))));
 self.addEventListener('message',e=>{if(e.data?.type==='SKIP_WAITING')self.skipWaiting()});
-self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;const u=new URL(e.request.url);if(u.origin!==self.location.origin)return;e.respondWith(caches.match(e.request).then(c=>c||fetch(e.request).catch(()=>caches.match('./index.html'))))});
+self.addEventListener('fetch',e=>{
+ if(e.request.method!=='GET')return;
+ const u=new URL(e.request.url);if(u.origin!==self.location.origin)return;
+ // Only the supplied concept art is optional. Fetch and cache individual views.
+ if(OPTIONAL_ASSETS.some(path=>u.href===new URL(path,self.location.href).href)){
+  e.respondWith((async()=>{
+   const cache=await caches.open(VERSION),cached=await cache.match(e.request);
+   if(cached)return cached;
+   try{
+    const response=await fetch(e.request);
+    if(response.ok){try{await cache.put(e.request,response.clone())}catch{/* quota: still show the online image */}}
+    return response;
+   }catch{return new Response('Optional artwork is unavailable offline',{status:503,headers:{'Content-Type':'text/plain'}})}
+  })());return;
+ }
+ e.respondWith(caches.match(e.request).then(c=>c||fetch(e.request).catch(()=>caches.match('./index.html'))));
+});

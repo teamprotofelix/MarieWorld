@@ -1,0 +1,29 @@
+/* v2 ship views: scoped scenes, original art stays intact. */
+.view-switch{grid-template-columns:repeat(3,minmax(0,1fr))}
+.concept-stage{padding:clamp(14px,2.2vw,28px);color:#e9edf3;background:linear-gradient(150deg,#10283a,#11192a 65%)}
+.concept-stage[hidden]{display:none}
+.concept-heading{display:flex;align-items:start;justify-content:space-between;gap:14px;margin-bottom:16px}
+.concept-heading h2{font-size:clamp(21px,2.4vw,29px);font-weight:600;letter-spacing:-.04em;margin:5px 0 10px;color:#fff2d9}
+.concept-heading p{font-size:13px;line-height:1.8;margin:0;max-width:64ch;color:#bacbd8;word-break:keep-all}
+.concept-heading .eyebrow{color:#e5c594;font-size:10px;letter-spacing:.15em}
+.concept-stage button{min-height:44px}
+.concept-heading>button{flex-shrink:0}
+.exterior-scene{position:relative;isolation:isolate;overflow:hidden;border:1px solid #b7d4dc36;border-radius:16px;background:#080f22;aspect-ratio:1672/941;margin:0}
+.exterior-scene img{position:relative;display:block;width:100%;height:auto;object-fit:contain;z-index:1}
+.exterior-scene img[hidden]{display:none}
+.exterior-glow{position:absolute;pointer-events:none;z-index:2;opacity:0;transition:opacity .3s}
+.exterior-scene[data-loaded=true] .exterior-glow{opacity:1}
+.exterior-engine{left:7%;top:47%;width:17%;height:27%;border-radius:50%;background:radial-gradient(ellipse,#80edff55,transparent 66%);animation:engine-breathe 5s ease-in-out infinite alternate}
+.exterior-windows{left:32%;top:32%;width:24%;height:32%;border-radius:50%;background:radial-gradient(ellipse,#ffdf9c1c,transparent 66%);animation:window-warmth 7s ease-in-out infinite alternate}
+.exterior-nebula{inset:-2%;background:radial-gradient(ellipse at 85% 16%,#68dbff18,transparent 30%),radial-gradient(ellipse at 90% 80%,#b180ff22,transparent 25%);animation:nebula-drift 20s ease-in-out infinite alternate}
+.exterior-scene .exterior-glow{animation-play-state:paused}
+.exterior-scene[data-animate=true] .exterior-glow{animation-play-state:running}
+@keyframes engine-breathe{to{opacity:.35;transform:scale(1.08)}}
+@keyframes window-warmth{to{opacity:.35}}
+@keyframes nebula-drift{to{transform:translate(-8px,5px)}}
+.concept-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:14px}
+.concept-footer p{font-size:12px;line-height:1.7;color:#bdceda;flex:1;min-width:180px;margin:0}
+.concept-footnote{font-size:11px!important;color:#a7b9ca!important;margin-top:12px!important;line-height:1.8}
+.concept-stage :focus-visible{outline:3px solid #ead09c;outline-offset:4px}
+@media(max-width:600px){.view-switch{grid-template-columns:repeat(2,minmax(0,1fr))}.concept-heading{display:block}.concept-heading>button{margin-top:12px}.concept-footer{align-items:stretch}.concept-footer>button{width:100%}}
+@media(prefers-reduced-motion:reduce){.exterior-scene .exterior-glow{animation:none;transition:none}}

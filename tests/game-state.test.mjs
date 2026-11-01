@@ -1,3 +1,4 @@
+import vm from 'node:vm';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
@@ -92,5 +93,7 @@ test('PWA ships every new app dependency and keeps consent activation', async ()
   const sw = await readFile(new URL('../sw.js', import.meta.url), 'utf8');
   for (const f of ['game-state', 'game-events', 'legacy-adapter']) assert(sw.includes(`./game/${f}.js`));
   assert(sw.includes("if(e.data?.type==='SKIP_WAITING')self.skipWaiting()"));
-  assert(!sw.includes('concepts/v2')); // no 8-image install cost in the state PR
+  const box = {self:{addEventListener(){}},URL}; vm.createContext(box);
+  vm.runInContext(sw+';globalThis.core=ASSETS;', box);
+  assert(!box.core.some(p => p.includes('concepts/v2'))); // optional art never increases core install cost
 });
