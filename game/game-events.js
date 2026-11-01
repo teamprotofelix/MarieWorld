@@ -1,5 +1,6 @@
 // Play-session contracts. Editorial diaries and their clocks never enter events.
-export const ROOM_IDS = Object.freeze(['cockpit', 'garden', 'kitchen', 'lounge', 'bedroom', 'workshop', 'cargo', 'observatory', 'engine', 'corridor']);
+import { ROOM_IDS } from './rooms.js';
+export { ROOM_IDS };
 export const RESOURCE_IDS = Object.freeze(['oxygen', 'power', 'food', 'water', 'hull', 'mood']);
 const own = (v, key) => Object.hasOwn(v, key);
 export function object(value) {

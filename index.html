@@ -18,6 +18,8 @@
   <script type="module" src="flight.js"></script>
   <link rel="stylesheet" href="ship-v2.css" />
   <script type="module" src="ship-exterior.js"></script>
+  <link rel="stylesheet" href="cutaway.css" />
+  <script type="module" src="ship-cutaway.js"></script>
   <link rel="stylesheet" href="room-events.css" />
   <script type="module" src="room-events.js"></script>
   <link rel="stylesheet" href="voyage.css" />
@@ -43,6 +45,7 @@
               <button id="mapViewBtn" type="button" aria-pressed="true" aria-controls="mapStage">⌂ <span>SHIP MODULE MAP</span><small>우리의 작은 집</small></button>
               <button id="flightViewBtn" type="button" aria-pressed="false" aria-controls="flightStage">✧ <span>FLIGHT VIEW</span><small>별 사이로 떠나기</small></button>
               <button id="exteriorViewBtn" type="button" aria-pressed="false" aria-controls="exteriorStage">✦ <span>EXTERIOR VISION</span><small>미래의 집 그려보기</small></button>
+              <button id="cutawayViewBtn" type="button" aria-pressed="false" aria-controls="cutawayStage">▤ <span>CUTAWAY</span><small>방 너머의 일상</small></button>
             </div>
             <section id="exteriorStage" class="concept-stage" aria-labelledby="exteriorTitle" hidden>
               <div class="concept-heading"><div><p class="eyebrow">A HOME, STILL TO COME</p><h2 id="exteriorTitle">별 사이를 여행하는 집.</h2><p>언젠가 함께 지을 더 넓은 집을 상상해 보세요. 지금의 작은 ASTÉRIA-2와는 다른, 미래 확장 비전입니다.</p></div><button id="exteriorBack" type="button" class="secondary-btn">← 선실 지도로</button></div>
@@ -52,6 +55,15 @@
               </figure>
               <div class="concept-footer"><p id="exteriorStatus" role="status">미래 확장 비전 · 외관을 선택하면 그림을 펼칩니다.</p><button id="exteriorRetry" type="button" class="secondary-btn" hidden>이미지 다시 불러오기</button><button id="exteriorMotion" type="button" class="secondary-btn" aria-pressed="false">빛 움직임 잠시 끄기</button></div>
               <p class="concept-footnote">단일 장면 일러스트에 은은한 빛과 성운을 더한 감상 화면입니다. 설치된 시설이나 실제 선체 크기를 나타내지 않으며, 현재 비행은 FLIGHT VIEW에서 계속할 수 있어요.</p>
+            </section>
+            <section id="cutawayStage" class="concept-stage" aria-labelledby="cutawayTitle" hidden>
+              <div class="concept-heading"><div><p class="eyebrow">A LITTLE CLOSER TO HOME</p><h2 id="cutawayTitle">문 너머, 우리의 일상.</h2><p>미래 확장형 집을 단면으로 살펴보세요. 방 표시는 지금의 열 개 선실로 이어집니다. 세 구역은 탐색을 위한 구분이며 실제 층수나 공간 확장을 확정하지 않아요.</p></div><button id="cutawayBack" type="button" class="secondary-btn">← 기존 지도로</button></div>
+              <div id="cutawayZoomControls" class="cutaway-zoom" role="group" aria-label="단면 확대와 축소"><label for="cutawayZoom">단면 확대</label><button id="cutawayZoomOut" type="button" class="secondary-btn" aria-label="단면 축소">−</button><input id="cutawayZoom" type="range" min="1" max="2" step="0.25" value="1" /><button id="cutawayZoomIn" type="button" class="secondary-btn" aria-label="단면 확대">+</button><output id="cutawayZoomValue" for="cutawayZoom">100%</output><button id="cutawayZoomReset" type="button" class="secondary-btn">처음 크기로</button></div>
+              <p class="concept-footnote" id="cutawayPanHelp">작은 화면에서는 그림을 좌우로 움직여 볼 수 있어요. 아래 방 목록을 이용하면 확대나 스크롤 없이 바로 들어갑니다.</p>
+              <div id="cutawayViewport" class="cutaway-viewport" role="region" aria-label="확대 가능한 단면도, 좌우 스크롤" aria-describedby="cutawayPanHelp" tabindex="0"><div id="cutawayCanvas" class="cutaway-canvas"><img id="cutawayImage" data-src="assets/concepts/v2/03_multideck_cross_section_cutaway.webp" width="1672" height="941" alt="휴식 공간, 공방, 정원, 주방, 조종실과 설비가 펼쳐진 가상 확장형 우주선 단면 콘셉트. 그림 속 인물은 정적인 삽화입니다." loading="lazy" decoding="async" hidden /><div id="cutawayHotspots" class="cutaway-hotspots" hidden></div></div></div>
+              <div class="concept-footer"><p id="cutawayStatus" role="status">단면 탐색을 선택하면 그림을 펼칩니다.</p><button id="cutawayRetry" type="button" class="secondary-btn" hidden>단면 이미지 다시 불러오기</button></div>
+              <p class="concept-footnote">그림 속 인물은 실시간 마리 캐릭터가 아닌 정적인 삽화입니다. 방의 위치는 그림에 맞춘 탐색 표시이며, 기존 방의 이벤트와 함께하기는 그대로 이어집니다.</p>
+              <div class="cutaway-list-heading"><h3>방을 골라 들어가기</h3><span>기존 10개 선실</span></div><div id="cutawayRooms" class="cutaway-rooms"></div>
             </section>
             <div class="map-stage" id="mapStage">
               <img id="mapArtwork" class="map-art" src="assets/map.webp" alt="침실, 정원, 조종실, 주방, 엔진실 등이 보이는 우주선 내부 조감도" />

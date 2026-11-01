@@ -1,0 +1,43 @@
+[
+  {
+    "check": "initially no concept request; cutaway fetches only 03 intact, with ten hotspots and ten list alternatives",
+    "status": "passed"
+  },
+  {
+    "check": "all ten hotspots open exactly the legacy room/game; game starts, Tab trap and two-level Escape focus return",
+    "status": "passed"
+  },
+  {
+    "check": "all ten list rooms work by keyboard; next-room navigation preserves original opener",
+    "status": "passed"
+  },
+  {
+    "check": "zoom by button/range keyboard, reset, Escape/map preservation, twelve view cycles and PWA backdrop ownership",
+    "status": "passed"
+  },
+  {
+    "check": "visited cutaway and all ten room/game starts survive offline reload",
+    "status": "passed"
+  },
+  {
+    "check": "tablet/mobile: pan and hotspot touch, all ten large list routes, zoom, landscape and reduced motion (emulated)",
+    "status": "passed"
+  },
+  {
+    "check": "image failure leaves all ten accessible list routes; retry restores image and hotspots",
+    "status": "passed"
+  },
+  {
+    "check": "delayed image after leaving preserves map and focus; re-entry completes normally",
+    "status": "passed"
+  },
+  {
+    "check": "never-visited optional art offline: clear fallback, cached room remains usable",
+    "status": "passed"
+  },
+  {
+    "check": "no browser exceptions",
+    "status": "passed",
+    "errors": []
+  }
+]

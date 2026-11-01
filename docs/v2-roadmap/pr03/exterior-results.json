@@ -1,0 +1,51 @@
+[
+  {
+    "check": "first install precaches core only; none of eight concepts requested or cached",
+    "status": "passed"
+  },
+  {
+    "check": "keyboard opens full 1672x941 exterior only, intact aspect and explicit future-concept copy",
+    "status": "passed",
+    "image": {
+      "natural": [
+        1672,
+        941
+      ],
+      "ratio": 1.7768489566715588,
+      "fit": "contain"
+    }
+  },
+  {
+    "check": "effects pause for modal, other panel, hidden document, quiet setting and reduced motion; Escape focus return",
+    "status": "passed"
+  },
+  {
+    "check": "map/exterior/flight transitions retain running flight and selected manual mode",
+    "status": "passed"
+  },
+  {
+    "check": "visited exterior is cached on demand and survives offline reload",
+    "status": "passed"
+  },
+  {
+    "check": "tablet/mobile touch, full image, reduced motion and no horizontal overflow (emulated)",
+    "status": "passed"
+  },
+  {
+    "check": "failed asset keeps text and map escape; subsequent entry retries without focus theft",
+    "status": "passed"
+  },
+  {
+    "check": "slow image resolves while away without changing view or stealing focus",
+    "status": "passed"
+  },
+  {
+    "check": "unvisited optional art fails gracefully offline while core app remains usable",
+    "status": "passed"
+  },
+  {
+    "check": "no browser exceptions",
+    "status": "passed",
+    "errors": []
+  }
+]
