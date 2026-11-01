@@ -1,0 +1,3 @@
+import {freeze} from './game-state.js';
+export const MODULES=freeze({greenhouse:{name:'온실 확장 설비',room:'garden',slot:'garden-port',tech:'habitat',materials:8,power:8,scene:'01_hydroponic_garden_marie',effects:{food:{production:.16},oxygen:{production:.04},water:{consumption:.04},power:{consumption:.10}}},recycler:{name:'생활수 재활용 설비',room:'engine',slot:'engine-port',tech:'recycling',materials:10,power:10,scene:'08_research_recycling_module',effects:{water:{production:.20},power:{consumption:.08}}}});
+export const BUILD_SLOTS=freeze({'garden-port':{name:'정원 확장 슬롯',room:'garden'},'engine-port':{name:'기관 설비 슬롯',room:'engine'}});
