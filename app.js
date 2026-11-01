@@ -1,8 +1,7 @@
-import { createLegacyAdapter } from './game/legacy-adapter.js';
+import { game } from './game/session.js';
+import { simulationPaused } from './game/runtime.js';
 import { ROOMS } from './game/rooms.js';
 const DEST=[['nebula','푸른 성운 회랑','보라색 빛이 천천히 흐르는 곳. 창가에서 마리가 차를 마십니다.'],['gold','황금 고리 행성','금빛 소행성 사이를 지나 새로운 광경을 만납니다.'],['ice','오로라 얼음 세계','얼음 행성의 하늘에 옅은 빛이 일렁입니다.']];
-const defaultState={day:1,minute:380,auto:true,speed:1,room:'lounge',destination:0,stats:{oxygen:94,power:86,food:77,water:83,hull:96,mood:92},feed:[]};
-const game = createLegacyAdapter(defaultState);
 let state = game.read();
 function updateState(change) { state = game.update(change); }
 const $=id=>document.getElementById(id); const qs=s=>document.querySelector(s);const all=s=>document.querySelectorAll(s);
@@ -17,9 +16,9 @@ function moveMarie(room){const r=ROOMS.find(x=>x[0]===room);if(!r)return;updateS
 function renderDest(){$('travelImage').src=`assets/${DEST[state.destination][0]}.webp`;$('travelTitle').textContent=DEST[state.destination][1];$('travelDescription').textContent=DEST[state.destination][2];$('locationLabel').textContent=DEST[state.destination][1]+' 항해 중';$('destinations').replaceChildren(...DEST.map((d,i)=>{const card=document.createElement('article');card.className='glass destination';const im=document.createElement('img');im.src='assets/'+d[0]+'.webp';im.alt=d[1];im.loading='lazy';const sec=document.createElement('section'),h=document.createElement('h2'),p=document.createElement('p'),b=document.createElement('button');h.textContent=d[1];p.textContent=d[2];b.className=i===state.destination?'primary-btn':'secondary-btn';b.textContent=i===state.destination?'현재 항로':'이곳으로 항해하기 ↗';b.onclick=()=>travel(i);sec.append(h,p,b);card.append(im,sec);return card}));document.dispatchEvent(new CustomEvent('marie:destination',{detail:{index:state.destination,name:DEST[state.destination][1]}}))}
 function renderClock(){$('dayLabel').textContent='DAY '+String(state.day).padStart(3,'0');$('timeLabel').textContent=timeStr(state.minute)}
 function travel(index=(state.destination+1)%DEST.length){updateState(d=>{d.destination=index;d.stats.power=clamp(d.stats.power-4);d.stats.hull=clamp(d.stats.hull-1);d.stats.mood=clamp(d.stats.mood+5)});renderStats();renderDest();speak('새 항로 확인. '+DEST[index][1]+'로 이동합니다. E, 창밖을 봐주세요.');log('별 지도를 갱신하고 '+DEST[index][1]+'에 도착했습니다.');toast('새로운 항로로 점프! ✧')}
-function action(room){const r=ROOMS.find(x=>x[0]===room);if(!r)return;const effects={cockpit:{power:-1,mood:4},garden:{oxygen:5,food:4,water:-1},kitchen:{food:-2,mood:7},lounge:{mood:6},bedroom:{mood:5},workshop:{hull:4,power:-2},cargo:{food:3,water:3},observatory:{mood:8},engine:{power:6,hull:3},corridor:{mood:3}};state=game.crewAction(room,effects[room]);speak(r[4]+' 함께여서 더 좋아요.');log(r[4]);renderStats();toast(r[4])}
+function action(room){if(game.snapshot().session.crewAutomation){document.dispatchEvent(new CustomEvent('marie:crew-request',{detail:{room}}));return;}const r=ROOMS.find(x=>x[0]===room);if(!r)return;const effects={cockpit:{power:-1,mood:4},garden:{oxygen:5,food:4,water:-1},kitchen:{food:-2,mood:7},lounge:{mood:6},bedroom:{mood:5},workshop:{hull:4,power:-2},cargo:{food:3,water:3},observatory:{mood:8},engine:{power:6,hull:3},corridor:{mood:3}};state=game.crewAction(room,effects[room]);speak(r[4]+' 함께여서 더 좋아요.');log(r[4]);renderStats();toast(r[4])}
 let roomSelected='cockpit',roomOpener=null;
-export function openRoom(room){const i=ROOMS.findIndex(x=>x[0]===room);if(i<0)return;if($('roomModal').classList.contains('hidden'))roomOpener=document.activeElement;roomSelected=room;const r=ROOMS[i];$('roomImage').src=`assets/${room}.webp`;$('roomTitle').textContent=r[1];$('roomIntro').textContent=r[2];$('roomTag').textContent=`MODULE ${String(i+1).padStart(2,'0')} / ASTÉRIA-2`;$('roomNarrative').textContent=r[3];$('roomModal').classList.remove('hidden');moveMarie(room);document.body.style.overflow='hidden';document.dispatchEvent(new CustomEvent('marie:room',{detail:{room}}));$('closeRoom').focus()}
+export function openRoom(room){const i=ROOMS.findIndex(x=>x[0]===room);if(i<0)return;if($('roomModal').classList.contains('hidden'))roomOpener=document.activeElement;roomSelected=room;const r=ROOMS[i];$('roomImage').src=`assets/${room}.webp`;$('roomTitle').textContent=r[1];$('roomIntro').textContent=r[2];$('roomTag').textContent=`MODULE ${String(i+1).padStart(2,'0')} / ASTÉRIA-2`;$('roomNarrative').textContent=r[3];$('roomModal').classList.remove('hidden');if(!game.snapshot().session.crewAutomation)moveMarie(room);document.body.style.overflow='hidden';document.dispatchEvent(new CustomEvent('marie:room',{detail:{room}}));$('closeRoom').focus()}
 function closeModal(type){const modal=$(type+'Modal'),wasOpen=!modal.classList.contains('hidden');if(type==='room')document.dispatchEvent(new Event('marie:roomclosed'));modal.classList.add('hidden');if([...all('.modal')].every(m=>m.classList.contains('hidden')))document.body.style.overflow='';if(wasOpen&&type==='room'&&roomOpener?.isConnected&&roomOpener.getClientRects().length)roomOpener.focus({preventScroll:true})}
 function setView(view){all('.panel-view').forEach(x=>x.classList.toggle('active',x.id===view+'Panel'));all('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.panel===view));if(view==='diary')renderDiary();if(view==='route')renderDest();document.dispatchEvent(new Event('marie:view'));location.hash=view==='home'?'home':view;window.scrollTo({top:0,behavior:'smooth'})}
 const MARIE_DIARIES=[
@@ -133,15 +132,15 @@ function renderDiary(){
  $('diaryCount').textContent='공개된 항해 일기 '+MARIE_DIARIES.length+'편';
 }
 function tick(){
- if(!state.auto)return;
+ if(!state.auto||(game.snapshot().session.crewAutomation&&simulationPaused()))return;
  const rolled=state.minute+state.speed*2>=1440;
  updateState(d=>{d.minute+=d.speed*2;if(d.minute>=1440){d.minute-=1440;d.day++}});
  if(rolled)log('새로운 하루가 시작되었습니다. 마리가 창가의 조명을 켰습니다.');
- const r=ROOMS[Math.floor(Math.random()*ROOMS.length)];moveMarie(r[0]);
+ const r=ROOMS[Math.floor(Math.random()*ROOMS.length)];if(!game.snapshot().session.crewAutomation)moveMarie(r[0]);
  let recovered=false;
  updateState(d=>{const s=d.stats;Object.keys(s).forEach(k=>s[k]=clamp(s[k]+(k==='mood'?2:k==='power'||k==='food'||k==='water'?-1:0)));if(Math.min(...Object.values(s))<40){Object.keys(s).forEach(k=>s[k]=clamp(s[k]+8));recovered=true}});
  if(recovered)log('마리가 생존 모듈을 자동 점검하고 자원을 회복했습니다.');
- if(state.minute%40<state.speed*2)action(r[0]);
+ if(!game.snapshot().session.crewAutomation&&state.minute%40<state.speed*2)action(r[0]);
  if(state.minute%240<state.speed*2)travel();renderClock();renderStats()
 }
 function basicReply(input){
@@ -170,3 +169,13 @@ $('resetBtn').onclick=()=>{if(confirm('현재 가상 항해를 처음부터 다�
 $('muteBtn').onclick=()=>toast('사운드는 기본 무음입니다. 별빛 소리만 상상해 주세요 ♡');
 log('마리와 E의 작은 항해가 시작되었습니다.');
 renderFeed();renderStats();renderClock();renderDest();renderDiary();moveMarie(state.room);$('autoBtn').textContent=state.auto?'▶ 자동 여행 ON':'Ⅱ 자동 여행 OFF';$('autoBtn').classList.toggle('active',state.auto);$('speedBtn').textContent=state.speed+'×';if(location.hash==='#diary')setView('diary');else if(location.hash==='#route')setView('route');setInterval(tick,9000);
+// Other game features share this owner without reaching into app internals.
+game.subscribe(()=>{
+ const previous=state;state=game.read();
+ if(JSON.stringify(previous.stats)!==JSON.stringify(state.stats))renderStats();
+ if(previous.day!==state.day||previous.minute!==state.minute)renderClock();
+ if(previous.destination!==state.destination)renderDest();
+ if(JSON.stringify(previous.feed)!==JSON.stringify(state.feed))renderFeed();
+ $('autoBtn').textContent=state.auto?'▶ 자동 여행 ON':'Ⅱ 자동 여행 OFF';$('autoBtn').classList.toggle('active',state.auto);$('speedBtn').textContent=state.speed+'×';
+ if(!game.snapshot().session.crewAutomation&&previous.room!==state.room){const r=ROOMS.find(r=>r[0]===state.room);$('mapMarie').style.left=r[5]+'%';$('mapMarie').style.top=r[6]+'%';$('activityLabel').textContent=r[2];}
+});

@@ -1,4 +1,4 @@
-import { createGameState, legacySnapshot, replaceLegacy, reduceGameEvent } from './game-state.js';
+import { createGameState, legacySnapshot, replaceLegacy, reduceGameEvent, freeze } from './game-state.js';
 
 // Owns state in a closure. Inputs, outputs and notifications cannot mutate it.
 // Ids are deterministic per adapter; no wall clock or random source is required.
@@ -20,6 +20,7 @@ export function createLegacyAdapter(initial, { makeId = n => `legacy:${n}`, newE
       return publish(replaceLegacy(current, draft));
     },
     dispatch(event) { return publish(reduceGameEvent(current, event)); },
+    apply(reducer, ...args) { return publish(freeze(reducer(current, ...args))); },
     crewAction(room, changes) {
       return publish(reduceGameEvent(current, { id: makeId(++sequence), type: 'CrewActionCompleted', payload: { room, action: 'together', changes } }));
     },

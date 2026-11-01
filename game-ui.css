@@ -1,0 +1,32 @@
+/* Play UI, separate from authored story collections. */
+.life-panel{margin-top:18px;padding:clamp(16px,2.4vw,28px)}
+.life-heading{display:flex;justify-content:space-between;align-items:start;gap:18px}
+.life-heading h2{font-size:23px;color:#f8d5ac;margin:0 0 9px;letter-spacing:-.5px}
+.life-heading p:not(.eyebrow),.game-note{color:#a9bfce;font-size:12px;line-height:1.8;word-break:keep-all}
+.life-heading>button{flex-shrink:0}
+.life-state{display:flex;align-items:center;gap:16px;margin:20px 0;padding:18px;background:#162d3d;border:1px solid #6f9d9c55;border-radius:14px}
+.life-state>span{font-size:30px;color:#e6c995}
+.life-state>div{flex:1;min-width:0}
+.life-state strong{font-size:15px;color:#d7f3e8}
+.life-state p{font-size:12px;color:#abc2d2;margin:4px 0 0}
+.life-state progress{width:120px;accent-color:#b7ded0}
+.life-controls{display:flex;align-items:center;flex-wrap:wrap;gap:9px;font-size:12px}
+.life-controls select,.game-select{background:#183248;color:#e5f2e8;border:1px solid #6b8fa6;border-radius:9px;padding:10px;min-height:44px;max-width:100%}
+.life-panel button,.game-actions button{min-height:44px}
+.life-panel button:disabled,.game-actions button:disabled{opacity:.45;cursor:default}
+.room-life-context{margin-top:12px}
+.room-life-context button[hidden]{display:none}
+.map-marie[data-life]{transition:none}
+.map-marie[data-life]:not([data-action=walk]) .sprite,.room-sprite[data-life]:not([data-action=walk]) .sprite{animation:none;background-position:0 0}
+.map-marie[data-life][data-paused=true] .sprite,.room-sprite[data-life][data-paused=true] .sprite{animation-play-state:paused}
+.map-marie[data-life][data-action=garden]>span{animation:life-work 1.5s ease-in-out infinite}
+.map-marie[data-life][data-action=cook]>span,.map-marie[data-life][data-action=tea]>span{animation:life-steam 1.8s ease-in-out infinite}
+.map-marie[data-life][data-action=repair]>span{animation:life-tool 1s steps(2) infinite}
+.map-marie[data-life][data-action=record]>span,.map-marie[data-life][data-action=read]>span{animation:life-work 2.4s ease-in-out infinite}
+.map-marie[data-life][data-paused=true]>span{animation-play-state:paused}
+.room-sprite[hidden]{display:none}
+@keyframes life-work{50%{transform:translateY(-3px) scale(1.12)}}
+@keyframes life-steam{50%{transform:translateY(-8px);opacity:.4}}
+@keyframes life-tool{50%{transform:rotate(-18deg)}}
+@media(max-width:720px){.life-heading{display:block}.life-heading>button{margin-top:10px;width:100%}.life-state{flex-wrap:wrap}.life-state progress{width:100%}.life-controls>*{flex:1}.life-controls label{flex-basis:100%}.life-controls select{width:100%}}
+@media(prefers-reduced-motion:reduce){.map-marie[data-life] .sprite,.room-sprite[data-life] .sprite,.map-marie[data-life]>span{animation:none!important}}

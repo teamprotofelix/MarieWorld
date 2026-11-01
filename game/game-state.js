@@ -40,7 +40,7 @@ export function replaceLegacy(state, legacy) {
   const v = structuredClone(legacy);
   return freeze({ ...state, day: v.day, minute: v.minute, stats: v.stats,
     crew: { ...state.crew, marie: { ...state.crew.marie, room: v.room } },
-    session: { auto: v.auto, speed: v.speed, destination: v.destination, feed: v.feed } });
+    session: { ...state.session, auto: v.auto, speed: v.speed, destination: v.destination, feed: v.feed } });
 }
 export function reduceGameEvent(state, event) {
   validateEvent(event);

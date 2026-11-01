@@ -1,0 +1,35 @@
+[
+  {
+    "check": "opt-in queue walks through real room graph before four distinct tasks; pose, dialogue, completion and ledger agree",
+    "status": "passed"
+  },
+  {
+    "check": "room modal, automatic-time OFF and hidden tab pause jobs and game clock without catch-up or teleport",
+    "status": "passed"
+  },
+  {
+    "check": "clear/overflow recovery and all four real concept backgrounds with original-scene return; existing sprite retained",
+    "status": "passed"
+  },
+  {
+    "check": "tablet/mobile touch plan and real movement, no overflow and reduced motion (Chromium emulation)",
+    "status": "passed"
+  },
+  {
+    "check": "failed concept image falls back to bundled room without losing controls",
+    "status": "passed"
+  },
+  {
+    "check": "latest merged cutaway worker -> current waits for approval; 001/002 and full 4:3 photo/journal link work offline",
+    "status": "passed"
+  },
+  {
+    "check": "new life modules initialize offline and existing room game still starts",
+    "status": "passed"
+  },
+  {
+    "check": "no browser exceptions",
+    "status": "passed",
+    "errors": []
+  }
+]
