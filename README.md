@@ -85,3 +85,7 @@ The volume-002 snapshot is the last known **DAY 001 14:58** estimate (2,037,120 
 `marie-v07-leisure-1` precaches both volumes, full photos, framed assets, metadata and core viewer files. First online preparation is required. User-approved activation through unchanged `pwa.js` is retained. No account, visitor input, browser persistence or automatic chat/memory synchronization is added.
 
 Checks: `npm test`, `node tests/leisure.test.mjs`, `python tests/leisure-browser-qa.py`, and the existing voyage/room/flight browser QA scripts. Temporary captures and downloads go under ignored `work/`. See [002 QA and captures](docs/leisure-v002/QA.md) and [content maintenance](docs/leisure-v002/AUTHORING.md).
+
+### v2 단계별 개발
+
+공통 상태·이벤트 기반과 후속 외관/단면/생활·탐사 기능의 검토 범위는 [v2 로드맵](docs/v2-roadmap/README.md)에 기록합니다. 기본 힐링 동작과 기존 정적 항해 기록은 유지합니다.

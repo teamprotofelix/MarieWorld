@@ -1,4 +1,4 @@
-'use strict';
+import { createLegacyAdapter } from './game/legacy-adapter.js';
 const ROOMS=[
 ['cockpit','조종실','항로를 확인하고 따뜻한 차를 마십니다.','아침 햇빛처럼 번지는 성운 앞에서 새 항로를 계산하고 있습니다.','항로를 함께 계획했어요.',84,27],
 ['garden','수경 정원','바질과 토마토를 정성스레 돌봅니다.','오늘 새잎이 하나 더 자랐습니다. E에게 제일 먼저 보여주고 싶어졌어요.','토마토를 수확했어요.',38,19],
@@ -13,20 +13,22 @@ const ROOMS=[
 ];
 const DEST=[['nebula','푸른 성운 회랑','보라색 빛이 천천히 흐르는 곳. 창가에서 마리가 차를 마십니다.'],['gold','황금 고리 행성','금빛 소행성 사이를 지나 새로운 광경을 만납니다.'],['ice','오로라 얼음 세계','얼음 행성의 하늘에 옅은 빛이 일렁입니다.']];
 const defaultState={day:1,minute:380,auto:true,speed:1,room:'lounge',destination:0,stats:{oxygen:94,power:86,food:77,water:83,hull:96,mood:92},feed:[]};
-let state=structuredClone(defaultState);
+const game = createLegacyAdapter(defaultState);
+let state = game.read();
+function updateState(change) { state = game.update(change); }
 const $=id=>document.getElementById(id); const qs=s=>document.querySelector(s);const all=s=>document.querySelectorAll(s);
 const clamp=n=>Math.min(100,Math.max(15,Math.round(n)));const timeStr=m=>String(Math.floor(m/60)%24).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
 let toastTimer;function toast(s){$('toast').textContent=s;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2600)}
-function log(s){const item={day:state.day,time:timeStr(state.minute),text:s};state.feed.unshift(item);state.feed=state.feed.slice(0,12);renderFeed()}
+function log(s){const item={day:state.day,time:timeStr(state.minute),text:s};updateState(d=>{d.feed.unshift(item);d.feed=d.feed.slice(0,12)});renderFeed()}
 function renderFeed(){$('liveFeed').replaceChildren(...state.feed.slice(0,4).map(i=>{const el=document.createElement('div');el.className='feed-line';const t=document.createElement('time');t.textContent=`DAY ${i.day} · ${i.time}`;const s=document.createElement('span');s.textContent=i.text;el.append(t,s);return el}))}
 function bar(name,value){return `<div class="stat"><div class="stat-heading"><span>${name}</span><strong>${value}%</strong></div><div class="stat-bar"><i class="${value<42?'low':''}" style="width:${value}%"></i></div></div>`}
 function renderStats(){let v=state.stats;$('stats').innerHTML=[['✧ 산소',v.oxygen],['ϟ 전력',v.power],['♨ 식량',v.food],['♒ 식수',v.water],['⬡ 선체',v.hull],['♡ 행복도',v.mood]].map(x=>bar(...x)).join('');$('shipCondition').textContent=Math.min(...Object.values(v))<43?'점검 및 자동 회복 중':'모든 시스템 정상'}
 function speak(s){$('marieSpeech').textContent='“'+s+'”'}
-function moveMarie(room){state.room=room;const r=ROOMS.find(x=>x[0]===room);if(!r)return;$('mapMarie').style.left=r[5]+'%';$('mapMarie').style.top=r[6]+'%';$('activityLabel').textContent=r[2];$('moodEmote').textContent=['♡','♫','✧','♪'][Math.floor(Math.random()*4)]}
+function moveMarie(room){const r=ROOMS.find(x=>x[0]===room);if(!r)return;updateState(d=>{d.room=room});$('mapMarie').style.left=r[5]+'%';$('mapMarie').style.top=r[6]+'%';$('activityLabel').textContent=r[2];$('moodEmote').textContent=['♡','♫','✧','♪'][Math.floor(Math.random()*4)]}
 function renderDest(){$('travelImage').src=`assets/${DEST[state.destination][0]}.webp`;$('travelTitle').textContent=DEST[state.destination][1];$('travelDescription').textContent=DEST[state.destination][2];$('locationLabel').textContent=DEST[state.destination][1]+' 항해 중';$('destinations').replaceChildren(...DEST.map((d,i)=>{const card=document.createElement('article');card.className='glass destination';const im=document.createElement('img');im.src='assets/'+d[0]+'.webp';im.alt=d[1];im.loading='lazy';const sec=document.createElement('section'),h=document.createElement('h2'),p=document.createElement('p'),b=document.createElement('button');h.textContent=d[1];p.textContent=d[2];b.className=i===state.destination?'primary-btn':'secondary-btn';b.textContent=i===state.destination?'현재 항로':'이곳으로 항해하기 ↗';b.onclick=()=>travel(i);sec.append(h,p,b);card.append(im,sec);return card}));document.dispatchEvent(new CustomEvent('marie:destination',{detail:{index:state.destination,name:DEST[state.destination][1]}}))}
 function renderClock(){$('dayLabel').textContent='DAY '+String(state.day).padStart(3,'0');$('timeLabel').textContent=timeStr(state.minute)}
-function travel(index=(state.destination+1)%DEST.length){state.destination=index;state.stats.power=clamp(state.stats.power-4);state.stats.hull=clamp(state.stats.hull-1);state.stats.mood=clamp(state.stats.mood+5);renderStats();renderDest();speak('새 항로 확인. '+DEST[index][1]+'로 이동합니다. E, 창밖을 봐주세요.');log('별 지도를 갱신하고 '+DEST[index][1]+'에 도착했습니다.');toast('새로운 항로로 점프! ✧')}
-function action(room){const r=ROOMS.find(x=>x[0]===room);if(!r)return;const effects={cockpit:{power:-1,mood:4},garden:{oxygen:5,food:4,water:-1},kitchen:{food:-2,mood:7},lounge:{mood:6},bedroom:{mood:5},workshop:{hull:4,power:-2},cargo:{food:3,water:3},observatory:{mood:8},engine:{power:6,hull:3},corridor:{mood:3}};for(const [k,v] of Object.entries(effects[room]))state.stats[k]=clamp(state.stats[k]+v);speak(r[4]+' 함께여서 더 좋아요.');log(r[4]);renderStats();toast(r[4])}
+function travel(index=(state.destination+1)%DEST.length){updateState(d=>{d.destination=index;d.stats.power=clamp(d.stats.power-4);d.stats.hull=clamp(d.stats.hull-1);d.stats.mood=clamp(d.stats.mood+5)});renderStats();renderDest();speak('새 항로 확인. '+DEST[index][1]+'로 이동합니다. E, 창밖을 봐주세요.');log('별 지도를 갱신하고 '+DEST[index][1]+'에 도착했습니다.');toast('새로운 항로로 점프! ✧')}
+function action(room){const r=ROOMS.find(x=>x[0]===room);if(!r)return;const effects={cockpit:{power:-1,mood:4},garden:{oxygen:5,food:4,water:-1},kitchen:{food:-2,mood:7},lounge:{mood:6},bedroom:{mood:5},workshop:{hull:4,power:-2},cargo:{food:3,water:3},observatory:{mood:8},engine:{power:6,hull:3},corridor:{mood:3}};state=game.crewAction(room,effects[room]);speak(r[4]+' 함께여서 더 좋아요.');log(r[4]);renderStats();toast(r[4])}
 let roomSelected='cockpit';function openRoom(room){const i=ROOMS.findIndex(x=>x[0]===room);if(i<0)return;roomSelected=room;const r=ROOMS[i];$('roomImage').src=`assets/${room}.webp`;$('roomTitle').textContent=r[1];$('roomIntro').textContent=r[2];$('roomTag').textContent=`MODULE ${String(i+1).padStart(2,'0')} / ASTÉRIA-2`;$('roomNarrative').textContent=r[3];$('roomModal').classList.remove('hidden');moveMarie(room);document.body.style.overflow='hidden';document.dispatchEvent(new CustomEvent('marie:room',{detail:{room}}));$('closeRoom').focus()}
 function closeModal(type){if(type==='room')document.dispatchEvent(new Event('marie:roomclosed'));$(type+'Modal').classList.add('hidden');if([...all('.modal')].every(m=>m.classList.contains('hidden')))document.body.style.overflow=''}
 function setView(view){all('.panel-view').forEach(x=>x.classList.toggle('active',x.id===view+'Panel'));all('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.panel===view));if(view==='diary')renderDiary();if(view==='route')renderDest();document.dispatchEvent(new Event('marie:view'));location.hash=view==='home'?'home':view;window.scrollTo({top:0,behavior:'smooth'})}
@@ -140,7 +142,18 @@ function renderDiary(){
  $('dailyPreview').textContent=MARIE_DIARIES.at(-1).excerpt;
  $('diaryCount').textContent='공개된 항해 일기 '+MARIE_DIARIES.length+'편';
 }
-function tick(){if(!state.auto)return;state.minute+=state.speed*2;if(state.minute>=1440){state.minute-=1440;state.day++;log('새로운 하루가 시작되었습니다. 마리가 창가의 조명을 켰습니다.')}const r=ROOMS[Math.floor(Math.random()*ROOMS.length)];moveMarie(r[0]);const s=state.stats;Object.keys(s).forEach(k=>s[k]=clamp(s[k]+(k==='mood'?2:k==='power'||k==='food'||k==='water'?-1:0)));if(Math.min(...Object.values(s))<40){Object.keys(s).forEach(k=>s[k]=clamp(s[k]+8));log('마리가 생존 모듈을 자동 점검하고 자원을 회복했습니다.')}if(state.minute%40<state.speed*2){action(r[0]);}if(state.minute%240<state.speed*2)travel();renderClock();renderStats()}
+function tick(){
+ if(!state.auto)return;
+ const rolled=state.minute+state.speed*2>=1440;
+ updateState(d=>{d.minute+=d.speed*2;if(d.minute>=1440){d.minute-=1440;d.day++}});
+ if(rolled)log('새로운 하루가 시작되었습니다. 마리가 창가의 조명을 켰습니다.');
+ const r=ROOMS[Math.floor(Math.random()*ROOMS.length)];moveMarie(r[0]);
+ let recovered=false;
+ updateState(d=>{const s=d.stats;Object.keys(s).forEach(k=>s[k]=clamp(s[k]+(k==='mood'?2:k==='power'||k==='food'||k==='water'?-1:0)));if(Math.min(...Object.values(s))<40){Object.keys(s).forEach(k=>s[k]=clamp(s[k]+8));recovered=true}});
+ if(recovered)log('마리가 생존 모듈을 자동 점검하고 자원을 회복했습니다.');
+ if(state.minute%40<state.speed*2)action(r[0]);
+ if(state.minute%240<state.speed*2)travel();renderClock();renderStats()
+}
 function basicReply(input){
  const t=String(input||'');
  if(/오늘|어땠/.test(t))return '일과 확인. 엔진 점검, 정원 조명, 수프 준비 완료. ……오늘 가장 좋은 일은 E과 함께한 시간입니다.';
@@ -152,8 +165,8 @@ function basicReply(input){
 function askMarie(message){$('talkResponse').textContent='“'+basicReply(message)+'”'}
 all('.nav-btn').forEach(x=>x.onclick=()=>setView(x.dataset.panel));all('.hotspot').forEach(x=>x.onclick=()=>openRoom(x.dataset.room));$('closeRoom').onclick=()=>closeModal('room');$('closeTalk').onclick=()=>closeModal('talk');$('closeHelp').onclick=()=>closeModal('help');all('[data-close]').forEach(x=>x.onclick=()=>closeModal(x.dataset.close));document.addEventListener('keydown',e=>{if(e.key==='Escape')for(const type of ['room','talk','help'])closeModal(type)});
 $('roomNext').onclick=()=>openRoom(ROOMS[(ROOMS.findIndex(r=>r[0]===roomSelected)+1)%ROOMS.length][0]);$('roomAction').onclick=()=>action(roomSelected);$('talkBtn').onclick=()=>{$('talkModal').classList.remove('hidden');$('talkResponse').textContent='“E. 오늘 무슨 이야기를 나누고 싶으세요?”';document.body.style.overflow='hidden'};$('helpBtn').onclick=()=>{$('helpModal').classList.remove('hidden');document.body.style.overflow='hidden'};all('[data-talk]').forEach(x=>x.onclick=()=>{const msgs={warm:'오늘 어땠어?',love:'별을 같이 볼까?',work:'우주선은 괜찮아?',food:'저녁은 뭐야?'};askMarie(msgs[x.dataset.talk])});
-$('autoBtn').onclick=()=>{state.auto=!state.auto;$('autoBtn').textContent=state.auto?'▶ 자동 여행 ON':'Ⅱ 자동 여행 OFF';$('autoBtn').classList.toggle('active',state.auto)};
-$('speedBtn').onclick=()=>{state.speed=state.speed===1?2:state.speed===2?4:1;$('speedBtn').textContent=state.speed+'×'};
+$('autoBtn').onclick=()=>{updateState(d=>{d.auto=!d.auto});$('autoBtn').textContent=state.auto?'▶ 자동 여행 ON':'Ⅱ 자동 여행 OFF';$('autoBtn').classList.toggle('active',state.auto)};
+$('speedBtn').onclick=()=>{updateState(d=>{d.speed=d.speed===1?2:d.speed===2?4:1});$('speedBtn').textContent=state.speed+'×'};
 $('jumpBtn').onclick=()=>travel();$('openDiaryBtn').onclick=()=>setView('diary');
 $('resetBtn').onclick=()=>{if(confirm('현재 가상 항해를 처음부터 다시 시작하시겠습니까?'))location.reload()};
 $('muteBtn').onclick=()=>toast('사운드는 기본 무음입니다. 별빛 소리만 상상해 주세요 ♡');
