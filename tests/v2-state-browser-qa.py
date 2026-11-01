@@ -56,7 +56,7 @@ with sync_playwright() as p:
  assert page.evaluate("caches.keys().then(k=>k.includes('marie-v07-leisure-1'))")
  page.locator('#voyageStoryClose').click();page.locator('#installBtn').click()
  with page.expect_navigation():page.locator('#pwaUpdateBtn').click()
- page.wait_for_function("caches.keys().then(k=>k.includes('marie-v2-exploration-1')&&!k.includes('marie-v07-leisure-1'))")
+ page.wait_for_function("caches.keys().then(k=>k.includes('marie-v2-construction-1')&&!k.includes('marie-v07-leisure-1'))")
  passed('actual v0.7 -> state worker waits for consent and retains open 001 reader')
  ctx.set_offline(True);page.reload();page.locator('[data-panel=home]').click();expect(page.locator('#stats .stat')).to_have_count(6);page.locator('#autoBtn').click();page.locator('.hotspot[data-room=garden]').click();page.locator('#roomAction').click();expect(page.locator('#stats strong').nth(2)).to_have_text('81%');page.locator('#closeRoom').click()
  page.locator('#jumpBtn').click();expect(page.locator('#travelTitle')).to_have_text('황금 고리 행성')

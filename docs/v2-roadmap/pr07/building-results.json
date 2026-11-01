@@ -1,0 +1,31 @@
+[
+  {
+    "check": "actual missions -> all three research unlocks -> two facilities; wrong slot atomic, printed costs charged once",
+    "status": "passed"
+  },
+  {
+    "check": "real production changes food; shared inventory table and map/cutaway/exterior show two installed game facilities",
+    "status": "passed"
+  },
+  {
+    "check": "teardown refunds 50% materials once; recycler scene uses 08; base rooms remain",
+    "status": "passed"
+  },
+  {
+    "check": "tablet/mobile real progression and installation, accessible selects/buttons and no overflow (emulated)",
+    "status": "passed"
+  },
+  {
+    "check": "latest merged cutaway worker -> current waits for approval; 001/002 and full 4:3 photo/journal link work offline",
+    "status": "passed"
+  },
+  {
+    "check": "offline construction code and prerequisite error survive optional-image absence",
+    "status": "passed"
+  },
+  {
+    "check": "no browser exceptions",
+    "status": "passed",
+    "errors": []
+  }
+]
