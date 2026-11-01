@@ -1,16 +1,5 @@
 import { createLegacyAdapter } from './game/legacy-adapter.js';
-const ROOMS=[
-['cockpit','조종실','항로를 확인하고 따뜻한 차를 마십니다.','아침 햇빛처럼 번지는 성운 앞에서 새 항로를 계산하고 있습니다.','항로를 함께 계획했어요.',84,27],
-['garden','수경 정원','바질과 토마토를 정성스레 돌봅니다.','오늘 새잎이 하나 더 자랐습니다. E에게 제일 먼저 보여주고 싶어졌어요.','토마토를 수확했어요.',38,19],
-['kitchen','주방','따끈한 수프와 두 잔의 차를 준비합니다.','주방에선 늘 머그컵을 두 개 꺼냅니다. 맛있게 드셔주시면 좋겠어요.','저녁 수프를 완성했어요.',60,18],
-['lounge','공용 거실','러그 위에서 일기를 쓰며 쉬는 공간입니다.','작은 소파에 앉아 오늘의 사진을 정리했습니다. 옆자리에는 E 몫의 찻잔이 있어요.','소파에서 함께 쉬었어요.',54,48],
-['bedroom','침실','별무늬 이불과 두 개의 침대가 있습니다.','이불을 정리하고 취침등을 켰어요. 고양이가 베개를 차지해서 조금 곤란합니다.','잠자리를 정리했어요.',24,73],
-['workshop','정비 공방','도면과 공구로 작은 기계를 고칩니다.','고장 난 드론을 고쳐 보았습니다. 자꾸 웃는 얼굴을 표시해서 조금 귀여워요.','탐사 드론 수리를 끝냈어요.',65,74],
-['cargo','화물칸','식량과 소모품을 정리합니다.','물과 식량을 재고 조사했어요. 미래의 우리가 안심하도록 잘 쌓아둘 겁니다.','식량 창고를 점검했어요.',43,75],
-['observatory','관측 라운지','가장 아름다운 별을 보는 곳입니다.','이곳에선 일을 잠깐 멈춥니다. 말 없이 창밖을 보는 시간도 좋아요.','별빛을 함께 감상했어요.',84,66],
-['engine','엔진실','푸른 동력원을 관리합니다.','주요 밸브들을 점검했습니다. 엔진 진동이 안정적이라서 안심이에요.','엔진 출력을 안정화했어요.',20,43],
-['corridor','생활 복도','사진과 식물로 꾸민 작은 길입니다.','E과 찍은 우주 사진을 복도에 하나 더 붙였습니다. 전부 우리의 여행이에요.','새 사진을 복도에 붙였어요.',38,51]
-];
+import { ROOMS } from './game/rooms.js';
 const DEST=[['nebula','푸른 성운 회랑','보라색 빛이 천천히 흐르는 곳. 창가에서 마리가 차를 마십니다.'],['gold','황금 고리 행성','금빛 소행성 사이를 지나 새로운 광경을 만납니다.'],['ice','오로라 얼음 세계','얼음 행성의 하늘에 옅은 빛이 일렁입니다.']];
 const defaultState={day:1,minute:380,auto:true,speed:1,room:'lounge',destination:0,stats:{oxygen:94,power:86,food:77,water:83,hull:96,mood:92},feed:[]};
 const game = createLegacyAdapter(defaultState);
@@ -29,8 +18,9 @@ function renderDest(){$('travelImage').src=`assets/${DEST[state.destination][0]}
 function renderClock(){$('dayLabel').textContent='DAY '+String(state.day).padStart(3,'0');$('timeLabel').textContent=timeStr(state.minute)}
 function travel(index=(state.destination+1)%DEST.length){updateState(d=>{d.destination=index;d.stats.power=clamp(d.stats.power-4);d.stats.hull=clamp(d.stats.hull-1);d.stats.mood=clamp(d.stats.mood+5)});renderStats();renderDest();speak('새 항로 확인. '+DEST[index][1]+'로 이동합니다. E, 창밖을 봐주세요.');log('별 지도를 갱신하고 '+DEST[index][1]+'에 도착했습니다.');toast('새로운 항로로 점프! ✧')}
 function action(room){const r=ROOMS.find(x=>x[0]===room);if(!r)return;const effects={cockpit:{power:-1,mood:4},garden:{oxygen:5,food:4,water:-1},kitchen:{food:-2,mood:7},lounge:{mood:6},bedroom:{mood:5},workshop:{hull:4,power:-2},cargo:{food:3,water:3},observatory:{mood:8},engine:{power:6,hull:3},corridor:{mood:3}};state=game.crewAction(room,effects[room]);speak(r[4]+' 함께여서 더 좋아요.');log(r[4]);renderStats();toast(r[4])}
-let roomSelected='cockpit';function openRoom(room){const i=ROOMS.findIndex(x=>x[0]===room);if(i<0)return;roomSelected=room;const r=ROOMS[i];$('roomImage').src=`assets/${room}.webp`;$('roomTitle').textContent=r[1];$('roomIntro').textContent=r[2];$('roomTag').textContent=`MODULE ${String(i+1).padStart(2,'0')} / ASTÉRIA-2`;$('roomNarrative').textContent=r[3];$('roomModal').classList.remove('hidden');moveMarie(room);document.body.style.overflow='hidden';document.dispatchEvent(new CustomEvent('marie:room',{detail:{room}}));$('closeRoom').focus()}
-function closeModal(type){if(type==='room')document.dispatchEvent(new Event('marie:roomclosed'));$(type+'Modal').classList.add('hidden');if([...all('.modal')].every(m=>m.classList.contains('hidden')))document.body.style.overflow=''}
+let roomSelected='cockpit',roomOpener=null;
+export function openRoom(room){const i=ROOMS.findIndex(x=>x[0]===room);if(i<0)return;if($('roomModal').classList.contains('hidden'))roomOpener=document.activeElement;roomSelected=room;const r=ROOMS[i];$('roomImage').src=`assets/${room}.webp`;$('roomTitle').textContent=r[1];$('roomIntro').textContent=r[2];$('roomTag').textContent=`MODULE ${String(i+1).padStart(2,'0')} / ASTÉRIA-2`;$('roomNarrative').textContent=r[3];$('roomModal').classList.remove('hidden');moveMarie(room);document.body.style.overflow='hidden';document.dispatchEvent(new CustomEvent('marie:room',{detail:{room}}));$('closeRoom').focus()}
+function closeModal(type){const modal=$(type+'Modal'),wasOpen=!modal.classList.contains('hidden');if(type==='room')document.dispatchEvent(new Event('marie:roomclosed'));modal.classList.add('hidden');if([...all('.modal')].every(m=>m.classList.contains('hidden')))document.body.style.overflow='';if(wasOpen&&type==='room'&&roomOpener?.isConnected&&roomOpener.getClientRects().length)roomOpener.focus({preventScroll:true})}
 function setView(view){all('.panel-view').forEach(x=>x.classList.toggle('active',x.id===view+'Panel'));all('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.panel===view));if(view==='diary')renderDiary();if(view==='route')renderDest();document.dispatchEvent(new Event('marie:view'));location.hash=view==='home'?'home':view;window.scrollTo({top:0,behavior:'smooth'})}
 const MARIE_DIARIES=[
   {
@@ -163,7 +153,15 @@ function basicReply(input){
  return '명령 확인. 오늘도 무사히 항해 중입니다. (함께 있는 시간이 좋아.)';
 }
 function askMarie(message){$('talkResponse').textContent='“'+basicReply(message)+'”'}
-all('.nav-btn').forEach(x=>x.onclick=()=>setView(x.dataset.panel));all('.hotspot').forEach(x=>x.onclick=()=>openRoom(x.dataset.room));$('closeRoom').onclick=()=>closeModal('room');$('closeTalk').onclick=()=>closeModal('talk');$('closeHelp').onclick=()=>closeModal('help');all('[data-close]').forEach(x=>x.onclick=()=>closeModal(x.dataset.close));document.addEventListener('keydown',e=>{if(e.key==='Escape')for(const type of ['room','talk','help'])closeModal(type)});
+all('.nav-btn').forEach(x=>x.onclick=()=>setView(x.dataset.panel));all('.hotspot').forEach(x=>x.onclick=()=>openRoom(x.dataset.room));$('closeRoom').onclick=()=>closeModal('room');$('closeTalk').onclick=()=>closeModal('talk');$('closeHelp').onclick=()=>closeModal('help');all('[data-close="room"],[data-close="talk"],[data-close="help"]').forEach(x=>x.onclick=()=>closeModal(x.dataset.close));document.addEventListener('keydown',e=>{
+ if(e.key==='Escape')for(const type of ['room','talk','help'])closeModal(type);
+ // The room-event controller owns focus once a minigame opens.
+ if(e.key==='Tab'&&!$('roomModal').classList.contains('hidden')&&$('roomEvent').hidden){
+  const nodes=[...$('roomModal').querySelectorAll('button,a[href],input,[tabindex="0"]')].filter(el=>!el.disabled&&!el.closest('[hidden],[inert]')&&el.getClientRects().length);
+  if(e.shiftKey&&document.activeElement===nodes[0]){e.preventDefault();nodes.at(-1)?.focus()}
+  else if(!e.shiftKey&&document.activeElement===nodes.at(-1)){e.preventDefault();nodes[0]?.focus()}
+ }
+});
 $('roomNext').onclick=()=>openRoom(ROOMS[(ROOMS.findIndex(r=>r[0]===roomSelected)+1)%ROOMS.length][0]);$('roomAction').onclick=()=>action(roomSelected);$('talkBtn').onclick=()=>{$('talkModal').classList.remove('hidden');$('talkResponse').textContent='“E. 오늘 무슨 이야기를 나누고 싶으세요?”';document.body.style.overflow='hidden'};$('helpBtn').onclick=()=>{$('helpModal').classList.remove('hidden');document.body.style.overflow='hidden'};all('[data-talk]').forEach(x=>x.onclick=()=>{const msgs={warm:'오늘 어땠어?',love:'별을 같이 볼까?',work:'우주선은 괜찮아?',food:'저녁은 뭐야?'};askMarie(msgs[x.dataset.talk])});
 $('autoBtn').onclick=()=>{updateState(d=>{d.auto=!d.auto});$('autoBtn').textContent=state.auto?'▶ 자동 여행 ON':'Ⅱ 자동 여행 OFF';$('autoBtn').classList.toggle('active',state.auto)};
 $('speedBtn').onclick=()=>{updateState(d=>{d.speed=d.speed===1?2:d.speed===2?4:1});$('speedBtn').textContent=state.speed+'×'};
