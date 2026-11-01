@@ -1,6 +1,6 @@
 import { ROOM_IDS, RESOURCE_IDS, exact, validateEvent } from './game-events.js';
 
-export const SCHEMA_VERSION = 1;
+export const SCHEMA_VERSION = 2;
 export const DEFAULT_LEGACY = Object.freeze({ day: 1, minute: 380, auto: true, speed: 1, room: 'lounge', destination: 0,
   stats: Object.freeze({ oxygen: 94, power: 86, food: 77, water: 83, hull: 96, mood: 92 }), feed: Object.freeze([]) });
 export function freeze(value) {

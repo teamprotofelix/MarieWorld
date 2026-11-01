@@ -32,7 +32,7 @@ function clearInput() {
   keys.clear(); pointers.clear();
   stage.querySelectorAll('[data-steer]').forEach(b=>b.classList.remove('pressed'));
 }
-function allowed() { return selected && visible && !document.hidden && $('homePanel').classList.contains('active') && !document.querySelector('.modal:not(.hidden)'); }
+function allowed() { return selected && visible && !document.hidden && $('homePanel').classList.contains('active') && !document.querySelector('.modal:not(.hidden),dialog[open]'); }
 function inputAllowed() { return allowed() && model.mode === 'manual'; }
 function sync() {
   if (!allowed()) {
@@ -103,7 +103,7 @@ document.addEventListener('visibilitychange',sync);
 document.addEventListener('marie:view',sync);
 document.addEventListener('marie:destination',e=>{region=e.detail.name;model.announce(region+' 항로 확인. 기존 항해 기록과 함께 이동합니다.');updateHUD();});
 const lifecycleObserver = new MutationObserver(sync);
-for (const el of document.querySelectorAll('.modal')) lifecycleObserver.observe(el,{attributes:true,attributeFilter:['class']});
+for (const el of document.querySelectorAll('.modal,dialog')) lifecycleObserver.observe(el,{attributes:true,attributeFilter:['class','open']});
 new ResizeObserver(resize).observe(canvas);
 new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync();},{threshold:0}).observe(stage);
 media.addEventListener('change',()=>{clearInput();$('motionNote').hidden=!media.matches;updateHUD();sync();});

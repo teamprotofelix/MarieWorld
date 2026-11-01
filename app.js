@@ -181,3 +181,5 @@ game.subscribe(()=>{
  $('autoBtn').textContent=state.auto?'▶ 자동 여행 ON':'Ⅱ 자동 여행 OFF';$('autoBtn').classList.toggle('active',state.auto);$('speedBtn').textContent=state.speed+'×';
  if(!game.snapshot().session.crewAutomation&&previous.room!==state.room){const r=ROOMS.find(r=>r[0]===state.room);$('mapMarie').style.left=r[5]+'%';$('mapMarie').style.top=r[6]+'%';$('activityLabel').textContent=r[2];}
 });
+
+document.addEventListener('marie:restore',()=>{state=game.read();renderStats();renderClock();renderDest();renderFeed();const r=ROOMS.find(r=>r[0]===state.room);$('mapMarie').style.left=r[5]+'%';$('mapMarie').style.top=r[6]+'%';$('activityLabel').textContent=r[2];});

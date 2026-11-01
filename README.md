@@ -1,4 +1,4 @@
-# Marie World — ASTÉRIA-2 v0.7
+# Marie World — ASTÉRIA-2 v0.8
 
 A fictional, relaxing idle exploration site about Marie and E traveling together in a small spaceship. Static public hosting planned at https://marie.moip.ai.kr .
 
@@ -11,7 +11,7 @@ A fictional, relaxing idle exploration site about Marie and E traveling together
 - Ten playable **room events** launch from each room modal: cockpit flight mission, hydroponic garden, recipe cooking, robot assembly, reactor timing, star memory, bedroom setup, cargo sorting, corridor patrol and tea brewing. Each has instructions, start, result, retry and return. Pause is shared, including automatic pause on tab hide/window blur.
 - A separate **E와 함께한 항해** collection adds the first voyage in 12 illustrated records with 16 supplied WebPs, a keyboard/touch detail reader, scoped day/night reading themes and a fixed canon snapshot. It does not change the original diary entries.
 - Ten **read-only, hand-authored fictional diaries** in `MARIE_DIARIES` in `app.js`; each entry includes a related room illustration. New stories are published through GitHub pull requests and site updates, **not** written or stored by visitors.
-- Prewritten interactive dialogue. No LLM, OpenAI API access, chat transmission, account, visitor database or localStorage. In-memory idle simulation resets on refresh.
+- Prewritten interactive dialogue. No LLM, OpenAI API access, chat transmission, account or visitor database. Default play is in memory. Device auto-save/restore is explicitly opt-in, with validated JSON backup/import and app-only deletion.
 - Site art and sprites bundled in `assets/`; relative URLs work under GitHub Pages.
 
 ## GitHub Pages publication
@@ -47,7 +47,7 @@ See [flight asset inventory](assets/flight/README.md) for source/crop details an
 Open a map room, then **이벤트**. **함께하기** and next-room navigation remain available in the original room view. Escape inside an event returns to that room; a second Escape closes the room. Games use the existing room dialog, with focus trapping and temporary background inertness during the event. The sticky toolbar keeps pause/return within reach on small screens.
 
 - `room-events.js` owns the single active event session, input, lifecycle, focus and result/retry flow.
-- `room-models.js` defines the ten distinct game rules. Sessions and commemorative scores are in memory only. No shared-resource rewards, penalties, diary writing, accounts, new storage or services are added.
+- `room-models.js` defines the ten distinct game rules. Healing mode keeps commemorative scores and unchanged resources. Survival mode uses one result receipt per round for resource/research rewards; failure and retry do not add penalties. Fixed diaries remain read-only. Game persistence is local and opt-in; no accounts or services are added.
 - `room-games.js` builds native controls and state-dependent visuals. `room-events.css` supplies authored CSS illustrations (growing plant, soup, assembled robot, bedroom, tea). Existing room images and Marie's sprite are reused; no new binary runtime artwork is needed. Audio remains silent.
 - `flight-scene.js` extracts the original Canvas scene for reuse by both home flight and the cockpit mission. `FlightModel` retains healing defaults on home flight; the mission opts out of automatic shield recovery and supplies a 45-second / six-fragment goal plus two reserve shields. Only the event controller advances mission physics; no second home loop runs behind the room modal.
 - The current service-worker cache includes the room JS/CSS modules as well as all existing art. First online preparation is required. After the worker is ready, all ten games start offline. Existing approval-based updates, manifest, icons and custom domain remain intact.
@@ -89,3 +89,13 @@ Checks: `npm test`, `node tests/leisure.test.mjs`, `python tests/leisure-browser
 ### v2 단계별 개발
 
 공통 상태·이벤트 기반과 후속 외관/단면/생활·탐사 기능의 검토 범위는 [v2 로드맵](docs/v2-roadmap/README.md)에 기록합니다. 기본 힐링 동작과 기존 정적 항해 기록은 유지합니다.
+
+## v0.8 gameplay
+
+- Optional crew jobs follow the ten-room graph before garden/cooking/repair/reading/tea/record/rest/inspection. Modal, hidden-page and manual time pauses share one runtime. Existing sprite art is temporary; fixed illustrations are not animation frames.
+- Healing stays the default. Explicit survival mode models fractional stock/production/consumption with warning, emergency recovery and safe withdrawal.
+- Observation, drone-test and sample missions on three existing routes earn game materials/research. Three prerequisite technologies unlock greenhouse/recycling facilities with real production effects and partial demolition refunds.
+- Device saves are OFF until consent. Enabling stores now and about every 10 seconds; reopening restores paused. Validated JSON import/export works without enabling browser storage. Disabling preserves the previous file for manual load; delete clears only this app's keys. Pending crew jobs are cleared; pending missions resume only after the user restarts game time.
+- Official 001/002 stories, their fixed clocks/ETA, all original illustrations and the leisure album remain separate from gameplay. No real conversation upload or automatic ChatGPT memory synchronization.
+
+See [the complete roadmap](docs/v2-roadmap/README.md) and [save/QA contract](docs/v2-roadmap/pr08/README.md). These are feature PRs; main merge and production deployment require separate review.

@@ -22,7 +22,7 @@ class AppServer:
   self.old=False;self.server=ThreadingHTTPServer(('127.0.0.1',0),partial(Handler,directory=str(ROOT)));threading.Thread(target=self.server.serve_forever,daemon=True).start();self.url=f'http://127.0.0.1:{self.server.server_port}/'
  def close(self):self.server.shutdown()
 class Report:
- def __init__(self,name):self.out=ROOT/'work'/name;self.out.mkdir(parents=True,exist_ok=True);self.results=[];self.errors=[]
+ def __init__(self,name):self.out=ROOT/'work'/name;self.out.mkdir(parents=True,exist_ok=True);self.results=[];self.errors=[];(self.out/'results.json').unlink(missing_ok=True)
  def wire(self,page):page.on('pageerror',lambda e:self.errors.append(str(e)))
  def passed(self,name,**data):
   self.results.append({'check':name,'status':'passed',**data});(self.out/'results.json').write_text(json.dumps(self.results,ensure_ascii=False,indent=2));print('PASS:',name,data,flush=True)

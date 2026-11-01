@@ -1,0 +1,31 @@
+[
+  {
+    "check": "healing guards, existing route, printed cost/risk/rewards and on-demand observatory scene",
+    "status": "passed"
+  },
+  {
+    "check": "real observation and drone missions, pause/resume, materials/points, prerequisite locks and two paid research unlocks",
+    "status": "passed"
+  },
+  {
+    "check": "voluntary withdrawal, deterministic failed run and view re-entry never create duplicate rewards",
+    "status": "passed"
+  },
+  {
+    "check": "tablet/mobile actual mission completion and responsive scene/cards (emulated)",
+    "status": "passed"
+  },
+  {
+    "check": "latest merged cutaway worker -> current waits for approval; 001/002 and full 4:3 photo/journal link work offline",
+    "status": "passed"
+  },
+  {
+    "check": "mission/research model initializes after offline restart; controls work even without optional art",
+    "status": "passed"
+  },
+  {
+    "check": "no browser exceptions",
+    "status": "passed",
+    "errors": []
+  }
+]
