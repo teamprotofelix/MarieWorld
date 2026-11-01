@@ -1,3 +1,4 @@
+import { registerShipView } from './ship-views.js';
 import {FlightModel, SCENE_NAMES} from './flight-model.js';
 import {createFlightScene} from './flight-scene.js';
 
@@ -56,9 +57,6 @@ function frame(now) {
 }
 function selectView(flight) {
   selected=flight;
-  $('mapStage').hidden=flight;stage.hidden=!flight;
-  $('mapViewBtn').setAttribute('aria-pressed',String(!flight));$('flightViewBtn').setAttribute('aria-pressed',String(flight));
-  $('viewLabel').textContent=flight?'FLIGHT VIEW':'SHIP MODULE MAP';
   clearInput();
   if(flight){loadAssets();resize();updateHUD();}
   sync();
@@ -73,8 +71,7 @@ function setMode(mode) {
   updateHUD();
   if(mode==='manual') canvas.focus({preventScroll:true});
 }
-$('mapViewBtn').addEventListener('click',()=>selectView(false));
-$('flightViewBtn').addEventListener('click',()=>selectView(true));
+registerShipView('flight', { button: $('flightViewBtn'), stage, label: 'FLIGHT VIEW', onSelect: selectView });
 $('autoPilotBtn').addEventListener('click',()=>setMode('auto'));
 $('manualPilotBtn').addEventListener('click',()=>setMode('manual'));
 function editable(target) { return target instanceof Element && !!target.closest('input,textarea,select,[contenteditable="true"]'); }
