@@ -116,7 +116,7 @@ with sync_playwright() as p:
  server.old=False;up.evaluate('navigator.serviceWorker.getRegistration().then(r=>r.update())');up.wait_for_function("!document.getElementById('pwaUpdateBtn').classList.contains('hidden')");expect(up.locator('#voyageDialog')).to_be_visible();expect(up.locator('#voyageStoryTitle')).to_have_text(first['entries'][0]['title']);assert up.locator('#voyageAlbumBtn').count()==0
  up.locator('#voyageStoryClose').click();up.locator('#installBtn').click()
  with up.expect_navigation():up.locator('#pwaUpdateBtn').click()
- up.wait_for_function("caches.keys().then(k=>k.includes('marie-v2-crew-1')&&!k.includes('marie-v06-voyage-2'))")
+ up.wait_for_function("caches.keys().then(k=>k.includes('marie-v2-survival-1')&&!k.includes('marie-v06-voyage-2'))")
  record('actual v06-voyage-2 -> v07 SW keeps open reader until user approval; old cache removed')
  upgrade.set_offline(True);up.reload();enter(up);book(up,'AST2-VOYAGE-002',5)
  for e in volume['entries']:

@@ -30,3 +30,13 @@
 @keyframes life-tool{50%{transform:rotate(-18deg)}}
 @media(max-width:720px){.life-heading{display:block}.life-heading>button{margin-top:10px;width:100%}.life-state{flex-wrap:wrap}.life-state progress{width:100%}.life-controls>*{flex:1}.life-controls label{flex-basis:100%}.life-controls select{width:100%}}
 @media(prefers-reduced-motion:reduce){.map-marie[data-life] .sprite,.room-sprite[data-life] .sprite,.map-marie[data-life]>span{animation:none!important}}
+
+.resource-rows{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.resource-row{padding:14px;border:1px solid #638d9b66;border-radius:12px;background:#142a3c;display:grid;gap:7px;font-size:13px}
+.resource-row strong{color:#e6d4ae}.resource-row span{color:#dfede7}.resource-row small{color:#acc4d4;line-height:1.6}
+.game-warning{border:1px solid #d8ad7a88;background:#3b2d2b;padding:16px;border-radius:12px;color:#ffe3b5}
+.game-warning[hidden],#survivalDetails[hidden]{display:none}
+.game-actions{display:flex;gap:10px;flex-wrap:wrap}.game-actions button{min-height:44px}
+.game-dialog{width:min(560px,calc(100vw - 24px));max-height:90dvh;overflow:auto;background:#102337;color:#dce9ec;border:1px solid #8baeb7;border-radius:18px;padding:24px;line-height:1.9}
+.game-dialog h2{color:#efdab4;font-size:23px}.game-dialog::backdrop{background:#020b19dd}
+@media(max-width:720px){.resource-rows{grid-template-columns:1fr}.game-dialog{padding:18px}}

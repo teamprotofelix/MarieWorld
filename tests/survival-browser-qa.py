@@ -1,0 +1,22 @@
+from playwright.sync_api import sync_playwright,expect
+from play_qa_support import AppServer,Report,browser,timed_page,advance,snapshot,upgrade_and_offline
+server=AppServer();report=Report('v2-survival-qa')
+def enable(pg):pg.locator('#survivalMode').click();expect(pg.locator('#survivalDialog')).to_be_visible();pg.locator('#survivalConfirm').click();expect(pg.locator('#modeLabel')).to_contain_text('생존 탐험')
+with sync_playwright() as p:
+ b=browser(p);c,pg=timed_page(b,server,report);initial=snapshot(pg);pg.locator('#survivalMode').click();pg.keyboard.press('Escape');assert snapshot(pg)==initial;enable(pg);expect(pg.locator('#resourceRows>div')).to_have_count(6);advance(pg,10);s=snapshot(pg);assert 76<s['resources']['amounts']['food']<77;elapsed=s['minute']-380;assert 8<=elapsed<=10;assert abs(s['resources']['amounts']['food']-(77-.08*elapsed))<1e-7;expect(pg.locator('#resourceRows')).to_contain_text('게임 1분당');report.passed('default healing, cancel/Escape, explicit mode consent, six stocks/percentages and actual production-consumption clock')
+ pg.locator('#autoBtn').click();before=snapshot(pg);advance(pg,20);assert snapshot(pg)==before;pg.locator('#autoBtn').click();pg.locator('.hotspot[data-room=garden]').click();before=snapshot(pg);pg.evaluate("window.__lastGame=null;document.addEventListener('marie:game-result',e=>window.__lastGame={...e.detail})")
+ pg.locator('#roomEventBtn').click();pg.locator('#eventStart').click();pg.locator('[data-action=seed][data-value=basil]').click();pg.locator('[data-range=water]').fill('65');pg.locator('[data-range=light]').fill('45');advance(pg,31);expect(pg.locator('#growthText')).to_contain_text('3/3');assert snapshot(pg)==before;pg.locator('[data-action=harvest]').click();expect(pg.locator('#eventPhase')).to_have_text('결과');after=snapshot(pg)
+ assert after['resources']['amounts']['food']==before['resources']['amounts']['food']+4;assert after['resources']['amounts']['water']==before['resources']['amounts']['water']-1;assert after['resources']['amounts']['power']==before['resources']['amounts']['power']-1;assert after['research']['points']==1;assert after['progress']['materials']==9
+ pg.evaluate("document.dispatchEvent(new CustomEvent('marie:game-result',{detail:{...window.__lastGame}}))");assert snapshot(pg)==after
+ pg.locator('#eventRetry').click();pg.locator('#eventBack').click();pg.locator('#closeRoom').click();assert snapshot(pg)==after
+ report.passed('actual garden game success pays food/water/power + research/materials once; duplicate result, retry and modal time cannot pay twice')
+ pg.evaluate("Promise.all([import('./game/session.js'),import('./game/resource-model.js')]).then(([{game},{changeResources}])=>game.apply(changeResources,{food:-72}))");expect(pg.locator('#resourceWarning')).to_be_visible();assert snapshot(pg)['session']['auto']==False;pg.locator('#survivalRescue').click();assert snapshot(pg)['resources']['amounts']['food']==35;assert snapshot(pg)['session']['auto']==True
+ pg.evaluate("Promise.all([import('./game/session.js'),import('./game/resource-model.js')]).then(([{game},{changeResources}])=>game.apply(changeResources,{food:-15}))");pg.locator('#survivalRescue').click();expect(pg.locator('#survivalMessage')).to_contain_text('30분');pg.locator('#survivalWithdraw').click();pg.locator('#survivalConfirm').click();assert snapshot(pg)['mode']=='healing';assert min(snapshot(pg)['stats'].values())>=15
+ report.passed('critical-stock fixture pauses time; visible emergency/cooldown/withdraw choices preserve progression without game over')
+ pg.locator('#survivalPanel').screenshot(path=str(report.out/'desktop-survival.png'));c.close()
+ for w,h in [(768,1024),(390,844)]:
+  c,m=timed_page(b,server,report,w,h);enable(m);advance(m,2);assert m.evaluate('document.documentElement.scrollWidth<=innerWidth');m.locator('#survivalPanel').screenshot(path=str(report.out/f'survival-{w}.png'));m.locator('.hotspot[data-room=cargo]').tap();before=snapshot(m);advance(m,10);assert snapshot(m)==before;m.locator('#closeRoom').tap();c.close()
+ report.passed('tablet/mobile consent, stock table, paused room action and no overflow (emulated)')
+ c,o=upgrade_and_offline(b,server,report);enable(o);expect(o.locator('#resourceRows>div')).to_have_count(6);o.locator('.hotspot[data-room=garden]').click();expect(o.locator('#roomRewardHint')).to_contain_text('식량 +4');c.close();report.passed('survival model, consent and printed garden reward rule available after offline restart')
+ b.close()
+report.finish();server.close()
