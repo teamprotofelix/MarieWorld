@@ -265,7 +265,7 @@ test("new code and core CSS are in the versioned offline cache without new stora
     sw + ";globalThis.paths=ASSETS;globalThis.version=VERSION",
     ctx,
   );
-  assert.equal(ctx.version, "marie-v07-leisure-1");
+  assert.equal(ctx.version, "marie-v2-state-1");
   for (const path of [
     "room-events.js",
     "room-models.js",

@@ -1,0 +1,102 @@
+[
+  {
+    "check": "room flow: garden",
+    "status": "passed",
+    "result": "바질 수확 · 3단계 성장 완료",
+    "retry_and_return": true
+  },
+  {
+    "check": "room flow: kitchen",
+    "status": "passed",
+    "result": "바질 감자 수프 · 알맞은 젓기 3/3 · 재료 재확인 1회",
+    "retry_and_return": true
+  },
+  {
+    "check": "room flow: workshop",
+    "status": "passed",
+    "result": "머리·몸체·팔·이동 파츠 연결 완료 · 전원 시험 정상",
+    "retry_and_return": true
+  },
+  {
+    "check": "room flow: engine",
+    "status": "passed",
+    "result": "안정 회로 4/4 · 최종 안정도 100%",
+    "retry_and_return": true
+  },
+  {
+    "check": "room flow: observatory",
+    "status": "passed",
+    "result": "별 카드 6쌍 복원 · 7번의 관측",
+    "retry_and_return": true
+  },
+  {
+    "check": "room flow: bedroom",
+    "status": "passed",
+    "result": "휴식도 100% · 어둡게 / 가벼운 이불 / 구름 쿠션",
+    "retry_and_return": true
+  },
+  {
+    "check": "room flow: cargo",
+    "status": "passed",
+    "result": "화물 9개 정리 · 구역 재확인 1회",
+    "retry_and_return": true
+  },
+  {
+    "check": "room flow: lounge",
+    "status": "passed",
+    "result": "별빛 녹차 · 25.1초 우림 · 향이 알맞아요 · 창밖의 초록 별을 닮은 향입니다.",
+    "retry_and_return": true
+  },
+  {
+    "check": "room flow: cockpit",
+    "status": "passed",
+    "result": "별조각 1개 · 충돌 0회 · 45초 비행",
+    "retry_and_return": true
+  },
+  {
+    "check": "room flow: corridor",
+    "status": "passed",
+    "result": "72m 순찰 · 안전 정지",
+    "retry_and_return": true
+  },
+  {
+    "check": "room flow: corridor-success",
+    "status": "passed",
+    "result": "270m 순찰 · 장애물 회피 14회 · 완충 0회",
+    "retry_and_return": true
+  },
+  {
+    "check": "all events leave existing survival resources unchanged",
+    "status": "passed"
+  },
+  {
+    "check": "12 repeated entries: one loop during play, zero after exit; Escape closes one level; keys released",
+    "status": "passed"
+  },
+  {
+    "check": "pause/resume, synthetic tab visibility, 390px action resize and different-room cleanup",
+    "status": "passed"
+  },
+  {
+    "check": "shared flight scene: home/mission never run two loops; map, diary, install regressions",
+    "status": "passed"
+  },
+  {
+    "check": "offline reload and playable start for all ten rooms",
+    "status": "passed"
+  },
+  {
+    "check": "360/390px touch sorting, keyboard memory, pointer cancel and landscape layouts (emulated)",
+    "status": "passed"
+  },
+  {
+    "check": "actual v04 -> rooms SW waits for consent; new module runs offline after update",
+    "status": "passed"
+  },
+  {
+    "check": "no browser exceptions or asset 404s",
+    "status": "passed",
+    "errors": [],
+    "missing": []
+  }
+]

@@ -78,7 +78,7 @@ with sync_playwright() as pw:
     page.locator('#flightViewBtn').click();page.locator('#flightCanvas').scroll_into_view_if_needed();page.wait_for_timeout(1200)
     expect(page.locator('#mapStage')).to_be_hidden();expect(page.locator('#flightRegion')).to_have_text('황금 고리 행성')
     first=page.locator('#flightDistance').inner_text();page.wait_for_timeout(600);assert page.locator('#flightDistance').inner_text()!=first
-    assert len(page.evaluate('window.__flightProbe.frames'))==8
+    page.wait_for_function('window.__flightProbe.frames.length===8',timeout=10000)
     page.locator('.ship-card').screenshot(path=str(OUT/'desktop-auto-1440.png'))
     page.locator('#manualPilotBtn').click();page.locator('#flightCanvas').focus()
     # Leave room below the ship regardless of the preceding random autopilot path.
@@ -200,12 +200,12 @@ with sync_playwright() as pw:
     up.locator('#installBtn').click()
     with up.expect_navigation():up.locator('#pwaUpdateBtn').click()
     expect(up.locator('#flightViewBtn')).to_be_visible()
-    up.wait_for_function("caches.keys().then(k=>k.includes('marie-v07-leisure-1')&&!k.includes('marie-v2'))")
+    up.wait_for_function("caches.keys().then(k=>k.includes('marie-v2-state-1')&&!k.includes('marie-v2'))")
     passed('real old v2 worker -> current update, approval required, old cache removed')
     upgrade.set_offline(True);up.reload();expect(up.locator('#mapStage')).to_be_visible()
     up.locator('#flightViewBtn').click();up.locator('#flightCanvas').scroll_into_view_if_needed();up.wait_for_timeout(600)
     assert up.locator('#flightDistance').inner_text()!='0 km'
-    loaded=up.evaluate("caches.open('marie-v07-leisure-1').then(async c=>(await c.keys()).filter(r=>r.url.includes('assets/flight/')).length)")
+    loaded=up.evaluate("caches.open('marie-v2-state-1').then(async c=>(await c.keys()).filter(r=>r.url.includes('assets/flight/')).length)")
     assert loaded==18
     up.locator('#manualPilotBtn').click();expect(up.locator('#flightControls')).to_be_visible()
     up.locator('[data-panel=diary]').click();expect(up.locator('.diary-card')).to_have_count(10)
