@@ -1,0 +1,31 @@
+[
+  {
+    "check": "default healing, cancel/Escape, explicit mode consent, six stocks/percentages and actual production-consumption clock",
+    "status": "passed"
+  },
+  {
+    "check": "actual garden game success pays food/water/power + research/materials once; duplicate result, retry and modal time cannot pay twice",
+    "status": "passed"
+  },
+  {
+    "check": "critical-stock fixture pauses time; visible emergency/cooldown/withdraw choices preserve progression without game over",
+    "status": "passed"
+  },
+  {
+    "check": "tablet/mobile consent, stock table, paused room action and no overflow (emulated)",
+    "status": "passed"
+  },
+  {
+    "check": "latest merged cutaway worker -> current waits for approval; 001/002 and full 4:3 photo/journal link work offline",
+    "status": "passed"
+  },
+  {
+    "check": "survival model, consent and printed garden reward rule available after offline restart",
+    "status": "passed"
+  },
+  {
+    "check": "no browser exceptions",
+    "status": "passed",
+    "errors": []
+  }
+]

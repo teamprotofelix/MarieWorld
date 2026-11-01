@@ -1,3 +1,4 @@
+import { eventId } from './game/session.js';
 import { RoomSession, EVENTS } from "./room-models.js";
 import { gameMarkup, mountGame } from "./room-games.js";
 const $ = (id) => document.getElementById(id);
@@ -74,7 +75,13 @@ function render() {
     body.innerHTML = `<div class="event-intro"><img src="assets/${room}.webp" alt="${description.name}의 방" /><div><span class="event-duration">${description.time}</span><h3>오늘은, E와 함께.</h3><p>${description.goal}</p><p class="event-subtle">${description.controls}</p><button id="eventStart" class="primary-btn">시작하기 ✧</button></div></div>`;
   } else if (session.phase === "result") {
     const r = session.result;
-    body.innerHTML = `<div class="event-result"><span class="result-star">${r.success ? "✦" : "☾"}</span><p class="eyebrow">ASTÉRIA-2 / A LITTLE MEMORY</p><h3>${r.success ? "오늘의 작은 성취" : "안전하게 쉬어가기"}</h3><p id="eventResultDetail">${r.detail}</p><strong>${r.score} <small>기념 점수</small></strong><blockquote>${r.line}</blockquote><p class="event-subtle">항해 자원과 일기는 그대로입니다. 이 카드는 이번 플레이에만 남아요.</p><div class="event-result-actions"><button id="eventRetry" class="primary-btn">다시 하기 ↻</button><button data-return class="secondary-btn">방으로 돌아가기</button></div></div>`;
+    if (!session.resultReported) {
+      session.resultReported = true;
+      const detail = { id: session.playEventId, room, success: r.success, score: r.score, message: '' };
+      document.dispatchEvent(new CustomEvent('marie:game-result', { detail }));
+      session.rewardMessage = detail.message || '기념 점수만 남습니다. 공식 일기는 그대로예요.';
+    }
+    body.innerHTML = `<div class="event-result"><span class="result-star">${r.success ? "✦" : "☾"}</span><p class="eyebrow">ASTÉRIA-2 / A LITTLE MEMORY</p><h3>${r.success ? "오늘의 작은 성취" : "안전하게 쉬어가기"}</h3><p id="eventResultDetail">${r.detail}</p><strong>${r.score} <small>기념 점수</small></strong><blockquote>${r.line}</blockquote><p class="event-subtle">${session.rewardMessage}</p><div class="event-result-actions"><button id="eventRetry" class="primary-btn">다시 하기 ↻</button><button data-return class="secondary-btn">방으로 돌아가기</button></div></div>`;
   } else {
     body.innerHTML = gameMarkup(session);
     view = mountGame(body, session);
@@ -197,6 +204,7 @@ function open() {
   previousInert = shell.inert;
   shell.inert = true;
   session = new RoomSession(room);
+  session.playEventId = eventId("room");
   event.hidden = false;
   modal.querySelector(".room-hero").hidden = true;
   modal.querySelector(".room-bottom").hidden = true;
@@ -245,6 +253,7 @@ event.addEventListener("click", (e) => {
   if (button.id === "eventRetry") {
     stopLoop();
     session = new RoomSession(room);
+  session.playEventId = eventId("room");
     render();
     updateToolbar();
     $("eventStart").focus();
