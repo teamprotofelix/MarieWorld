@@ -1,0 +1,54 @@
+[
+  {
+    "check": "legacy 10 diary texts/order unchanged; keyboard selection opens separate 12-entry archive",
+    "status": "passed"
+  },
+  {
+    "check": "all 12 detail titles, clocks, complete body, dialogue then inner thought; focus trap and Escape return",
+    "status": "passed"
+  },
+  {
+    "check": "previous/next bounds and all 16 illustrated scenes decode with alt text",
+    "status": "passed"
+  },
+  {
+    "check": "snapshot remains fixed after live travel; copy and opt-in canon download; no automatic sync claim",
+    "status": "passed"
+  },
+  {
+    "check": "scoped dark/light reader themes and text contrast",
+    "status": "passed",
+    "dark_text_contrast": 14.38,
+    "light_text_contrast": 11.09
+  },
+  {
+    "check": "12 repeated open/close cycles release focus/scroll; return to original 10 diaries",
+    "status": "passed"
+  },
+  {
+    "check": "768x1024 tablet and 390x844 mobile: touch, theme, focus return, landscape and reduced motion (emulated)",
+    "status": "passed"
+  },
+  {
+    "check": "JSON retry, missing-image fallback and clipboard-denial text selection",
+    "status": "passed"
+  },
+  {
+    "check": "real v05 -> v06 SW waits for consent without resetting active room game; old cache removed after approval",
+    "status": "passed"
+  },
+  {
+    "check": "offline reload after upgrade: 12 complete new records, 16 images and all 10 original diaries",
+    "status": "passed"
+  },
+  {
+    "check": "upgraded offline app retains ten room events, animated Auto/Manual flight, route map and six resources",
+    "status": "passed"
+  },
+  {
+    "check": "clean-run browser exceptions/HTTP errors absent; no reference-board requests",
+    "status": "passed",
+    "errors": [],
+    "http_errors": []
+  }
+]

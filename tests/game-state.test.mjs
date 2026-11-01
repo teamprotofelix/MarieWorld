@@ -10,7 +10,7 @@ const resource = (id, changes) => ({ id, type: 'ResourceChanged', payload: { cha
 test('legacy defaults round trip exactly; editorial data is absent', () => {
   const state = createGameState();
   assert.deepEqual(legacySnapshot(state), DEFAULT_LEGACY);
-  assert.equal(state.schemaVersion, 1); assert.equal(state.scope, 'play-session');
+  assert.equal(state.schemaVersion, 2); assert.equal(state.scope, 'play-session');
   assert.equal(state.mode, 'healing'); assert.equal(state.features.newEconomy, false);
   assert.deepEqual(state.modules.baseRooms, ROOM_IDS);
   assert.deepEqual(Object.keys(state.research), ['points', 'unlocked']);

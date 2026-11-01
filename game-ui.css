@@ -46,3 +46,5 @@
 @media(max-width:720px){.topbar nav .nav-btn{min-width:0;min-height:44px;font-size:11px;line-height:1.35}}
 
 .build-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.build-cards .game-select{margin:10px 0 15px}.facility-badges{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.facility-badges[hidden]{display:none}.facility-badges span{padding:5px 9px;border:1px solid #9ed6c788;border-radius:15px;background:#0c2538e8;color:#c8e9de;font-size:11px}.map-facilities{position:absolute;top:5px;left:10px;max-width:80%;z-index:4;pointer-events:none}@media(max-width:720px){.build-cards{grid-template-columns:1fr}.map-facilities span{font-size:9px;padding:3px 6px}}
+
+.save-panel>summary{font-weight:bold;font-size:17px;color:#e8d2ad;cursor:pointer;min-height:44px}.file-label{display:flex;align-items:center;gap:8px;flex-wrap:wrap;cursor:pointer;min-height:44px}.file-label input{font-size:12px;width:min(240px,100%);min-height:30px;color:#e0ece6}.save-panel[open]{padding-bottom:20px}.save-panel .game-actions{margin-top:15px}

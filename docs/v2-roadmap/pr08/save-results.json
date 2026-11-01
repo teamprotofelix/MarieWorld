@@ -1,0 +1,47 @@
+[
+  {
+    "check": "first visit and cancelled consent make zero storage writes; file backup remains available",
+    "status": "passed"
+  },
+  {
+    "check": "real mission/research/two-facility game autosaves after consent and restores on reload with pending mission, receipts and paused time",
+    "status": "passed"
+  },
+  {
+    "check": "actual JSON download contains game-only data; damaged import cannot change memory or previous save",
+    "status": "passed"
+  },
+  {
+    "check": "disable keeps manual load usable without overwrite; delete touches only app keys; file cancel/import stays nonpersistent",
+    "status": "passed"
+  },
+  {
+    "check": "deleted/off state restarts fresh; corrupt boot disables automatic writes even on pagehide, explicit save can recover",
+    "status": "passed"
+  },
+  {
+    "check": "tablet/mobile consent, file controls, delete and no overflow (emulated)",
+    "status": "passed"
+  },
+  {
+    "check": "native save confirmation pauses Flight model/render lifecycle and cancellation resumes safely",
+    "status": "passed"
+  },
+  {
+    "check": "blocked browser storage leaves validated file backup available without page errors",
+    "status": "passed"
+  },
+  {
+    "check": "latest merged cutaway worker -> current waits for approval; 001/002 and full 4:3 photo/journal link work offline",
+    "status": "passed"
+  },
+  {
+    "check": "after old-worker consent upgrade and offline reload, actual JSON restores inventory/research/facilities/active mission",
+    "status": "passed"
+  },
+  {
+    "check": "no browser exceptions",
+    "status": "passed",
+    "errors": []
+  }
+]

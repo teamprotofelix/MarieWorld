@@ -1,0 +1,24 @@
+[
+  {
+    "check": "baseline and current UI parity: all ten actions, three routes, 140 auto ticks, day rollover, healing recovery",
+    "status": "passed",
+    "snapshots": 155
+  },
+  {
+    "check": "actual v0.7 -> state worker waits for consent and retains open 001 reader",
+    "status": "passed"
+  },
+  {
+    "check": "offline reload loads full ES-module graph and updates actual healing UI",
+    "status": "passed"
+  },
+  {
+    "check": "tablet/mobile actual action and layout, reduced motion and touch (Chromium emulation)",
+    "status": "passed"
+  },
+  {
+    "check": "no page exceptions",
+    "status": "passed",
+    "errors": []
+  }
+]
