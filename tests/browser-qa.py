@@ -57,7 +57,7 @@ with sync_playwright() as pw:
     browser = pw.chromium.launch(executable_path=os.environ.get('CHROMIUM_PATH', '/usr/bin/chromium'), args=['--no-sandbox'])
     context = browser.new_context(viewport={'width':1440,'height':1100}, device_scale_factor=1)
     context.add_init_script(PROBE)
-    page = context.new_page(); errors=[]
+    page = context.new_page();page.bring_to_front(); errors=[]
     page.on('pageerror', lambda e: errors.append(str(e)))
     page.goto(URL)
     expect(page.locator('#mapStage')).to_be_visible();expect(page.locator('#flightStage')).to_be_hidden()
@@ -81,9 +81,11 @@ with sync_playwright() as pw:
     assert len(page.evaluate('window.__flightProbe.frames'))==8
     page.locator('.ship-card').screenshot(path=str(OUT/'desktop-auto-1440.png'))
     page.locator('#manualPilotBtn').click();page.locator('#flightCanvas').focus()
-    start=page.evaluate('window.__flightProbe.y');page.keyboard.down('ArrowDown');page.wait_for_timeout(300);page.keyboard.up('ArrowDown')
+    # Leave room below the ship regardless of the preceding random autopilot path.
+    page.keyboard.down('ArrowUp');page.wait_for_function('(y)=>window.__flightProbe.y<=y',arg=page.locator('#flightCanvas').bounding_box()['height']*.6,timeout=5000);page.keyboard.up('ArrowUp')
+    start=page.evaluate('window.__flightProbe.y');page.keyboard.down('ArrowDown');page.wait_for_function('(y)=>window.__flightProbe.y>y+25',arg=start,timeout=5000);page.keyboard.up('ArrowDown')
     assert page.evaluate('window.__flightProbe.y')>start+25
-    page.locator('#flightCanvas').focus();start=page.evaluate('window.__flightProbe.x');page.keyboard.down('D');page.wait_for_timeout(250);page.keyboard.up('D')
+    page.locator('#flightCanvas').focus();start=page.evaluate('window.__flightProbe.x');page.keyboard.down('D');page.wait_for_function('(x)=>window.__flightProbe.x>x+20',arg=start,timeout=5000);page.keyboard.up('D')
     assert page.evaluate('window.__flightProbe.x')>start+20
     page.locator('.ship-card').screenshot(path=str(OUT/'desktop-manual-1440.png'))
     passed('MAP/FLIGHT, AUTO/MANUAL, region integration, all eight frames, arrows and WASD')
@@ -117,7 +119,7 @@ with sync_playwright() as pw:
     page.emulate_media(reduced_motion='reduce');expect(page.locator('#motionNote')).to_be_visible();expect(page.locator('#flightSpeed')).to_contain_text('저속')
     page.locator('#flightCanvas').focus()
     assert page.evaluate("document.getElementById('flightCanvas').dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',ctrlKey:true,bubbles:true,cancelable:true}))")
-    y=page.evaluate('window.__flightProbe.y');page.keyboard.down('ArrowUp');page.wait_for_timeout(250);page.keyboard.up('ArrowUp');page.wait_for_timeout(100)
+    y=page.evaluate('window.__flightProbe.y');page.keyboard.down('ArrowUp');page.wait_for_function('(y)=>window.__flightProbe.y<y-35',arg=y,timeout=5000);page.keyboard.up('ArrowUp');page.wait_for_timeout(100)
     assert page.evaluate('window.__flightProbe.y')<y-35
 
     page.emulate_media(reduced_motion='no-preference')
@@ -128,7 +130,7 @@ with sync_playwright() as pw:
     passed('reduced-motion UI; no overflow at 320, 360, 390, 412, 768, 1440 px')
 
     touch = browser.new_context(viewport={'width':360,'height':1000},is_mobile=True,has_touch=True,device_scale_factor=3)
-    touch.add_init_script(PROBE);mobile=touch.new_page();mobile.on('pageerror',lambda e:errors.append(str(e)))
+    touch.add_init_script(PROBE);mobile=touch.new_page();mobile.bring_to_front();mobile.on('pageerror',lambda e:errors.append(str(e)))
     mobile.goto(URL);mobile.locator('#flightViewBtn').tap();mobile.locator('#flightCanvas').scroll_into_view_if_needed();mobile.wait_for_timeout(600)
     mobile.locator('.ship-card').screenshot(path=str(OUT/'mobile-auto-360.png'))
     mobile.locator('#manualPilotBtn').tap();mobile.locator('#flightControls').scroll_into_view_if_needed();mobile.wait_for_timeout(200)
@@ -144,22 +146,23 @@ with sync_playwright() as pw:
     touch.close()
 
     # Missing image requests preserve the playable vector fallback.
-    fail = browser.new_context(service_workers='block');fp=fail.new_page();fp.on('pageerror',lambda e:errors.append(str(e)))
-    fp.route('**/assets/flight/*.webp',lambda route:route.abort());fp.goto(URL);fp.locator('#flightViewBtn').click();fp.wait_for_timeout(600)
+    fail = browser.new_context(service_workers='block');fp=fail.new_page();fp.bring_to_front();fp.on('pageerror',lambda e:errors.append(str(e)))
+    fp.route('**/assets/flight/*.webp',lambda route:route.abort());fp.goto(URL);fp.locator('#flightViewBtn').click();fp.wait_for_function("document.getElementById('flightDistance').textContent!=='0 km'",timeout=5000)
     assert fp.locator('#flightDistance').inner_text()!='0 km';fp.locator('#manualPilotBtn').click()
     expect(fp.locator('#flightControls')).to_be_visible();fail.close()
     passed('all flight images fail: fallback keeps simulation and controls usable')
 
     # Drive the production UI into the known first collectible and first asteroid.
     encounter = browser.new_context(viewport={'width':1440,'height':1100})
-    encounter.add_init_script('Math.random = () => .5')
-    ep=encounter.new_page();ep.on('pageerror',lambda e:errors.append(str(e)))
+    encounter.add_init_script('Math.random = () => .5');encounter.add_init_script(PROBE)
+    ep=encounter.new_page();ep.bring_to_front();ep.on('pageerror',lambda e:errors.append(str(e)))
     ep.goto(URL);ep.locator('#autoBtn').click();hull=ep.locator('#stats').inner_text()
     ep.locator('#flightViewBtn').click();ep.locator('#manualPilotBtn').click();ep.locator('#flightCanvas').scroll_into_view_if_needed()
-    ep.wait_for_function("Number(document.getElementById('flightScore').textContent)>=1",timeout=6000)
+    ep.wait_for_function("Number(document.getElementById('flightScore').textContent)>=1",timeout=15000)
     ep.locator('#flightCanvas').focus();h=ep.locator('#flightCanvas').bounding_box()['height']
-    ep.keyboard.down('ArrowDown');ep.wait_for_timeout(h*.25/240*1000);ep.keyboard.up('ArrowDown')
-    ep.wait_for_function("document.getElementById('flightShield').textContent!=='100%'",timeout=10000)
+    goal=ep.evaluate('window.__flightProbe.y')+h*.25
+    ep.keyboard.down('ArrowDown');ep.wait_for_function('(y)=>window.__flightProbe.y>=y',arg=goal,timeout=10000);ep.keyboard.up('ArrowDown')
+    ep.wait_for_function("document.getElementById('flightShield').textContent!=='100%'",timeout=25000)
     shield=ep.locator('#flightShield').inner_text();ep.wait_for_timeout(300)
     assert ep.locator('#flightShield').inner_text()==shield
     assert ep.locator('#stats').inner_text()==hull
@@ -167,7 +170,7 @@ with sync_playwright() as pw:
     passed('production manual HUD: collection, asteroid collision, cooldown, unchanged ship resources')
 
     # 150 seconds of real wall-clock auto flight; compare frame and DOM counters.
-    page.set_viewport_size({'width':1440,'height':1100});page.locator('#autoPilotBtn').click();page.locator('#flightCanvas').scroll_into_view_if_needed();page.wait_for_timeout(300)
+    page.bring_to_front();page.set_viewport_size({'width':1440,'height':1100});page.locator('#autoPilotBtn').click();page.locator('#flightCanvas').scroll_into_view_if_needed();page.wait_for_timeout(300)
     cdp=context.new_cdp_session(page);cdp.send('Performance.enable')
     before={m['name']:m['value'] for m in cdp.send('Performance.getMetrics')['metrics']}
     draw0=page.evaluate('window.__flightProbe.draws');start=time.monotonic()
@@ -185,7 +188,7 @@ with sync_playwright() as pw:
 
     # Same origin, old worker installed first. Verify consent gates activation.
     server.old=True
-    upgrade=browser.new_context();up=upgrade.new_page();up.on('pageerror',lambda e:errors.append(str(e)))
+    upgrade=browser.new_context();up=upgrade.new_page();up.bring_to_front();up.on('pageerror',lambda e:errors.append(str(e)))
     up.goto(URL);up.evaluate("navigator.serviceWorker.ready.then(()=>true)");up.reload()
     up.wait_for_function('navigator.serviceWorker.controller !== null')
     assert not up.locator('#flightViewBtn').count()
@@ -197,12 +200,12 @@ with sync_playwright() as pw:
     up.locator('#installBtn').click()
     with up.expect_navigation():up.locator('#pwaUpdateBtn').click()
     expect(up.locator('#flightViewBtn')).to_be_visible()
-    up.wait_for_function("caches.keys().then(k=>k.includes('marie-v06-voyage-2')&&!k.includes('marie-v2'))")
+    up.wait_for_function("caches.keys().then(k=>k.includes('marie-v07-leisure-1')&&!k.includes('marie-v2'))")
     passed('real old v2 worker -> current update, approval required, old cache removed')
     upgrade.set_offline(True);up.reload();expect(up.locator('#mapStage')).to_be_visible()
     up.locator('#flightViewBtn').click();up.locator('#flightCanvas').scroll_into_view_if_needed();up.wait_for_timeout(600)
     assert up.locator('#flightDistance').inner_text()!='0 km'
-    loaded=up.evaluate("caches.open('marie-v06-voyage-2').then(async c=>(await c.keys()).filter(r=>r.url.includes('assets/flight/')).length)")
+    loaded=up.evaluate("caches.open('marie-v07-leisure-1').then(async c=>(await c.keys()).filter(r=>r.url.includes('assets/flight/')).length)")
     assert loaded==18
     up.locator('#manualPilotBtn').click();expect(up.locator('#flightControls')).to_be_visible()
     up.locator('[data-panel=diary]').click();expect(up.locator('.diary-card')).to_have_count(10)

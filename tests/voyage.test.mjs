@@ -121,7 +121,7 @@ test("offline cache includes story modules, metadata, canon and all illustration
     sw + ";globalThis.assets=ASSETS;globalThis.version=VERSION;",
     box,
   );
-  assert.equal(box.version, "marie-v06-voyage-2");
+  assert.equal(box.version, "marie-v07-leisure-1");
   for (const path of [
     "voyage.js",
     "voyage-data.js",

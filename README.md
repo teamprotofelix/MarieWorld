@@ -1,4 +1,4 @@
-# Marie World — ASTÉRIA-2 v0.6
+# Marie World — ASTÉRIA-2 v0.7
 
 A fictional, relaxing idle exploration site about Marie and E traveling together in a small spaceship. Static public hosting planned at https://marie.moip.ai.kr .
 
@@ -68,3 +68,20 @@ The archive is static editorial content. It does **not** automatically store cha
 `marie-v06-voyage-2` precaches the reader code/CSS, story metadata, canon and all sixteen images (1,213,742 bytes after the 2026-10-26 panel recrop). One completed online service-worker preparation is required; subsequent offline reloads can read both collections. Existing `pwa.js` continues to require user approval for activation.
 
 Validation: `npm test`, `node tests/voyage.test.mjs`, and `python tests/voyage-browser-qa.py` (Python Playwright + Chromium). Temporary files go to ignored `work/voyage-qa/`; `MARIE_VOYAGE_QA_OUTPUT` can override it. The existing flight and room browser QA scripts remain available. [Review notes and captures](docs/voyage-001/QA.md) distinguish browser emulation and local PWA upgrade checks from untested devices/production hosting.
+
+
+## Marie leisure album / volume 002
+
+In **항해 일기 → E와 함께한 항해**, select volume 002 for five new daily-life journals, or open **마리의 여가 사진첩 · 5장** for the independent photo grid. Original diaries and volume 001 remain the default existing collections.
+
+The album uses the five supplied **1448×1086 (4:3) WebPs**. The same subjects have five **960×540 (16:9) framed versions** and a cover for volume 002. Originals, frames and JSON are copied unchanged. There are five source photographs/illustrations, not eleven distinct scenes. No PNG is added.
+
+The shared dialog keeps each source's aspect ratio, fits the whole photo, provides original WebP download and links each photo to its related journal and back. Photo and journal orders differ, so links are resolved by `diary_image`, not array position. Tab/Escape, return focus, day/night themes, lazy loading and failure text remain available. No room game or simulation code is changed.
+
+The volume-002 snapshot is the last known **DAY 001 14:58** estimate (2,037,120 km, assumed 12 km/s, approximately 47h9m), not a DAY 002 live sensor or a new resource calculation. Seed germination/yield, cat identity and drone readiness remain unresolved as supplied. Canon 002 is a separate spoiler-labelled download; canon 001 is preserved.
+
+`leisure-data.js` validates the album, source dimensions and photo/journal links. `leisure.css` scopes album layout; `voyage.js` reuses the existing native reader for photos. Only supplementary registry scenes accept the constrained `assets/marie-leisure/` path; journal covers and primary illustrations keep the existing voyage path rules.
+
+`marie-v07-leisure-1` precaches both volumes, full photos, framed assets, metadata and core viewer files. First online preparation is required. User-approved activation through unchanged `pwa.js` is retained. No account, visitor input, browser persistence or automatic chat/memory synchronization is added.
+
+Checks: `npm test`, `node tests/leisure.test.mjs`, `python tests/leisure-browser-qa.py`, and the existing voyage/room/flight browser QA scripts. Temporary captures and downloads go under ignored `work/`. See [002 QA and captures](docs/leisure-v002/QA.md) and [content maintenance](docs/leisure-v002/AUTHORING.md).
